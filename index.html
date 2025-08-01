@@ -102,9 +102,14 @@
 
         <footer class="game-footer">
             <div class="pwa-controls">
-                <button id="installBtn" class="install-btn" style="display: none;">
-                    📲 Install Game
-                </button>
+                <div class="footer-left">
+                    <button id="installBtn" class="install-btn" style="display: none;">
+                        📲 Install Game
+                    </button>
+                    <button id="themeBtn" class="theme-btn" onclick="game.toggleTheme()">
+                        🌓 Theme
+                    </button>
+                </div>
                 <div class="status-indicators">
                     <span id="onlineStatus">🟢 Online</span>
                     <span id="saveStatus">💾 Auto-saving</span>

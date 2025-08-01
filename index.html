@@ -4,60 +4,112 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#2563eb">
-    <meta name="description" content="Claude Web App - A Progressive Web Application">
-    <title>Claude Web App</title>
+    <meta name="description" content="Business Tycoon - Build your empire in this strategy game">
+    <title>Business Tycoon</title>
     
     <!-- PWA Meta Tags -->
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icons/icon-192x192.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Claude Web App">
+    <meta name="apple-mobile-web-app-title" content="Business Tycoon">
     
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🤖 Claude Web App</h1>
-            <p class="subtitle">A Progressive Web Application</p>
-        </header>
-        
-        <main>
-            <div class="card">
-                <h2>Welcome to Claude Web App!</h2>
-                <p>This is a Progressive Web App that you can install on your device and use offline.</p>
-                
-                <div class="features">
-                    <div class="feature">
-                        <h3>📱 Mobile First</h3>
-                        <p>Optimized for mobile devices with responsive design</p>
-                    </div>
-                    
-                    <div class="feature">
-                        <h3>⚡ Fast Loading</h3>
-                        <p>Service worker provides fast loading and offline capability</p>
-                    </div>
-                    
-                    <div class="feature">
-                        <h3>🏠 Installable</h3>
-                        <p>Add to your home screen for app-like experience</p>
-                    </div>
+    <div class="game-container">
+        <header class="game-header">
+            <div class="company-info">
+                <h1 id="companyName">🏢 Your Business Empire</h1>
+                <div class="level-info">
+                    <span>Level <span id="level">1</span></span>
+                    <span class="separator"> | </span>
+                    <span id="companyType">Small Shop</span>
                 </div>
-                
-                <button id="installBtn" class="install-btn" style="display: none;">
-                    📲 Install App
-                </button>
-                
-                <div class="status">
-                    <p id="onlineStatus">🟢 Online</p>
-                    <p id="installStatus">💾 Ready to install</p>
+            </div>
+            <div class="resources">
+                <div class="resource">
+                    <span class="resource-icon">💰</span>
+                    <span id="money">$1,000</span>
+                </div>
+                <div class="resource">
+                    <span class="resource-icon">👥</span>
+                    <span id="workers">0</span>
+                </div>
+                <div class="resource">
+                    <span class="resource-icon">⚡</span>
+                    <span id="income">$0/sec</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="game-main">
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="buildings">🏢 Buildings</button>
+                <button class="tab-btn" data-tab="workers">👥 Workers</button>
+                <button class="tab-btn" data-tab="research">🔬 Research</button>
+                <button class="tab-btn" data-tab="stats">📊 Stats</button>
+            </div>
+
+            <div class="tab-content active" id="buildings-tab">
+                <div class="buildings-grid" id="buildingsGrid">
+                    <!-- Buildings will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <div class="tab-content" id="workers-tab">
+                <div class="workers-grid" id="workersGrid">
+                    <!-- Workers will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <div class="tab-content" id="research-tab">
+                <div class="research-grid" id="researchGrid">
+                    <!-- Research will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <div class="tab-content" id="stats-tab">
+                <div class="stats-container">
+                    <div class="stat-group">
+                        <h3>Company Overview</h3>
+                        <div class="stat-item">
+                            <span>Total Value:</span>
+                            <span id="totalValue">$1,000</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Total Buildings:</span>
+                            <span id="totalBuildings">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Total Employees:</span>
+                            <span id="totalEmployees">0</span>
+                        </div>
+                    </div>
+                    <div class="stat-group">
+                        <h3>Progress</h3>
+                        <div class="stat-item">
+                            <span>Next Goal:</span>
+                            <span id="nextGoal">Buy first building</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill" style="width: 10%"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
-        
-        <footer>
-            <p>&copy; 2025 Claude Web App. Built as a PWA.</p>
+
+        <footer class="game-footer">
+            <div class="pwa-controls">
+                <button id="installBtn" class="install-btn" style="display: none;">
+                    📲 Install Game
+                </button>
+                <div class="status-indicators">
+                    <span id="onlineStatus">🟢 Online</span>
+                    <span id="saveStatus">💾 Auto-saving</span>
+                </div>
+            </div>
         </footer>
     </div>
     

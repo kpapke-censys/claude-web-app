@@ -2,7 +2,7 @@
   "name": "Claude Web App",
   "short_name": "Claude App",
   "description": "A Progressive Web Application built with Claude",
-  "start_url": "/",
+  "start_url": "/claude-web-app/",
   "display": "standalone",
   "background_color": "#667eea",
   "theme_color": "#2563eb",
@@ -10,7 +10,7 @@
   "categories": ["productivity", "utilities"],
   "lang": "en",
   "dir": "ltr",
-  "scope": "/",
+  "scope": "/claude-web-app/",
   "icons": [
     {
       "src": "icons/icon-72x72.png",
@@ -82,7 +82,7 @@
       "name": "Home",
       "short_name": "Home",
       "description": "Go to the home page",
-      "url": "/",
+      "url": "/claude-web-app/",
       "icons": [
         {
           "src": "icons/icon-192x192.png",

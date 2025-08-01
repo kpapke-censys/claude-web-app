@@ -23,12 +23,14 @@ class BusinessTycoonGame {
         this.updateInterval = null;
         this.saveInterval = null;
         this.pwaApp = null;
+        this.themeMode = 'auto'; // 'light', 'dark', 'auto'
         
         this.init();
     }
 
     init() {
         this.loadGame();
+        this.initializeTheme();
         this.initializePWA();
         this.setupEventListeners();
         this.startGameLoop();
@@ -165,6 +167,43 @@ class BusinessTycoonGame {
                 }
             }
         };
+    }
+
+    // Theme Management
+    initializeTheme() {
+        const savedTheme = localStorage.getItem('gameTheme') || 'auto';
+        this.themeMode = savedTheme;
+        this.applyTheme();
+    }
+
+    applyTheme() {
+        const body = document.body;
+        body.classList.remove('light-theme', 'dark-theme');
+        
+        if (this.themeMode === 'light') {
+            body.classList.add('light-theme');
+        } else if (this.themeMode === 'dark') {
+            body.classList.add('dark-theme');
+        }
+        // 'auto' uses system preference via CSS media queries
+        
+        localStorage.setItem('gameTheme', this.themeMode);
+    }
+
+    toggleTheme() {
+        const themes = ['auto', 'light', 'dark'];
+        const currentIndex = themes.indexOf(this.themeMode);
+        this.themeMode = themes[(currentIndex + 1) % themes.length];
+        this.applyTheme();
+        this.updateThemeButton();
+    }
+
+    updateThemeButton() {
+        const themeBtn = document.getElementById('themeBtn');
+        if (themeBtn) {
+            const icons = { auto: '🌓', light: '☀️', dark: '🌙' };
+            themeBtn.textContent = icons[this.themeMode] + ' Theme';
+        }
     }
 
     // PWA Integration
@@ -576,8 +615,10 @@ class BusinessTycoonGame {
             });
         });
 
-        // Prevent context menu on long press (mobile)
-        document.addEventListener('contextmenu', e => e.preventDefault());
+        // Prevent context menu on long press (mobile) but allow on desktop
+        if ('ontouchstart' in window) {
+            document.addEventListener('contextmenu', e => e.preventDefault());
+        }
         
         // Handle visibility change for PWA
         document.addEventListener('visibilitychange', () => {
@@ -587,6 +628,9 @@ class BusinessTycoonGame {
                 this.saveGame(); // Save when leaving
             }
         });
+
+        // Initialize theme button
+        setTimeout(() => this.updateThemeButton(), 100);
     }
 
     switchTab(tabName) {
@@ -620,7 +664,7 @@ class ClaudeWebApp {
     async registerServiceWorker() {
         if ('serviceWorker' in navigator) {
             try {
-                const registration = await navigator.serviceWorker.register('/claude-web-app/sw.js');
+                const registration = await navigator.serviceWorker.register('./sw.js');
                 console.log('Service Worker registered successfully:', registration);
                 
                 registration.addEventListener('updatefound', () => {

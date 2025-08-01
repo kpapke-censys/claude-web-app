@@ -1,13 +1,13 @@
 // Service Worker for Claude Web App PWA
 const CACHE_NAME = 'claude-web-app-v1';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/styles.css',
-  '/app.js',
-  '/manifest.json',
-  '/icons/icon-192x192.png',
-  '/icons/icon-512x512.png'
+  '/claude-web-app/',
+  '/claude-web-app/index.html',
+  '/claude-web-app/styles.css',
+  '/claude-web-app/app.js',
+  '/claude-web-app/manifest.json',
+  '/claude-web-app/icons/icon-192x192.png',
+  '/claude-web-app/icons/icon-512x512.png'
 ];
 
 // Install event - cache resources
@@ -80,7 +80,7 @@ self.addEventListener('fetch', (event) => {
       .catch(() => {
         // If both cache and network fail, show offline page
         if (event.request.destination === 'document') {
-          return caches.match('/index.html');
+          return caches.match('/claude-web-app/index.html');
         }
       })
   );
@@ -108,8 +108,8 @@ self.addEventListener('push', (event) => {
   
   const options = {
     body: event.data ? event.data.text() : 'New notification from Claude Web App',
-    icon: '/icons/icon-192x192.png',
-    badge: '/icons/icon-72x72.png',
+    icon: '/claude-web-app/icons/icon-192x192.png',
+    badge: '/claude-web-app/icons/icon-72x72.png',
     vibrate: [100, 50, 100],
     data: {
       dateOfArrival: Date.now(),
@@ -119,12 +119,12 @@ self.addEventListener('push', (event) => {
       {
         action: 'explore',
         title: 'Open App',
-        icon: '/icons/icon-192x192.png'
+        icon: '/claude-web-app/icons/icon-192x192.png'
       },
       {
         action: 'close',
         title: 'Close',
-        icon: '/icons/icon-192x192.png'
+        icon: '/claude-web-app/icons/icon-192x192.png'
       }
     ]
   };
@@ -142,7 +142,7 @@ self.addEventListener('notificationclick', (event) => {
   
   if (event.action === 'explore') {
     event.waitUntil(
-      clients.openWindow('/')
+      clients.openWindow('/claude-web-app/')
     );
   }
 });

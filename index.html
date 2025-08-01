@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="description" content="Claude Web App - A Progressive Web Application">
+    <title>Claude Web App</title>
+    
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Claude Web App">
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🤖 Claude Web App</h1>
+            <p class="subtitle">A Progressive Web Application</p>
+        </header>
+        
+        <main>
+            <div class="card">
+                <h2>Welcome to Claude Web App!</h2>
+                <p>This is a Progressive Web App that you can install on your device and use offline.</p>
+                
+                <div class="features">
+                    <div class="feature">
+                        <h3>📱 Mobile First</h3>
+                        <p>Optimized for mobile devices with responsive design</p>
+                    </div>
+                    
+                    <div class="feature">
+                        <h3>⚡ Fast Loading</h3>
+                        <p>Service worker provides fast loading and offline capability</p>
+                    </div>
+                    
+                    <div class="feature">
+                        <h3>🏠 Installable</h3>
+                        <p>Add to your home screen for app-like experience</p>
+                    </div>
+                </div>
+                
+                <button id="installBtn" class="install-btn" style="display: none;">
+                    📲 Install App
+                </button>
+                
+                <div class="status">
+                    <p id="onlineStatus">🟢 Online</p>
+                    <p id="installStatus">💾 Ready to install</p>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>&copy; 2025 Claude Web App. Built as a PWA.</p>
+        </footer>
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>

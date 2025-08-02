@@ -295,6 +295,9 @@ class StrategyGame {
         const gameContainer = document.querySelector('.game-container');
         gameContainer.innerHTML = `
             <header class="strategy-header">
+                <button class="btn btn-secondary menu-btn back-to-dashboard" onclick="window.gameManager.gameMenu.returnToDashboard()">
+                    🏠 Back to Dashboard
+                </button>
                 <div class="commander-info">
                     <div class="commander-avatar">👨‍💼</div>
                     <div class="commander-details">
@@ -1183,7 +1186,18 @@ class StrategyGame {
     showMessage(text, type = 'info', duration = 4000) {
         const messageDiv = document.createElement('div');
         messageDiv.className = `strategy-message strategy-message-${type}`;
-        messageDiv.innerHTML = text.replace(/\n/g, '<br>');
+        
+        // Add close button for story/intro messages or longer messages
+        const showCloseButton = type === 'story' || duration >= 6000;
+        const closeButtonHtml = showCloseButton ? 
+            '<button class="message-close-btn" onclick="this.parentElement.remove()" title="Close">&times;</button>' : '';
+        
+        messageDiv.innerHTML = `
+            ${closeButtonHtml}
+            <div class="message-content">
+                ${text.replace(/\n/g, '<br>')}
+            </div>
+        `;
         
         document.body.appendChild(messageDiv);
         

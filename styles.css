@@ -398,6 +398,31 @@
         padding: 0.75rem 1rem;
         font-size: 0.9rem;
     }
+    
+    .back-to-dashboard {
+        top: 0.75rem !important;
+        left: 0.75rem !important;
+        padding: 0.5rem 0.8rem !important;
+        font-size: 0.8rem !important;
+    }
+    
+    .survival-message, .strategy-message {
+        max-width: 95vw;
+        padding: 1rem;
+        margin: 0 1rem;
+    }
+    
+    .message-content {
+        padding-right: 0.5rem;
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+    
+    .message-close-btn {
+        width: 1.75rem;
+        height: 1.75rem;
+        font-size: 1.1rem;
+    }
 }
 
 /* Survival Game Styles - Improved contrast and mobile support */
@@ -560,8 +585,65 @@
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
     z-index: 1001;
     max-width: 90vw;
+    max-height: 80vh;
+    overflow-y: auto;
     text-align: center;
     animation: messageSlideIn 0.3s ease;
+    position: relative;
+}
+
+/* Message close button */
+.message-close-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    font-size: 1.25rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-weight: 600;
+}
+
+.message-close-btn:hover {
+    background: rgba(0, 0, 0, 0.2);
+    color: #333;
+    transform: scale(1.1);
+}
+
+.message-content {
+    padding-right: 1rem;
+}
+
+/* Back to dashboard button styling */
+.back-to-dashboard {
+    position: absolute !important;
+    top: 1rem;
+    left: 1rem;
+    z-index: 200;
+    background: rgba(255, 255, 255, 0.9) !important;
+    color: #374151 !important;
+    border: 1px solid rgba(0, 0, 0, 0.2) !important;
+    backdrop-filter: blur(10px);
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    font-size: 0.85rem;
+    padding: 0.6rem 1rem;
+}
+
+.back-to-dashboard:hover {
+    background: rgba(255, 255, 255, 1) !important;
+    border-color: rgba(0, 0, 0, 0.3) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .survival-message-success, .strategy-message-success {
@@ -1356,6 +1438,35 @@ body.dark-theme,
     body:not(.light-theme) .form-group label {
         color: #e5e7eb;
     }
+    
+    /* Dark theme support for new message and button elements */
+    body:not(.light-theme) .survival-message,
+    body:not(.light-theme) .strategy-message {
+        background: #1f2937;
+        color: #f9fafb;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    body:not(.light-theme) .message-close-btn {
+        background: rgba(255, 255, 255, 0.1);
+        color: #d1d5db;
+    }
+    
+    body:not(.light-theme) .message-close-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+        color: #f9fafb;
+    }
+    
+    body:not(.light-theme) .back-to-dashboard {
+        background: rgba(31, 41, 55, 0.9) !important;
+        color: #f9fafb !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    }
+    
+    body:not(.light-theme) .back-to-dashboard:hover {
+        background: rgba(31, 41, 55, 1) !important;
+        border-color: rgba(255, 255, 255, 0.5) !important;
+    }
 }
 
 body.dark-theme {
@@ -1397,6 +1508,35 @@ body.dark-theme .card-stats {
 
 body.dark-theme .stat-item {
     border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Dark theme support for new message and button elements */
+body.dark-theme .survival-message,
+body.dark-theme .strategy-message {
+    background: #374151;
+    color: #f9fafb;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+body.dark-theme .message-close-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: #d1d5db;
+}
+
+body.dark-theme .message-close-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #f9fafb;
+}
+
+body.dark-theme .back-to-dashboard {
+    background: rgba(55, 65, 81, 0.9) !important;
+    color: #f9fafb !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+body.dark-theme .back-to-dashboard:hover {
+    background: rgba(55, 65, 81, 1) !important;
+    border-color: rgba(255, 255, 255, 0.5) !important;
 }
 
 /* High contrast support */

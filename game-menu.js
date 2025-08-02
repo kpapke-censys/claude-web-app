@@ -36,6 +36,17 @@ class GameMenu {
                 estimatedPlayTime: '60+ min',
                 features: ['Base building', 'Unit commands', 'PvE combat'],
                 implemented: true
+            },
+            heroCrafting: {
+                id: 'heroCrafting',
+                name: 'Hero Forge',
+                icon: '🦸',
+                description: 'Transform your gaming achievements into legendary heroes with unique classes and abilities',
+                category: 'RPG',
+                difficulty: 'Medium',
+                estimatedPlayTime: '30+ min',
+                features: ['Achievement system', 'Hero collection', 'Class progression'],
+                implemented: true
             }
         };
         

@@ -786,12 +786,23 @@ class ClaudeWebApp {
     }
 }
 
-// Initialize the game when DOM is loaded
+// Modified initialization for multi-game system
 let game;
+
+// Don't auto-initialize if game manager exists
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('Business Tycoon Game initializing...');
-    game = new BusinessTycoonGame();
+    // Check if we're in the new multi-game system
+    if (window.GameManager) {
+        console.log('Business Tycoon integrated into multi-game system');
+        // Game will be initialized by GameManager when selected
+    } else {
+        // Fallback to original standalone mode
+        console.log('Business Tycoon Game initializing in standalone mode...');
+        game = new BusinessTycoonGame();
+        window.game = game;
+    }
 });
 
 // Export for global access
+window.BusinessTycoonGame = BusinessTycoonGame;
 window.game = game;

@@ -1,10 +1,10 @@
-// Business Tycoon Game - Progressive Web App
-class BusinessTycoonGame {
+// Ship Rekt Game - Progressive Web App
+class ShipRektGame {
     constructor() {
         this.gameState = {
             money: 1000,
             level: 1,
-            companyType: 'Small Shop',
+            companyType: 'Dinghy',
             totalValue: 1000,
             buildings: {},
             workers: {},
@@ -13,7 +13,7 @@ class BusinessTycoonGame {
                 totalBuildings: 0,
                 totalEmployees: 0,
                 totalIncome: 0,
-                currentGoal: 'Buy your first building'
+                currentGoal: 'Discover your first island'
             },
             lastSave: Date.now(),
             offline: false
@@ -41,61 +41,61 @@ class BusinessTycoonGame {
     initializeGameData() {
         return {
             buildings: {
-                lemonade_stand: {
-                    id: 'lemonade_stand',
-                    name: 'Lemonade Stand',
-                    icon: '🥤',
-                    description: 'A simple lemonade stand to get you started',
+                fishing_dock: {
+                    id: 'fishing_dock',
+                    name: 'Fishing Dock',
+                    icon: '🎣',
+                    description: 'A humble dock to catch fish and earn your first gold',
                     baseCost: 100,
                     baseIncome: 1,
                     costMultiplier: 1.15,
                     category: 'starter'
                 },
-                coffee_shop: {
-                    id: 'coffee_shop',
-                    name: 'Coffee Shop',
-                    icon: '☕',
-                    description: 'A cozy coffee shop for the morning rush',
+                tavern: {
+                    id: 'tavern',
+                    name: 'Seaside Tavern',
+                    icon: '🍺',
+                    description: 'Where pirates gather to drink and share tales',
                     baseCost: 500,
                     baseIncome: 5,
                     costMultiplier: 1.15,
-                    category: 'food'
+                    category: 'hospitality'
                 },
-                bakery: {
-                    id: 'bakery',
-                    name: 'Bakery',
-                    icon: '🥖',
-                    description: 'Fresh bread and pastries daily',
+                trading_post: {
+                    id: 'trading_post',
+                    name: 'Trading Post',
+                    icon: '🏪',
+                    description: 'Sell exotic goods from distant lands',
                     baseCost: 1500,
                     baseIncome: 12,
                     costMultiplier: 1.15,
-                    category: 'food'
+                    category: 'trade'
                 },
-                restaurant: {
-                    id: 'restaurant',
-                    name: 'Restaurant',
-                    icon: '🍽️',
-                    description: 'Fine dining experience',
+                treasure_vault: {
+                    id: 'treasure_vault',
+                    name: 'Treasure Vault',
+                    icon: '💎',
+                    description: 'Secure storage for your most valuable plunder',
                     baseCost: 5000,
                     baseIncome: 35,
                     costMultiplier: 1.15,
-                    category: 'food'
+                    category: 'treasure'
                 },
-                tech_startup: {
-                    id: 'tech_startup',
-                    name: 'Tech Startup',
-                    icon: '💻',
-                    description: 'Innovation and disruption',
+                pirate_hideout: {
+                    id: 'pirate_hideout',
+                    name: 'Pirate Hideout',
+                    icon: '🏴‍☠️',
+                    description: 'Secret base for planning daring raids',
                     baseCost: 15000,
                     baseIncome: 100,
                     costMultiplier: 1.15,
-                    category: 'tech'
+                    category: 'operations'
                 },
-                factory: {
-                    id: 'factory',
-                    name: 'Factory',
-                    icon: '🏭',
-                    description: 'Mass production facility',
+                shipyard: {
+                    id: 'shipyard',
+                    name: 'Shipyard',
+                    icon: '⚓',
+                    description: 'Build and repair mighty vessels',
                     baseCost: 50000,
                     baseIncome: 300,
                     costMultiplier: 1.15,
@@ -103,31 +103,31 @@ class BusinessTycoonGame {
                 }
             },
             workers: {
-                intern: {
-                    id: 'intern',
-                    name: 'Intern',
-                    icon: '🎓',
-                    description: 'Eager to learn and help out',
+                cabin_boy: {
+                    id: 'cabin_boy',
+                    name: 'Cabin Boy',
+                    icon: '🧒',
+                    description: 'Young sailor eager to prove himself',
                     baseCost: 50,
                     multiplier: 1.1,
                     costMultiplier: 1.1,
                     category: 'basic'
                 },
-                manager: {
-                    id: 'manager',
-                    name: 'Manager',
-                    icon: '👨‍💼',
-                    description: 'Keeps everything running smoothly',
+                first_mate: {
+                    id: 'first_mate',
+                    name: 'First Mate',
+                    icon: '👨‍✈️',
+                    description: 'Keeps the crew in line and operations smooth',
                     baseCost: 200,
                     multiplier: 1.25,
                     costMultiplier: 1.1,
                     category: 'management'
                 },
-                expert: {
-                    id: 'expert',
-                    name: 'Expert',
-                    icon: '👨‍🔬',
-                    description: 'Specialized knowledge for better results',
+                sea_captain: {
+                    id: 'sea_captain',
+                    name: 'Sea Captain',
+                    icon: '🧑‍✈️',
+                    description: 'Master navigator with years of experience',
                     baseCost: 1000,
                     multiplier: 1.5,
                     costMultiplier: 1.1,
@@ -135,31 +135,31 @@ class BusinessTycoonGame {
                 }
             },
             research: {
-                efficiency: {
-                    id: 'efficiency',
-                    name: 'Efficiency Upgrade',
-                    icon: '⚡',
-                    description: 'Increase income from all buildings by 20%',
+                navigation: {
+                    id: 'navigation',
+                    name: 'Better Navigation',
+                    icon: '🧭',
+                    description: 'Improve routes and increase treasure from all islands by 20%',
                     baseCost: 2000,
                     multiplier: 1.2,
                     costMultiplier: 2.0,
                     type: 'income'
                 },
-                automation: {
-                    id: 'automation',
-                    name: 'Automation',
-                    icon: '🤖',
-                    description: 'Reduce worker costs by 15%',
+                ship_upgrades: {
+                    id: 'ship_upgrades',
+                    name: 'Ship Upgrades',
+                    icon: '⛵',
+                    description: 'Better ships reduce crew costs by 15%',
                     baseCost: 5000,
                     multiplier: 0.85,
                     costMultiplier: 2.0,
                     type: 'cost'
                 },
-                marketing: {
-                    id: 'marketing',
-                    name: 'Marketing Campaign',
-                    icon: '📈',
-                    description: 'Boost all income by 50%',
+                pirate_fame: {
+                    id: 'pirate_fame',
+                    name: 'Pirate Fame',
+                    icon: '🏴‍☠️',
+                    description: 'Your reputation attracts more treasure, boosting all income by 50%',
                     baseCost: 10000,
                     multiplier: 1.5,
                     costMultiplier: 2.0,
@@ -316,27 +316,27 @@ class BusinessTycoonGame {
     updateLevel() {
         const totalBuildings = this.gameState.stats.totalBuildings;
         let newLevel = 1;
-        let companyType = 'Small Shop';
+        let shipType = 'Dinghy';
 
         if (totalBuildings >= 50) {
             newLevel = 6;
-            companyType = 'Global Corporation';
+            shipType = 'Legendary Fleet';
         } else if (totalBuildings >= 25) {
             newLevel = 5;
-            companyType = 'Large Enterprise';
+            shipType = 'Pirate Armada';
         } else if (totalBuildings >= 15) {
             newLevel = 4;
-            companyType = 'Medium Business';
+            shipType = 'War Galleon';
         } else if (totalBuildings >= 8) {
             newLevel = 3;
-            companyType = 'Growing Company';
+            shipType = 'Pirate Ship';
         } else if (totalBuildings >= 3) {
             newLevel = 2;
-            companyType = 'Small Business';
+            shipType = 'Sloop';
         }
 
         this.gameState.level = newLevel;
-        this.gameState.companyType = companyType;
+        this.gameState.companyType = shipType;
     }
 
     updateGoal() {
@@ -344,28 +344,28 @@ class BusinessTycoonGame {
         const money = this.gameState.money;
         
         if (buildings === 0) {
-            this.gameState.stats.currentGoal = 'Buy your first building';
+            this.gameState.stats.currentGoal = 'Discover your first island';
         } else if (buildings < 5) {
-            this.gameState.stats.currentGoal = 'Expand to 5 buildings';
+            this.gameState.stats.currentGoal = 'Claim 5 islands';
         } else if (buildings < 10) {
-            this.gameState.stats.currentGoal = 'Reach 10 buildings';
+            this.gameState.stats.currentGoal = 'Control 10 islands';
         } else if (money < 50000) {
-            this.gameState.stats.currentGoal = 'Save $50,000';
+            this.gameState.stats.currentGoal = 'Hoard 50,000 gold';
         } else if (buildings < 25) {
-            this.gameState.stats.currentGoal = 'Build empire of 25 buildings';
+            this.gameState.stats.currentGoal = 'Rule 25 islands';
         } else {
-            this.gameState.stats.currentGoal = 'Dominate the market!';
+            this.gameState.stats.currentGoal = 'Conquer the seven seas!';
         }
     }
 
     // UI Rendering
     formatMoney(amount) {
         if (amount >= 1000000) {
-            return '$' + (amount / 1000000).toFixed(1) + 'M';
+            return (amount / 1000000).toFixed(1) + 'M Gold';
         } else if (amount >= 1000) {
-            return '$' + (amount / 1000).toFixed(1) + 'K';
+            return (amount / 1000).toFixed(1) + 'K Gold';
         }
-        return '$' + Math.floor(amount).toLocaleString();
+        return Math.floor(amount).toLocaleString() + ' Gold';
     }
 
     updateUI() {
@@ -419,7 +419,7 @@ class BusinessTycoonGame {
                 </div>
                 <div class="card-actions">
                     <button class="btn btn-primary" ${!canAfford ? 'disabled' : ''} onclick="game.buyBuilding('${building.id}')">
-                        Buy ${owned > 0 ? 'Another' : 'First'}
+                        ${owned > 0 ? 'Claim Another' : 'Discover'}
                     </button>
                 </div>
             `;
@@ -469,7 +469,7 @@ class BusinessTycoonGame {
                 </div>
                 <div class="card-actions">
                     <button class="btn btn-primary" ${!canAfford ? 'disabled' : ''} onclick="game.buyWorker('${worker.id}')">
-                        Hire ${owned > 0 ? 'Another' : 'First'}
+                        ${owned > 0 ? 'Recruit Another' : 'Recruit'}
                     </button>
                 </div>
             `;
@@ -548,11 +548,11 @@ class BusinessTycoonGame {
     // Save/Load System
     saveGame() {
         this.gameState.lastSave = Date.now();
-        localStorage.setItem('businessTycoonSave', JSON.stringify(this.gameState));
+        localStorage.setItem('shipRektSave', JSON.stringify(this.gameState));
     }
 
     loadGame() {
-        const saved = localStorage.getItem('businessTycoonSave');
+        const saved = localStorage.getItem('shipRektSave');
         if (saved) {
             const loadedState = JSON.parse(saved);
             
@@ -793,16 +793,17 @@ let game;
 document.addEventListener('DOMContentLoaded', () => {
     // Check if we're in the new multi-game system
     if (window.GameManager) {
-        console.log('Business Tycoon integrated into multi-game system');
+        console.log('Ship Rekt integrated into multi-game system');
         // Game will be initialized by GameManager when selected
     } else {
         // Fallback to original standalone mode
-        console.log('Business Tycoon Game initializing in standalone mode...');
-        game = new BusinessTycoonGame();
+        console.log('Ship Rekt Game initializing in standalone mode...');
+        game = new ShipRektGame();
         window.game = game;
     }
 });
 
 // Export for global access
-window.BusinessTycoonGame = BusinessTycoonGame;
+window.ShipRektGame = ShipRektGame;
+window.BusinessTycoonGame = ShipRektGame; // Maintain compatibility
 window.game = game;

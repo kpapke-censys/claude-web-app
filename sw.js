@@ -1,5 +1,5 @@
-// Service Worker for Claude Web App PWA
-const CACHE_NAME = 'claude-web-app-v1';
+// Service Worker for Ship Rekt PWA
+const CACHE_NAME = 'ship-rekt-v1';
 const urlsToCache = [
   './',
   './index.html',
@@ -107,7 +107,7 @@ self.addEventListener('push', (event) => {
   console.log('Service Worker: Push event received');
   
   const options = {
-    body: event.data ? event.data.text() : 'New notification from Claude Web App',
+    body: event.data ? event.data.text() : 'Ahoy! New treasure awaits in Ship Rekt!',
     icon: './icons/icon-192x192.png',
     badge: './icons/icon-72x72.png',
     vibrate: [100, 50, 100],
@@ -118,7 +118,7 @@ self.addEventListener('push', (event) => {
     actions: [
       {
         action: 'explore',
-        title: 'Open App',
+        title: 'Set Sail',
         icon: './icons/icon-192x192.png'
       },
       {
@@ -130,7 +130,7 @@ self.addEventListener('push', (event) => {
   };
   
   event.waitUntil(
-    self.registration.showNotification('Claude Web App', options)
+    self.registration.showNotification('Ship Rekt', options)
   );
 });
 

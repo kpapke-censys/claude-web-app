@@ -1,6 +1,6 @@
-# PWA Icons
+# Ship Rekt PWA Icons
 
-This directory contains icons for the Progressive Web App in various sizes.
+This directory contains pirate-themed icons for the Ship Rekt Progressive Web App in various sizes.
 
 Since I cannot create actual PNG files without additional tools, here are the required icon sizes:
 
@@ -13,16 +13,20 @@ Since I cannot create actual PNG files without additional tools, here are the re
 - 384x384 pixels
 - 512x512 pixels
 
-## How to create the icons:
+## How to create the pirate icons:
 
-1. Create a base icon (512x512 recommended) with the design you want
+1. Create a base icon (512x512 recommended) with pirate ship or treasure theme
 2. Use an online tool like https://realfavicongenerator.net/ or a tool like ImageMagick to resize to all required sizes
 3. Name them as: icon-{size}x{size}.png (e.g., icon-192x192.png)
 4. Replace this README.md with the actual PNG files
 
-## Suggested icon design:
-- Background: Gradient from #667eea to #764ba2
-- Icon: White robot emoji (🤖) or "C" letter in a modern font
+## Suggested pirate icon design:
+- Background: Ocean blue gradient from #1e40af to #1e3a8a
+- Icon: Pirate ship silhouette, treasure chest, or skull and crossbones in gold/white
+- Zelda Wind Waker inspired aesthetic - cartoon style, bright colors
 - Make sure it looks good at small sizes (72x72)
 - Use rounded corners for modern look
 - Ensure it meets PWA maskable icon requirements
+
+## Temporary Placeholders:
+For now, placeholder files with pirate emoji are created for each required size.

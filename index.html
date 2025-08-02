@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#2563eb">
-    <meta name="description" content="Business Tycoon - Build your empire in this strategy game">
-    <title>Business Tycoon</title>
+    <meta name="theme-color" content="#1e3a8a">
+    <meta name="description" content="Ship Rekt - Build your pirate fleet in this swashbuckling adventure">
+    <title>Ship Rekt</title>
     
     <!-- PWA Meta Tags -->
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icons/icon-192x192.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Business Tycoon">
+    <meta name="apple-mobile-web-app-title" content="Ship Rekt">
     
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -22,35 +22,35 @@
     <div class="game-container">
         <header class="game-header">
             <div class="company-info">
-                <h1 id="companyName">🏢 Your Business Empire</h1>
+                <h1 id="companyName">🏴‍☠️ Your Pirate Fleet</h1>
                 <div class="level-info">
                     <span>Level <span id="level">1</span></span>
                     <span class="separator"> | </span>
-                    <span id="companyType">Small Shop</span>
+                    <span id="companyType">Dinghy</span>
                 </div>
             </div>
             <div class="resources">
                 <div class="resource">
-                    <span class="resource-icon">💰</span>
-                    <span id="money">$1,000</span>
+                    <span class="resource-icon">🪙</span>
+                    <span id="money">1,000 Gold</span>
                 </div>
                 <div class="resource">
-                    <span class="resource-icon">👥</span>
+                    <span class="resource-icon">👨‍☠️</span>
                     <span id="workers">0</span>
                 </div>
                 <div class="resource">
-                    <span class="resource-icon">⚡</span>
-                    <span id="income">$0/sec</span>
+                    <span class="resource-icon">⛵</span>
+                    <span id="income">0 Gold/sec</span>
                 </div>
             </div>
         </header>
 
         <main class="game-main">
             <div class="tabs">
-                <button class="tab-btn active" data-tab="buildings">🏢 Buildings</button>
-                <button class="tab-btn" data-tab="workers">👥 Workers</button>
-                <button class="tab-btn" data-tab="research">🔬 Research</button>
-                <button class="tab-btn" data-tab="stats">📊 Stats</button>
+                <button class="tab-btn active" data-tab="buildings">🏝️ Islands</button>
+                <button class="tab-btn" data-tab="workers">👨‍☠️ Crew</button>
+                <button class="tab-btn" data-tab="research">🗺️ Exploration</button>
+                <button class="tab-btn" data-tab="stats">⚓ Fleet Status</button>
             </div>
 
             <div class="tab-content active" id="buildings-tab">
@@ -74,25 +74,25 @@
             <div class="tab-content" id="stats-tab">
                 <div class="stats-container">
                     <div class="stat-group">
-                        <h3>Company Overview</h3>
+                        <h3>Fleet Overview</h3>
                         <div class="stat-item">
-                            <span>Total Value:</span>
-                            <span id="totalValue">$1,000</span>
+                            <span>Total Treasure:</span>
+                            <span id="totalValue">1,000 Gold</span>
                         </div>
                         <div class="stat-item">
-                            <span>Total Buildings:</span>
+                            <span>Total Islands:</span>
                             <span id="totalBuildings">0</span>
                         </div>
                         <div class="stat-item">
-                            <span>Total Employees:</span>
+                            <span>Total Crew:</span>
                             <span id="totalEmployees">0</span>
                         </div>
                     </div>
                     <div class="stat-group">
                         <h3>Progress</h3>
                         <div class="stat-item">
-                            <span>Next Goal:</span>
-                            <span id="nextGoal">Buy first building</span>
+                            <span>Next Quest:</span>
+                            <span id="nextGoal">Discover first island</span>
                         </div>
                         <div class="progress-bar">
                             <div class="progress-fill" id="progressFill" style="width: 10%"></div>
@@ -106,7 +106,7 @@
             <div class="pwa-controls">
                 <div class="footer-left">
                     <button id="installBtn" class="install-btn" style="display: none;">
-                        📲 Install Game
+                        🏴‍☠️ Join Crew
                     </button>
                     <button id="themeBtn" class="theme-btn" onclick="game.toggleTheme()">
                         🌓 Theme

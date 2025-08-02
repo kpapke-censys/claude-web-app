@@ -1,11 +1,11 @@
 {
-  "name": "Business Tycoon",
-  "short_name": "Tycoon",
-  "description": "Build your business empire in this engaging strategy game",
+  "name": "Ship Rekt",
+  "short_name": "ShipRekt",
+  "description": "Build your pirate fleet in this swashbuckling adventure game",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#667eea",
-  "theme_color": "#2563eb",
+  "background_color": "#1e40af",
+  "theme_color": "#1e3a8a",
   "orientation": "portrait-primary",
   "categories": ["games", "entertainment"],
   "lang": "en",
@@ -79,9 +79,9 @@
   "prefer_related_applications": false,
   "shortcuts": [
     {
-      "name": "Home",
-      "short_name": "Home",
-      "description": "Go to the home page",
+      "name": "Port",
+      "short_name": "Port",
+      "description": "Return to your pirate port",
       "url": "./",
       "icons": [
         {

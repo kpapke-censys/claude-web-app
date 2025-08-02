@@ -78,6 +78,9 @@ class GameManager {
             case 'strategyMode':
                 this.launchStrategyMode(userData);
                 break;
+            case 'heroCrafting':
+                this.launchHeroCrafting(userData);
+                break;
             default:
                 console.error('Unknown game:', gameId);
                 this.returnToMenu();
@@ -131,6 +134,24 @@ class GameManager {
         }
         
         this.setupGameSaveIntegration('strategyMode');
+    }
+
+    launchHeroCrafting(userData) {
+        if (!this.gameInstances.heroCrafting) {
+            this.gameInstances.heroCrafting = new HeroCraftingGame(this.sharedSystems);
+            this.currentGame = this.gameInstances.heroCrafting;
+            window.heroGame = this.currentGame; // Set global reference for easy access
+        } else {
+            this.currentGame = this.gameInstances.heroCrafting;
+            window.heroGame = this.currentGame;
+        }
+        
+        // Load user data if available
+        if (userData) {
+            this.currentGame.loadGameState(userData);
+        }
+        
+        this.setupGameSaveIntegration('heroCrafting');
     }
 
     setupGameSaveIntegration(gameId) {

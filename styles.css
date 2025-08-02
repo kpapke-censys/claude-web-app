@@ -361,30 +361,54 @@
     transform: none;
 }
 
-/* Menu Button */
+/* Menu Button - Improved visibility and mobile support */
 .menu-btn {
     position: fixed !important;
     top: 1rem;
     right: 1rem;
     z-index: 1000;
-    background: rgba(255, 255, 255, 0.9) !important;
-    color: #374151 !important;
-    border: 2px solid #d1d5db !important;
+    background: rgba(37, 99, 235, 0.95) !important;
+    color: white !important;
+    border: 2px solid #2563eb !important;
     backdrop-filter: blur(10px);
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    min-height: 44px;
+    min-width: 44px;
+    border-radius: 12px;
 }
 
 .menu-btn:hover {
-    background: rgba(255, 255, 255, 1) !important;
+    background: rgba(29, 78, 216, 1) !important;
+    border-color: #1d4ed8 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
 }
 
-/* Survival Game Styles */
+.menu-btn:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+/* Enhanced menu button for mobile */
+@media (max-width: 768px) {
+    .menu-btn {
+        top: 0.75rem;
+        right: 0.75rem;
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Survival Game Styles - Improved contrast and mobile support */
 .survival-header {
-    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    background: linear-gradient(135deg, #047857 0%, #064e3b 100%);
     color: white;
     padding: 1rem;
     position: sticky;
     top: 0;
     z-index: 100;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .survival-stats {
@@ -405,28 +429,46 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 0.5rem;
-    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 0.75rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    min-width: 120px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .vital-bar {
     width: 60px;
-    height: 6px;
+    height: 8px;
     background: rgba(255, 255, 255, 0.3);
-    border-radius: 3px;
+    border-radius: 4px;
     overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
 .vital-fill {
     height: 100%;
     background: #10b981;
     transition: width 0.3s ease;
+    border-radius: 3px;
 }
 
 .vital.health .vital-fill { background: #ef4444; }
-.vital.oxygen .vital-fill { background: #3b82f6; }
-.vital.energy .vital-fill { background: #f59e0b; }
+.vital.oxygen .vital-fill { background: #60a5fa; }
+.vital.energy .vital-fill { background: #fbbf24; }
+
+/* Improved vital signs text contrast */
+.vital-icon {
+    font-size: 1.1rem;
+    filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.3));
+}
+
+.vital span {
+    color: white;
+    font-weight: 600;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
 
 .world-info {
     display: flex;
@@ -443,9 +485,9 @@
     border-radius: 8px;
 }
 
-/* Strategy Game Styles */
+/* Strategy Game Styles - Improved contrast and mobile support */
 .strategy-header {
-    background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+    background: linear-gradient(135deg, #991b1b 0%, #7f1d1d 100%);
     color: white;
     padding: 1rem;
     position: sticky;
@@ -456,6 +498,7 @@
     align-items: center;
     flex-wrap: wrap;
     gap: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .commander-info {
@@ -594,31 +637,107 @@
     }
 }
 
-/* Responsive Design */
+/* Responsive Design - Enhanced for iPhone and mobile devices */
 @media (max-width: 768px) {
     .games-grid {
         grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 0 0.5rem;
     }
     
     .stats-grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
     }
     
     .dashboard-header {
         flex-direction: column;
         text-align: center;
+        padding: 1.5rem 1rem;
     }
     
     .vital-signs {
         justify-content: center;
+        gap: 0.75rem;
+        flex-direction: column;
+    }
+    
+    .vital {
+        min-width: 200px;
+        padding: 0.875rem;
+        justify-content: space-between;
     }
     
     .resource-display {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .resource {
+        min-width: 100px;
         justify-content: center;
     }
     
     .login-actions {
         flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .game-card {
+        margin: 0 0.5rem;
+    }
+    
+    .survival-header,
+    .strategy-header {
+        padding: 0.75rem;
+    }
+    
+    .survival-stats,
+    .strategy-header {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .world-info {
+        flex-direction: row;
+        justify-content: center;
+        gap: 1rem;
+    }
+}
+
+/* iPhone specific optimizations */
+@media (max-width: 414px) {
+    .vital-signs {
+        gap: 0.5rem;
+    }
+    
+    .vital {
+        min-width: 160px;
+        padding: 0.75rem 0.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .vital-bar {
+        width: 50px;
+        height: 6px;
+    }
+    
+    .game-header {
+        padding: 0.875rem;
+    }
+    
+    .company-info h1 {
+        font-size: 1.25rem;
+    }
+    
+    .dashboard-main {
+        padding: 1rem 0.75rem;
+    }
+    
+    .tab-btn {
+        padding: 0.625rem 0.5rem;
+        font-size: 0.8rem;
     }
 }
 
@@ -1156,30 +1275,34 @@ body.light-theme .stat-group {
     color: #333;
 }
 
-/* Dark theme (explicit and auto) */
+/* Dark theme (explicit and auto) - Enhanced contrast and accessibility */
 body.dark-theme,
 @media (prefers-color-scheme: dark) {
     body:not(.light-theme) {
-        background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+        background: linear-gradient(135deg, #0f1419 0%, #111827 100%);
         color: #f9fafb;
     }
     
     body:not(.light-theme) .game-header,
     body:not(.light-theme) .game-footer {
-        background: rgba(31, 41, 55, 0.95);
-        border-color: rgba(255, 255, 255, 0.1);
+        background: rgba(17, 24, 39, 0.95);
+        border-color: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(12px);
     }
     
     body:not(.light-theme) .tabs {
-        background: rgba(31, 41, 55, 0.9);
+        background: rgba(17, 24, 39, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.1);
     }
     
     body:not(.light-theme) .building-card,
     body:not(.light-theme) .worker-card,
     body:not(.light-theme) .research-card,
     body:not(.light-theme) .stat-group {
-        background: #374151;
+        background: #1f2937;
         color: #f9fafb;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     }
     
     body:not(.light-theme) .card-info h3,
@@ -1193,11 +1316,45 @@ body.dark-theme,
     }
     
     body:not(.light-theme) .card-stats {
-        background: rgba(17, 24, 39, 0.5);
+        background: rgba(17, 24, 39, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.1);
     }
     
     body:not(.light-theme) .stat-item {
-        border-color: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.15);
+    }
+    
+    /* Dark mode game menu improvements */
+    body:not(.light-theme) .dashboard {
+        background: #0f1419;
+    }
+    
+    body:not(.light-theme) .game-card,
+    body:not(.light-theme) .stat-card {
+        background: #1f2937;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #f9fafb;
+    }
+    
+    body:not(.light-theme) .login-container {
+        background: rgba(17, 24, 39, 0.95);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #f9fafb;
+    }
+    
+    body:not(.light-theme) .form-group input {
+        background: rgba(31, 41, 55, 0.8);
+        border-color: rgba(255, 255, 255, 0.2);
+        color: #f9fafb;
+    }
+    
+    body:not(.light-theme) .form-group input:focus {
+        border-color: #3b82f6;
+        background: rgba(31, 41, 55, 1);
+    }
+    
+    body:not(.light-theme) .form-group label {
+        color: #e5e7eb;
     }
 }
 

@@ -12,13 +12,19 @@ class UserSystem {
 
     // User Authentication
     login(username, password = null) {
-        // For demo purposes, using simple username-based auth
-        // In production, this would integrate with proper authentication
-        if (username && username.trim().length >= 3) {
+        // Validate and sanitize username
+        const validationResult = this.validateUsername(username);
+        if (!validationResult.valid) {
+            return { success: false, error: validationResult.error };
+        }
+
+        const sanitizedUsername = this.sanitizeInput(username.trim());
+        
+        try {
             const user = {
-                id: this.generateUserId(username),
-                username: username.trim(),
-                displayName: username.trim(),
+                id: this.generateUserId(sanitizedUsername),
+                username: sanitizedUsername,
+                displayName: sanitizedUsername,
                 createdAt: Date.now(),
                 lastLogin: Date.now(),
                 preferences: {
@@ -38,9 +44,47 @@ class UserSystem {
             this.currentUser = user;
             this.saveSession();
             return { success: true, user };
+        } catch (error) {
+            console.error('Login error:', error);
+            return { success: false, error: 'Login failed. Please try again.' };
+        }
+    }
+
+    validateUsername(username) {
+        if (!username || typeof username !== 'string') {
+            return { valid: false, error: 'Username is required' };
         }
         
-        return { success: false, error: 'Username must be at least 3 characters' };
+        const trimmed = username.trim();
+        if (trimmed.length < 3) {
+            return { valid: false, error: 'Username must be at least 3 characters' };
+        }
+        
+        if (trimmed.length > 20) {
+            return { valid: false, error: 'Username must be 20 characters or less' };
+        }
+        
+        // Allow alphanumeric, underscore, and hyphen only
+        if (!/^[a-zA-Z0-9_-]+$/.test(trimmed)) {
+            return { valid: false, error: 'Username can only contain letters, numbers, underscore, and hyphen' };
+        }
+        
+        return { valid: true };
+    }
+
+    sanitizeInput(input) {
+        if (typeof input !== 'string') return '';
+        // Remove any HTML/script tags and encode special characters
+        return input.replace(/[<>'"&]/g, (char) => {
+            const entities = {
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#x27;',
+                '&': '&amp;'
+            };
+            return entities[char] || char;
+        });
     }
 
     logout() {
@@ -72,38 +116,64 @@ class UserSystem {
     }
 
     loadSession() {
-        // First try session storage (current session)
-        let userData = sessionStorage.getItem(this.sessionKey);
-        
-        if (!userData) {
-            // Fall back to localStorage (persistent across sessions)
-            const persistentData = localStorage.getItem(this.sessionKey + '_persistent');
-            if (persistentData) {
-                const parsed = JSON.parse(persistentData);
-                // Restore from persistent data and re-establish session
-                this.currentUser = {
-                    id: parsed.id,
-                    username: parsed.username,
-                    displayName: parsed.displayName,
-                    createdAt: Date.now(), // Will be overridden by game data
-                    lastLogin: Date.now(),
-                    preferences: parsed.preferences || {},
-                    gameData: {
-                        businessTycoon: null,
-                        survivalMode: null,
-                        strategyMode: null
-                    },
-                    achievements: [],
-                    totalPlayTime: 0
-                };
-                
-                // Load user's game data from localStorage
-                this.loadUserGameData();
-                this.saveSession(); // Re-establish session storage
+        try {
+            // First try session storage (current session)
+            let userData = sessionStorage.getItem(this.sessionKey);
+            
+            if (!userData) {
+                // Fall back to localStorage (persistent across sessions)
+                const persistentData = localStorage.getItem(this.sessionKey + '_persistent');
+                if (persistentData) {
+                    const parsed = this.safeParseJSON(persistentData);
+                    if (parsed && this.validateUserData(parsed)) {
+                        // Restore from persistent data and re-establish session
+                        this.currentUser = {
+                            id: this.sanitizeInput(parsed.id),
+                            username: this.sanitizeInput(parsed.username),
+                            displayName: this.sanitizeInput(parsed.displayName),
+                            createdAt: Date.now(), // Will be overridden by game data
+                            lastLogin: Date.now(),
+                            preferences: parsed.preferences || {},
+                            gameData: {
+                                businessTycoon: null,
+                                survivalMode: null,
+                                strategyMode: null
+                            },
+                            achievements: [],
+                            totalPlayTime: 0
+                        };
+                        
+                        // Load user's game data from localStorage
+                        this.loadUserGameData();
+                        this.saveSession(); // Re-establish session storage
+                    }
+                }
+            } else {
+                const parsedUserData = this.safeParseJSON(userData);
+                if (parsedUserData && this.validateUserData(parsedUserData)) {
+                    this.currentUser = parsedUserData;
+                }
             }
-        } else {
-            this.currentUser = JSON.parse(userData);
+        } catch (error) {
+            console.error('Session loading error:', error);
+            this.currentUser = null;
         }
+    }
+
+    safeParseJSON(jsonString) {
+        try {
+            return JSON.parse(jsonString);
+        } catch (error) {
+            console.error('JSON parsing error:', error);
+            return null;
+        }
+    }
+
+    validateUserData(userData) {
+        if (!userData || typeof userData !== 'object') return false;
+        if (!userData.id || typeof userData.id !== 'string') return false;
+        if (!userData.username || typeof userData.username !== 'string') return false;
+        return true;
     }
 
     // Game Data Management
@@ -220,11 +290,18 @@ class UserSystem {
     migrateOldSave() {
         // Migrate existing Business Tycoon save if user is logged in
         if (this.currentUser) {
-            const oldSave = localStorage.getItem('businessTycoonSave');
-            if (oldSave && !this.currentUser.gameData.businessTycoon) {
-                this.saveGameData('businessTycoon', JSON.parse(oldSave));
-                // Keep old save for now, don't delete it
-                return true;
+            try {
+                const oldSave = localStorage.getItem('businessTycoonSave');
+                if (oldSave && !this.currentUser.gameData.businessTycoon) {
+                    const parsedSave = this.safeParseJSON(oldSave);
+                    if (parsedSave) {
+                        this.saveGameData('businessTycoon', parsedSave);
+                        // Keep old save for now, don't delete it
+                        return true;
+                    }
+                }
+            } catch (error) {
+                console.error('Migration error:', error);
             }
         }
         return false;

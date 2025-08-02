@@ -153,12 +153,31 @@ class GameManager {
                 this.currentGame.saveGame();
             }
             
-            // Stop game loops
+            // Stop game loops - comprehensive cleanup
             if (this.currentGame.updateInterval) {
                 clearInterval(this.currentGame.updateInterval);
+                this.currentGame.updateInterval = null;
             }
             if (this.currentGame.saveInterval) {
                 clearInterval(this.currentGame.saveInterval);
+                this.currentGame.saveInterval = null;
+            }
+            if (this.currentGame.worldUpdateInterval) {
+                clearInterval(this.currentGame.worldUpdateInterval);
+                this.currentGame.worldUpdateInterval = null;
+            }
+            if (this.currentGame.resourceUpdateInterval) {
+                clearInterval(this.currentGame.resourceUpdateInterval);
+                this.currentGame.resourceUpdateInterval = null;
+            }
+            if (this.currentGame.gameLoopInterval) {
+                clearInterval(this.currentGame.gameLoopInterval);
+                this.currentGame.gameLoopInterval = null;
+            }
+            
+            // Call cleanup method if it exists
+            if (typeof this.currentGame.cleanup === 'function') {
+                this.currentGame.cleanup();
             }
             
             this.currentGame = null;
@@ -440,11 +459,33 @@ class AchievementSystem {
 // Initialize game manager when DOM is loaded
 let gameManager;
 document.addEventListener('DOMContentLoaded', () => {
-    // Wait a bit to ensure other scripts are loaded
-    setTimeout(() => {
+    // Check if required dependencies are loaded
+    const checkDependencies = () => {
+        return typeof UserSystem !== 'undefined' && 
+               typeof GameMenu !== 'undefined' && 
+               typeof BusinessTycoonGame !== 'undefined';
+    };
+    
+    // Initialize immediately if dependencies are ready
+    if (checkDependencies()) {
         gameManager = new GameManager();
         window.gameManager = gameManager;
-    }, 100);
+    } else {
+        // Poll for dependencies with timeout
+        let attempts = 0;
+        const maxAttempts = 50; // 5 seconds max
+        const checkInterval = setInterval(() => {
+            attempts++;
+            if (checkDependencies()) {
+                clearInterval(checkInterval);
+                gameManager = new GameManager();
+                window.gameManager = gameManager;
+            } else if (attempts >= maxAttempts) {
+                clearInterval(checkInterval);
+                console.error('Failed to initialize GameManager: Required dependencies not loaded');
+            }
+        }, 100);
+    }
 });
 
 // Export for global access

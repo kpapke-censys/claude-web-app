@@ -158,13 +158,16 @@ class GameMenu {
         const user = this.userSystem.getCurrentUser();
         const container = document.getElementById('gameMenuContainer');
         
+        // Sanitize user display name to prevent XSS
+        const sanitizedDisplayName = this.sanitizeHTML(user.displayName);
+        
         container.innerHTML = `
             <div class="dashboard">
                 <header class="dashboard-header">
                     <div class="user-info">
                         <div class="user-avatar">🎮</div>
                         <div class="user-details">
-                            <h2>Welcome back, ${user.displayName}!</h2>
+                            <h2>Welcome back, ${sanitizedDisplayName}!</h2>
                             <p>Choose your adventure</p>
                         </div>
                     </div>
@@ -195,38 +198,57 @@ class GameMenu {
         this.setupDashboardEvents();
     }
 
+    sanitizeHTML(str) {
+        if (typeof str !== 'string') return '';
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
+
     renderGameCards() {
         return Object.values(this.availableGames).map(game => {
             const userData = this.userSystem.loadGameData(game.id);
             const hasProgress = userData !== null;
             
+            // Sanitize game data to prevent XSS
+            const sanitizedGame = {
+                id: this.sanitizeHTML(game.id),
+                name: this.sanitizeHTML(game.name),
+                icon: game.icon, // Icons are controlled, safe
+                category: this.sanitizeHTML(game.category),
+                difficulty: this.sanitizeHTML(game.difficulty),
+                description: this.sanitizeHTML(game.description),
+                estimatedPlayTime: this.sanitizeHTML(game.estimatedPlayTime),
+                features: game.features.map(f => this.sanitizeHTML(f))
+            };
+            
             return `
-                <div class="game-card" data-game="${game.id}">
+                <div class="game-card" data-game="${sanitizedGame.id}">
                     <div class="game-header">
-                        <div class="game-icon">${game.icon}</div>
+                        <div class="game-icon">${sanitizedGame.icon}</div>
                         <div class="game-info">
-                            <h4>${game.name}</h4>
-                            <p class="game-category">${game.category} • ${game.difficulty}</p>
+                            <h4>${sanitizedGame.name}</h4>
+                            <p class="game-category">${sanitizedGame.category} • ${sanitizedGame.difficulty}</p>
                         </div>
                         ${hasProgress ? '<div class="progress-indicator">💾</div>' : ''}
                     </div>
                     
                     <div class="game-description">
-                        <p>${game.description}</p>
+                        <p>${sanitizedGame.description}</p>
                     </div>
                     
                     <div class="game-features">
                         <div class="feature-tags">
-                            ${game.features.map(f => `<span class="feature-tag">${f}</span>`).join('')}
+                            ${sanitizedGame.features.map(f => `<span class="feature-tag">${f}</span>`).join('')}
                         </div>
-                        <div class="play-time">⏱️ ${game.estimatedPlayTime}</div>
+                        <div class="play-time">⏱️ ${sanitizedGame.estimatedPlayTime}</div>
                     </div>
                     
                     <div class="game-actions">
-                        <button class="btn btn-primary play-btn" data-game="${game.id}">
+                        <button class="btn btn-primary play-btn" data-game="${sanitizedGame.id}">
                             ${hasProgress ? '📂 Continue' : '🎮 Play'}
                         </button>
-                        ${hasProgress ? `<button class="btn btn-outline reset-btn" data-game="${game.id}">🔄 Reset</button>` : ''}
+                        ${hasProgress ? `<button class="btn btn-outline reset-btn" data-game="${sanitizedGame.id}">🔄 Reset</button>` : ''}
                     </div>
                 </div>
             `;

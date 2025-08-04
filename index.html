@@ -47,10 +47,8 @@
 
         <main class="game-main">
             <div class="tabs">
-                <button class="tab-btn active" data-tab="buildings">🏝️ Islands</button>
-                <button class="tab-btn" data-tab="workers">👨‍☠️ Crew</button>
-                <button class="tab-btn" data-tab="research">🗺️ Exploration</button>
-                <button class="tab-btn" data-tab="stats">⚓ Fleet Status</button>
+                <button class="tab-btn active" data-tab="buildings">🏝️ Build</button>
+                <button class="tab-btn" data-tab="stats">📊 Status</button>
             </div>
 
             <div class="tab-content active" id="buildings-tab">
@@ -59,39 +57,17 @@
                 </div>
             </div>
 
-            <div class="tab-content" id="workers-tab">
-                <div class="workers-grid" id="workersGrid">
-                    <!-- Workers will be populated by JavaScript -->
-                </div>
-            </div>
-
-            <div class="tab-content" id="research-tab">
-                <div class="research-grid" id="researchGrid">
-                    <!-- Research will be populated by JavaScript -->
-                </div>
-            </div>
 
             <div class="tab-content" id="stats-tab">
                 <div class="stats-container">
                     <div class="stat-group">
-                        <h3>Fleet Overview</h3>
+                        <h3>Progress</h3>
                         <div class="stat-item">
                             <span>Total Treasure:</span>
                             <span id="totalValue">1,000 Gold</span>
                         </div>
                         <div class="stat-item">
-                            <span>Total Islands:</span>
-                            <span id="totalBuildings">0</span>
-                        </div>
-                        <div class="stat-item">
-                            <span>Total Crew:</span>
-                            <span id="totalEmployees">0</span>
-                        </div>
-                    </div>
-                    <div class="stat-group">
-                        <h3>Progress</h3>
-                        <div class="stat-item">
-                            <span>Next Quest:</span>
+                            <span>Next Goal:</span>
                             <span id="nextGoal">Discover first island</span>
                         </div>
                         <div class="progress-bar">
@@ -107,9 +83,6 @@
                 <div class="footer-left">
                     <button id="installBtn" class="install-btn" style="display: none;">
                         🏴‍☠️ Join Crew
-                    </button>
-                    <button id="themeBtn" class="theme-btn" onclick="game.toggleTheme()">
-                        🌓 Theme
                     </button>
                 </div>
                 <div class="status-indicators">

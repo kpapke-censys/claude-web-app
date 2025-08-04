@@ -29,9 +29,6 @@ class SharedComponents {
                     </div>
                     
                     <div class="game-actions">
-                        <button id="themeToggle" class="btn btn-secondary game-theme-btn" title="Toggle theme">
-                            🌓
-                        </button>
                         <button id="returnToMenu" class="btn btn-primary menu-btn back-to-dashboard" title="Return to dashboard">
                             🏠 Back to Dashboard
                         </button>
@@ -397,14 +394,7 @@ class SharedComponents {
 
     // Event handlers
     setupHeaderEvents(header) {
-        const themeToggle = header.querySelector('#themeToggle');
         const returnToMenu = header.querySelector('#returnToMenu');
-
-        if (themeToggle) {
-            themeToggle.addEventListener('click', () => {
-                this.toggleTheme();
-            });
-        }
 
         if (returnToMenu) {
             // Remove from header and add to body as fixed position
@@ -417,7 +407,9 @@ class SharedComponents {
             }
             
             returnToMenu.addEventListener('click', () => {
-                this.togglePauseMenu();
+                if (window.gameManager) {
+                    window.gameManager.returnToMenu();
+                }
             });
             
             document.body.appendChild(returnToMenu);

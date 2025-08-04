@@ -32,8 +32,8 @@ class SharedComponents {
                         <button id="themeToggle" class="btn btn-secondary game-theme-btn" title="Toggle theme">
                             🌓
                         </button>
-                        <button id="returnToMenu" class="btn btn-primary menu-btn" title="Return to menu">
-                            🏠 Menu
+                        <button id="returnToMenu" class="btn btn-primary menu-btn back-to-dashboard" title="Return to dashboard">
+                            🏠 Back to Dashboard
                         </button>
                     </div>
                 </div>
@@ -301,6 +301,100 @@ class SharedComponents {
         return icons[type] || 'ℹ️';
     }
 
+    // Create and manage pause menu
+    createPauseMenu() {
+        // Remove existing menu if any
+        const existingMenu = document.querySelector('.pause-menu');
+        if (existingMenu) {
+            existingMenu.remove();
+        }
+
+        const menu = document.createElement('div');
+        menu.className = 'pause-menu';
+        menu.innerHTML = `
+            <button class="pause-menu-item" data-action="resume">
+                <span>▶️</span>
+                <span>Resume Game</span>
+            </button>
+            <div class="pause-menu-separator"></div>
+            <button class="pause-menu-item" data-action="dashboard">
+                <span>🏠</span>
+                <span>Back to Games List</span>
+            </button>
+            <button class="pause-menu-item" data-action="settings">
+                <span>⚙️</span>
+                <span>Settings</span>
+            </button>
+        `;
+
+        // Add event listeners
+        menu.addEventListener('click', (e) => {
+            const action = e.target.closest('.pause-menu-item')?.dataset.action;
+            if (action) {
+                this.handlePauseMenuAction(action);
+            }
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.pause-menu') && !e.target.closest('.back-to-dashboard')) {
+                this.hidePauseMenu();
+            }
+        });
+
+        document.body.appendChild(menu);
+        return menu;
+    }
+
+    showPauseMenu() {
+        let menu = document.querySelector('.pause-menu');
+        if (!menu) {
+            menu = this.createPauseMenu();
+        }
+        
+        // Small delay for smooth animation
+        requestAnimationFrame(() => {
+            menu.classList.add('show');
+        });
+    }
+
+    hidePauseMenu() {
+        const menu = document.querySelector('.pause-menu');
+        if (menu) {
+            menu.classList.remove('show');
+        }
+    }
+
+    togglePauseMenu() {
+        const menu = document.querySelector('.pause-menu');
+        if (menu?.classList.contains('show')) {
+            this.hidePauseMenu();
+        } else {
+            this.showPauseMenu();
+        }
+    }
+
+    handlePauseMenuAction(action) {
+        this.hidePauseMenu();
+        
+        switch (action) {
+            case 'resume':
+                // Just hide the menu, continue playing
+                break;
+            case 'dashboard':
+                if (window.gameManager) {
+                    window.gameManager.returnToMenu();
+                }
+                break;
+            case 'settings':
+                // TODO: Implement settings modal
+                alert('Settings coming soon!');
+                break;
+            default:
+                console.log('Unknown pause menu action:', action);
+        }
+    }
+
     // Event handlers
     setupHeaderEvents(header) {
         const themeToggle = header.querySelector('#themeToggle');
@@ -313,11 +407,20 @@ class SharedComponents {
         }
 
         if (returnToMenu) {
+            // Remove from header and add to body as fixed position
+            returnToMenu.remove();
+            
+            // Remove any existing fixed button first
+            const existingFixedButton = document.querySelector('.back-to-dashboard');
+            if (existingFixedButton) {
+                existingFixedButton.remove();
+            }
+            
             returnToMenu.addEventListener('click', () => {
-                if (window.gameManager) {
-                    window.gameManager.returnToMenu();
-                }
+                this.togglePauseMenu();
             });
+            
+            document.body.appendChild(returnToMenu);
         }
     }
 

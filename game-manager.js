@@ -40,18 +40,29 @@ class GameManager {
     }
 
     setupGlobalNavigation() {
-        // Add return to menu button to game header
+        // Add return to menu button as fixed position in lower left for consistency
         const gameHeader = document.querySelector('.game-header');
         if (gameHeader) {
             const menuButton = document.createElement('button');
             menuButton.id = 'returnToMenuBtn';
-            menuButton.className = 'btn btn-outline menu-btn';
-            menuButton.innerHTML = '🏠 Menu';
-            menuButton.style.cssText = 'position: absolute; top: 1rem; right: 1rem; z-index: 1000;';
-            menuButton.addEventListener('click', () => this.returnToMenu());
+            menuButton.className = 'btn btn-outline menu-btn back-to-dashboard';
+            menuButton.innerHTML = '🏠 Back to Dashboard';
+            menuButton.addEventListener('click', () => {
+                if (window.SharedComponents) {
+                    const sharedComponents = new window.SharedComponents();
+                    sharedComponents.togglePauseMenu();
+                } else {
+                    this.returnToMenu();
+                }
+            });
             
-            gameHeader.style.position = 'relative';
-            gameHeader.appendChild(menuButton);
+            // Remove any existing buttons first
+            const existingButton = document.getElementById('returnToMenuBtn');
+            if (existingButton) {
+                existingButton.remove();
+            }
+            
+            document.body.appendChild(menuButton);
         }
     }
 

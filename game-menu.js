@@ -339,6 +339,17 @@ class GameMenu {
             gameContainer.style.display = 'block';
         }
 
+        // Reset scroll position to top for each game mode
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        // Also reset any scrollable containers within the game
+        setTimeout(() => {
+            const scrollableElements = document.querySelectorAll('.tab-content, .game-main, .survival-main, .strategy-main');
+            scrollableElements.forEach(element => {
+                element.scrollTop = 0;
+            });
+        }, 100);
+
         // Launch the specific game
         window.gameManager.launchGame(gameId);
     }

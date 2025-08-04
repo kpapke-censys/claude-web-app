@@ -79,8 +79,8 @@ class GameMenu {
             <div class="login-screen">
                 <div class="login-container">
                     <div class="login-header">
-                        <h1>🎮 Cloud Gaming Hub</h1>
-                        <p>Your gateway to multiple gaming worlds</p>
+                        <h1>⭐ Ship Rekt Games</h1>
+                        <p>Choose your adventure</p>
                     </div>
                     
                     <div class="login-form">
@@ -183,23 +183,15 @@ class GameMenu {
                         </div>
                     </div>
                     <div class="dashboard-actions">
-                        <button id="userMenuBtn" class="btn btn-secondary">⚙️ Settings</button>
                         <button id="logoutBtn" class="btn btn-outline">🚪 Logout</button>
                     </div>
                 </header>
 
                 <main class="dashboard-main">
                     <div class="games-section">
-                        <h3>Available Games</h3>
+                        <h3>Choose Your Game</h3>
                         <div class="games-grid" id="gamesGrid">
                             ${this.renderGameCards()}
-                        </div>
-                    </div>
-
-                    <div class="user-stats-section">
-                        <h3>Your Stats</h3>
-                        <div class="stats-grid">
-                            ${this.renderUserStats()}
                         </div>
                     </div>
                 </main>
@@ -249,9 +241,6 @@ class GameMenu {
                     </div>
                     
                     <div class="game-features">
-                        <div class="feature-tags">
-                            ${sanitizedGame.features.map(f => `<span class="feature-tag">${f}</span>`).join('')}
-                        </div>
                         <div class="play-time">⏱️ ${sanitizedGame.estimatedPlayTime}</div>
                     </div>
                     
@@ -322,10 +311,6 @@ class GameMenu {
         // Dashboard actions
         document.getElementById('logoutBtn').addEventListener('click', () => {
             this.handleLogout();
-        });
-
-        document.getElementById('userMenuBtn').addEventListener('click', () => {
-            this.showUserSettings();
         });
     }
 

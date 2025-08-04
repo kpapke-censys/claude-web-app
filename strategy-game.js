@@ -295,8 +295,15 @@ class StrategyGame {
         const gameContainer = document.querySelector('.game-container');
         gameContainer.innerHTML = `
             <header class="strategy-header">
-                <button class="btn btn-secondary menu-btn back-to-dashboard" onclick="window.gameManager.gameMenu.returnToDashboard()">
-                    🏠 Back to Dashboard
+                <button class="btn btn-secondary menu-btn back-to-dashboard" onclick="
+                    if (window.SharedComponents) {
+                        const sharedComponents = new SharedComponents();
+                        sharedComponents.togglePauseMenu();
+                    } else {
+                        window.gameManager.gameMenu.returnToDashboard();
+                    }
+                ">
+                    🏠 Menu
                 </button>
                 <div class="commander-info">
                     <div class="commander-avatar">👨‍💼</div>

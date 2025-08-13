@@ -40,30 +40,20 @@ class GameManager {
     }
 
     setupGlobalNavigation() {
-        // Add return to menu button as fixed position in lower left for consistency
-        const gameHeader = document.querySelector('.game-header');
-        if (gameHeader) {
-            const menuButton = document.createElement('button');
-            menuButton.id = 'returnToMenuBtn';
-            menuButton.className = 'btn btn-outline menu-btn back-to-dashboard';
-            menuButton.innerHTML = '🏠 Back to Dashboard';
-            menuButton.addEventListener('click', () => {
-                if (window.SharedComponents) {
-                    const sharedComponents = new window.SharedComponents();
-                    sharedComponents.togglePauseMenu();
-                } else {
-                    this.returnToMenu();
-                }
-            });
-            
-            // Remove any existing buttons first
-            const existingButton = document.getElementById('returnToMenuBtn');
-            if (existingButton) {
-                existingButton.remove();
-            }
-            
-            document.body.appendChild(menuButton);
-        }
+        // Clean up any existing navigation buttons first
+        const existingButtons = document.querySelectorAll('.back-to-dashboard, #returnToMenuBtn');
+        existingButtons.forEach(btn => btn.remove());
+        
+        // Create single unified back button
+        const menuButton = document.createElement('button');
+        menuButton.id = 'returnToMenuBtn';
+        menuButton.className = 'btn btn-outline back-to-dashboard';
+        menuButton.innerHTML = '🏠 Back to Dashboard';
+        menuButton.addEventListener('click', () => {
+            this.returnToMenu();
+        });
+        
+        document.body.appendChild(menuButton);
     }
 
     // Game launching and management
@@ -77,6 +67,9 @@ class GameManager {
         if (this.currentGame) {
             this.stopCurrentGame();
         }
+        
+        // Clear any existing overlays before launching
+        this.clearAllOverlays();
         
         // Launch specific game
         switch (gameId) {
@@ -98,7 +91,11 @@ class GameManager {
             default:
                 console.error('Unknown game:', gameId);
                 this.returnToMenu();
+                return;
         }
+        
+        // Setup navigation for the launched game
+        setTimeout(() => this.setupGlobalNavigation(), 100);
     }
 
     launchBusinessTycoon(userData) {
@@ -237,8 +234,58 @@ class GameManager {
     }
 
     returnToMenu() {
+        // Stop and clean up current game
         this.stopCurrentGame();
+        
+        // Clear all overlaid interfaces
+        this.clearAllOverlays();
+        
+        // Return to dashboard
         this.gameMenu.returnToDashboard();
+        
+        // Ensure home screen is clearly visible
+        this.ensureHomeScreenVisible();
+    }
+    
+    clearAllOverlays() {
+        // Remove pause menus
+        const pauseMenus = document.querySelectorAll('.pause-menu');
+        pauseMenus.forEach(menu => menu.remove());
+        
+        // Remove any modal dialogs
+        const modals = document.querySelectorAll('.modal, .dialog, .overlay');
+        modals.forEach(modal => modal.remove());
+        
+        // Remove notifications
+        const notifications = document.querySelectorAll('.notification, .shared-notification, .achievement-notification');
+        notifications.forEach(notification => notification.remove());
+        
+        // Reset scroll positions
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        // Clear any floating UI elements
+        const floatingElements = document.querySelectorAll('.floating, .tooltip, .popup');
+        floatingElements.forEach(element => element.remove());
+    }
+    
+    ensureHomeScreenVisible() {
+        // Hide game container completely
+        const gameContainer = document.querySelector('.game-container');
+        if (gameContainer) {
+            gameContainer.style.display = 'none';
+            gameContainer.style.visibility = 'hidden';
+        }
+        
+        // Show menu container
+        const menuContainer = document.getElementById('gameMenuContainer');
+        if (menuContainer) {
+            menuContainer.style.display = 'block';
+            menuContainer.style.visibility = 'visible';
+            menuContainer.style.opacity = '1';
+        }
+        
+        // Recreate the navigation button to ensure it's visible
+        this.setupGlobalNavigation();
     }
 
     // Shared system access for games
@@ -514,7 +561,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const checkDependencies = () => {
         return typeof UserSystem !== 'undefined' && 
                typeof GameMenu !== 'undefined' && 
-               typeof BusinessTycoonGame !== 'undefined';
+               typeof BusinessTycoonGame !== 'undefined' &&
+               typeof HearthstoneBattlegrounds !== 'undefined';
     };
     
     // Initialize immediately if dependencies are ready

@@ -150,9 +150,7 @@ class HearthstoneBattlegrounds {
             <footer class="game-footer">
                 <div class="footer-content">
                     <div class="footer-left">
-                        <button id="backToMenu" class="btn btn-outline">
-                            🏠 Back to Dashboard
-                        </button>
+                        <!-- Back button handled by global navigation -->
                     </div>
                     <div class="footer-right">
                         <span class="data-source">Data from HSReplay.net</span>
@@ -398,15 +396,7 @@ class HearthstoneBattlegrounds {
             });
         });
 
-        // Back to dashboard
-        const backBtn = document.getElementById('backToMenu');
-        if (backBtn) {
-            backBtn.addEventListener('click', () => {
-                if (window.gameMenu) {
-                    window.gameMenu.returnToDashboard();
-                }
-            });
-        }
+        // Back to dashboard handled by global navigation
     }
 
     switchTab(tabName) {
@@ -506,6 +496,9 @@ class HearthstoneBattlegrounds {
 
     // Game lifecycle methods
     start() {
+        if (!this.isLoaded) {
+            this.init();
+        }
         this.isLoaded = true;
     }
 
@@ -526,6 +519,53 @@ class HearthstoneBattlegrounds {
         document.querySelectorAll('.hero-card.selected').forEach(card => {
             card.classList.remove('selected');
         });
+    }
+    
+    // Cleanup method for game manager
+    cleanup() {
+        this.stop();
+        // Remove any event listeners or timers if needed
+    }
+    
+    // Game state methods for save system integration
+    getGameState() {
+        return {
+            selectedTribes: Array.from(this.selectedTribes),
+            selectedHero: this.selectedHero,
+            isLoaded: this.isLoaded
+        };
+    }
+    
+    loadGameState(gameState) {
+        if (gameState) {
+            this.selectedTribes = new Set(gameState.selectedTribes || []);
+            this.selectedHero = gameState.selectedHero || null;
+            this.isLoaded = gameState.isLoaded || false;
+            
+            // Restore UI state
+            if (this.isLoaded) {
+                this.updateHeader();
+                this.restoreSelections();
+            }
+        }
+    }
+    
+    restoreSelections() {
+        // Restore tribe selections
+        this.selectedTribes.forEach(tribeKey => {
+            const card = document.querySelector(`[data-tribe="${tribeKey}"]`);
+            if (card) {
+                card.classList.add('selected');
+            }
+        });
+        
+        // Restore hero selection
+        if (this.selectedHero) {
+            const heroCard = document.querySelector(`[data-hero="${this.selectedHero}"]`);
+            if (heroCard) {
+                heroCard.classList.add('selected');
+            }
+        }
     }
 }
 

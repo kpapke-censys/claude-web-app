@@ -71,7 +71,8 @@ class SurvivalGame {
         this.initializeQuests();
         this.startGameLoop();
         this.renderAll();
-        this.showCrashLandingIntro();
+        // Show welcome text in center instead of modal
+        this.addCenterWelcomeText();
     }
 
     initializeGameData() {
@@ -339,6 +340,8 @@ class SurvivalGame {
 
     renderExplore() {
         const area = document.getElementById('explorationArea');
+        if (!area) return; // Guard against null element
+        
         area.innerHTML = `
             <div class="exploration-header">
                 <h3>🗺️ Planetary Exploration</h3>
@@ -751,16 +754,45 @@ class SurvivalGame {
     }
 
     // Story Elements
-    showCrashLandingIntro() {
-        this.showMessage(`
-            🚀 CRASH LANDING! 🚀
-            
-            Your ship has crashed on an alien planet. The atmosphere is hostile, resources are scarce, and unknown dangers lurk in the alien landscape.
-            
-            Your mission: Survive, adapt, and find a way to escape this world.
-            
-            Start by exploring the crash site to salvage materials from your ship!
-        `, 'story', 8000);
+    addCenterWelcomeText() {
+        const gameMain = document.querySelector('.survival-main');
+        if (!gameMain) return;
+        
+        // Remove any existing welcome text
+        const existingWelcome = gameMain.querySelector('.center-welcome-text');
+        if (existingWelcome) existingWelcome.remove();
+        
+        // Create center welcome text
+        const welcomeDiv = document.createElement('div');
+        welcomeDiv.className = 'center-welcome-text';
+        welcomeDiv.style.cssText = `
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 400px;
+            z-index: 100;
+        `;
+        welcomeDiv.innerHTML = `
+            <h2>🚀 SURVIVAL MODE 🚀</h2>
+            <p>Crashed on an alien planet. Survive, adapt, escape!</p>
+            <small>Click anywhere to start exploring...</small>
+        `;
+        
+        // Add click handler to remove welcome text
+        welcomeDiv.addEventListener('click', () => welcomeDiv.remove());
+        
+        gameMain.appendChild(welcomeDiv);
+        
+        // Auto-remove after 5 seconds
+        setTimeout(() => {
+            if (welcomeDiv.parentNode) welcomeDiv.remove();
+        }, 5000);
     }
 
     initializeQuests() {

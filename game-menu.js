@@ -336,7 +336,7 @@ class GameMenu {
         }
 
         // Reset scroll position to top for each game mode
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: 'instant' });
         
         // Also reset any scrollable containers within the game
         setTimeout(() => {

@@ -170,7 +170,8 @@ class HeroCraftingGame {
         this.setupUI();
         this.startGameLoop();
         this.renderAll();
-        this.showIntro();
+        // Show welcome text in center instead of notification modal
+        this.addCenterWelcomeText();
     }
 
     loadAchievementPoints() {
@@ -973,13 +974,44 @@ class HeroCraftingGame {
         this.updateStats();
     }
 
-    showIntro() {
-        window.SharedComponents.showNotification({
-            type: 'info',
-            title: '🦸 Welcome to Hero Forge!',
-            message: 'Transform your gaming achievements into legendary heroes. Each achievement earned across games gives you points to craft and upgrade heroes!',
-            duration: 8000
-        });
+    addCenterWelcomeText() {
+        const gameMain = document.querySelector('.hero-crafting-container') || document.body;
+        
+        // Remove any existing welcome text
+        const existingWelcome = gameMain.querySelector('.center-welcome-text');
+        if (existingWelcome) existingWelcome.remove();
+        
+        // Create center welcome text
+        const welcomeDiv = document.createElement('div');
+        welcomeDiv.className = 'center-welcome-text';
+        welcomeDiv.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 400px;
+            z-index: 1000;
+        `;
+        welcomeDiv.innerHTML = `
+            <h2>🦸 HERO FORGE 🦸</h2>
+            <p>Transform achievements into legendary heroes!</p>
+            <small>Click anywhere to start forging...</small>
+        `;
+        
+        // Add click handler to remove welcome text
+        welcomeDiv.addEventListener('click', () => welcomeDiv.remove());
+        
+        gameMain.appendChild(welcomeDiv);
+        
+        // Auto-remove after 5 seconds
+        setTimeout(() => {
+            if (welcomeDiv.parentNode) welcomeDiv.remove();
+        }, 5000);
     }
 
     // Save/Load System

@@ -92,6 +92,9 @@ class GameManager {
             case 'heroCrafting':
                 this.launchHeroCrafting(userData);
                 break;
+            case 'hearthstoneBattlegrounds':
+                this.launchHearthstoneBattlegrounds(userData);
+                break;
             default:
                 console.error('Unknown game:', gameId);
                 this.returnToMenu();
@@ -163,6 +166,22 @@ class GameManager {
         }
         
         this.setupGameSaveIntegration('heroCrafting');
+    }
+
+    launchHearthstoneBattlegrounds(userData) {
+        if (!this.gameInstances.hearthstoneBattlegrounds) {
+            this.gameInstances.hearthstoneBattlegrounds = new HearthstoneBattlegrounds();
+            this.currentGame = this.gameInstances.hearthstoneBattlegrounds;
+        } else {
+            this.currentGame = this.gameInstances.hearthstoneBattlegrounds;
+        }
+        
+        // Load user data if available
+        if (userData) {
+            this.currentGame.loadGameState(userData);
+        }
+        
+        this.setupGameSaveIntegration('hearthstoneBattlegrounds');
     }
 
     setupGameSaveIntegration(gameId) {

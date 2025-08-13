@@ -47,6 +47,17 @@ class GameMenu {
                 estimatedPlayTime: '30+ min',
                 features: ['Achievement system', 'Hero collection', 'Class progression'],
                 implemented: true
+            },
+            hearthstoneBattlegrounds: {
+                id: 'hearthstoneBattlegrounds',
+                name: 'Hearthstone Battlegrounds',
+                icon: '🔥',
+                description: 'Master Hearthstone Battlegrounds with optimal hero and tribe selections for maximum win rates',
+                category: 'Strategy',
+                difficulty: 'Medium',
+                estimatedPlayTime: '15-30 min',
+                features: ['Hero analysis', 'Tribe optimization', 'Win rate data', 'Strategy guides'],
+                implemented: true
             }
         };
         

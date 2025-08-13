@@ -369,22 +369,39 @@ class ShipRektGame {
     }
 
     updateUI() {
-        // Update header
-        document.getElementById('money').textContent = this.formatMoney(this.gameState.money);
-        document.getElementById('level').textContent = this.gameState.level;
-        document.getElementById('companyType').textContent = this.gameState.companyType;
-        document.getElementById('workers').textContent = this.gameState.stats.totalEmployees;
-        document.getElementById('income').textContent = this.formatMoney(this.gameState.stats.totalIncome) + '/sec';
+        // Update header - check if elements exist
+        const moneyEl = document.getElementById('money');
+        if (moneyEl) moneyEl.textContent = this.formatMoney(this.gameState.money);
+        
+        const levelEl = document.getElementById('level');
+        if (levelEl) levelEl.textContent = this.gameState.level;
+        
+        const companyTypeEl = document.getElementById('companyType');
+        if (companyTypeEl) companyTypeEl.textContent = this.gameState.companyType;
+        
+        const workersEl = document.getElementById('workers');
+        if (workersEl) workersEl.textContent = this.gameState.stats.totalEmployees;
+        
+        const incomeEl = document.getElementById('income');
+        if (incomeEl) incomeEl.textContent = this.formatMoney(this.gameState.stats.totalIncome) + '/sec';
 
-        // Update stats
-        document.getElementById('totalValue').textContent = this.formatMoney(this.gameState.totalValue);
-        document.getElementById('totalBuildings').textContent = this.gameState.stats.totalBuildings;
-        document.getElementById('totalEmployees').textContent = this.gameState.stats.totalEmployees;
-        document.getElementById('nextGoal').textContent = this.gameState.stats.currentGoal;
+        // Update stats - check if elements exist
+        const totalValueEl = document.getElementById('totalValue');
+        if (totalValueEl) totalValueEl.textContent = this.formatMoney(this.gameState.totalValue);
+        
+        const totalBuildingsEl = document.getElementById('totalBuildings');
+        if (totalBuildingsEl) totalBuildingsEl.textContent = this.gameState.stats.totalBuildings;
+        
+        const totalEmployeesEl = document.getElementById('totalEmployees');
+        if (totalEmployeesEl) totalEmployeesEl.textContent = this.gameState.stats.totalEmployees;
+        
+        const nextGoalEl = document.getElementById('nextGoal');
+        if (nextGoalEl) nextGoalEl.textContent = this.gameState.stats.currentGoal;
 
         // Update progress bar (example: progress toward next level)
         const progress = Math.min(100, (this.gameState.stats.totalBuildings % 10) * 10);
-        document.getElementById('progressFill').style.width = progress + '%';
+        const progressFillEl = document.getElementById('progressFill');
+        if (progressFillEl) progressFillEl.style.width = progress + '%';
     }
 
     renderBuildings() {
@@ -538,10 +555,13 @@ class ShipRektGame {
         // Auto-save every 10 seconds
         this.saveInterval = setInterval(() => {
             this.saveGame();
-            document.getElementById('saveStatus').textContent = '💾 Saved';
-            setTimeout(() => {
-                document.getElementById('saveStatus').textContent = '💾 Auto-saving';
-            }, 1000);
+            const saveStatusEl = document.getElementById('saveStatus');
+            if (saveStatusEl) {
+                saveStatusEl.textContent = '💾 Saved';
+                setTimeout(() => {
+                    if (saveStatusEl) saveStatusEl.textContent = '💾 Auto-saving';
+                }, 1000);
+            }
         }, 10000);
     }
 

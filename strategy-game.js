@@ -83,7 +83,8 @@ class StrategyGame {
         this.initializeWorld();
         this.startGameLoop();
         this.renderAll();
-        this.showCommanderIntro();
+        // Show welcome text in center instead of modal
+        this.addCenterWelcomeText();
     }
 
     initializeGameData() {
@@ -1159,20 +1160,45 @@ class StrategyGame {
     }
 
     // Story Elements
-    showCommanderIntro() {
-        this.showMessage(`
-            🎖️ WELCOME, COMMANDER! 🎖️
-            
-            You've been assigned to establish and defend a strategic outpost in hostile territory.
-            
-            Your objectives:
-            • Build and expand your base
-            • Train and deploy military units
-            • Research advanced technologies
-            • Defend against enemy threats
-            
-            The success of this operation depends on your tactical decisions. Good luck, Commander!
-        `, 'story', 8000);
+    addCenterWelcomeText() {
+        const gameMain = document.querySelector('.strategy-main');
+        if (!gameMain) return;
+        
+        // Remove any existing welcome text
+        const existingWelcome = gameMain.querySelector('.center-welcome-text');
+        if (existingWelcome) existingWelcome.remove();
+        
+        // Create center welcome text
+        const welcomeDiv = document.createElement('div');
+        welcomeDiv.className = 'center-welcome-text';
+        welcomeDiv.style.cssText = `
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 400px;
+            z-index: 100;
+        `;
+        welcomeDiv.innerHTML = `
+            <h2>🎖️ STRATEGY MODE 🎖️</h2>
+            <p>Build your base, train units, defend territory!</p>
+            <small>Click anywhere to begin your mission...</small>
+        `;
+        
+        // Add click handler to remove welcome text
+        welcomeDiv.addEventListener('click', () => welcomeDiv.remove());
+        
+        gameMain.appendChild(welcomeDiv);
+        
+        // Auto-remove after 5 seconds
+        setTimeout(() => {
+            if (welcomeDiv.parentNode) welcomeDiv.remove();
+        }, 5000);
     }
 
     triggerGameOver() {

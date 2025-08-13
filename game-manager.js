@@ -261,7 +261,7 @@ class GameManager {
         notifications.forEach(notification => notification.remove());
         
         // Reset scroll positions
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: 'instant' });
         
         // Clear any floating UI elements
         const floatingElements = document.querySelectorAll('.floating, .tooltip, .popup');
@@ -283,6 +283,9 @@ class GameManager {
             menuContainer.style.visibility = 'visible';
             menuContainer.style.opacity = '1';
         }
+        
+        // Reset scroll position to top
+        window.scrollTo({ top: 0, behavior: 'instant' });
         
         // Recreate the navigation button to ensure it's visible
         this.setupGlobalNavigation();

@@ -1,5 +1,6 @@
 // Service Worker for Ship Rekt PWA
-const CACHE_NAME = 'ship-rekt-v1';
+const CACHE_VERSION = '1.0.2';
+const CACHE_NAME = `ship-rekt-v${CACHE_VERSION}-${Date.now()}`;
 const urlsToCache = [
   './',
   './index.html',
@@ -46,44 +47,76 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch event - serve from cache, fallback to network
+// Fetch event - network first for main resources, cache first for assets
 self.addEventListener('fetch', (event) => {
   console.log('Service Worker: Fetch event for', event.request.url);
   
-  event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        // Return cached version or fetch from network
-        if (response) {
-          console.log('Service Worker: Serving from cache', event.request.url);
+  // For main page resources (HTML, JS, CSS), always check network first
+  const isMainResource = event.request.url.includes('.html') || 
+                         event.request.url.includes('.js') || 
+                         event.request.url.includes('.css') ||
+                         event.request.url.endsWith('/');
+  
+  if (isMainResource) {
+    // Network first strategy for main resources
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          // If network request succeeds, cache the new version
+          if (response && response.status === 200) {
+            const responseToCache = response.clone();
+            caches.open(CACHE_NAME)
+              .then((cache) => {
+                cache.put(event.request, responseToCache);
+              });
+          }
           return response;
-        }
-        
-        console.log('Service Worker: Fetching from network', event.request.url);
-        return fetch(event.request).then((response) => {
-          // Check if we received a valid response
-          if (!response || response.status !== 200 || response.type !== 'basic') {
+        })
+        .catch(() => {
+          // If network fails, fallback to cache
+          console.log('Service Worker: Network failed, serving from cache', event.request.url);
+          return caches.match(event.request)
+            .then((cachedResponse) => {
+              if (cachedResponse) {
+                return cachedResponse;
+              }
+              // If no cache and network failed, serve index.html for navigation requests
+              if (event.request.destination === 'document') {
+                return caches.match('./index.html');
+              }
+            });
+        })
+    );
+  } else {
+    // Cache first strategy for assets (images, icons, etc.)
+    event.respondWith(
+      caches.match(event.request)
+        .then((response) => {
+          if (response) {
+            console.log('Service Worker: Serving asset from cache', event.request.url);
             return response;
           }
           
-          // Clone the response for caching
-          const responseToCache = response.clone();
-          
-          caches.open(CACHE_NAME)
-            .then((cache) => {
-              cache.put(event.request, responseToCache);
-            });
-          
-          return response;
-        });
-      })
-      .catch(() => {
-        // If both cache and network fail, show offline page
-        if (event.request.destination === 'document') {
-          return caches.match('./index.html');
-        }
-      })
-  );
+          console.log('Service Worker: Fetching asset from network', event.request.url);
+          return fetch(event.request).then((response) => {
+            if (!response || response.status !== 200 || response.type !== 'basic') {
+              return response;
+            }
+            
+            const responseToCache = response.clone();
+            caches.open(CACHE_NAME)
+              .then((cache) => {
+                cache.put(event.request, responseToCache);
+              });
+            
+            return response;
+          });
+        })
+        .catch(() => {
+          console.log('Service Worker: Failed to fetch asset', event.request.url);
+        })
+    );
+  }
 });
 
 // Background sync for when connectivity is restored

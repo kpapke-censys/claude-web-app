@@ -88,6 +88,9 @@ class GameManager {
             case 'hearthstoneBattlegrounds':
                 this.launchHearthstoneBattlegrounds(userData);
                 break;
+            case 'houseSearch':
+                this.launchHouseSearch(userData);
+                break;
             default:
                 console.error('Unknown game:', gameId);
                 this.returnToMenu();
@@ -179,6 +182,25 @@ class GameManager {
         }
         
         this.setupGameSaveIntegration('hearthstoneBattlegrounds');
+    }
+
+    launchHouseSearch(userData) {
+        if (!this.gameInstances.houseSearch) {
+            this.gameInstances.houseSearch = new HouseSearchGame(this, this.userSystem);
+            this.currentGame = this.gameInstances.houseSearch;
+        } else {
+            this.currentGame = this.gameInstances.houseSearch;
+        }
+        
+        // Initialize the game
+        this.currentGame.init();
+        
+        // Load user data if available
+        if (userData) {
+            this.currentGame.gameState = { ...this.currentGame.gameState, ...userData };
+        }
+        
+        this.setupGameSaveIntegration('houseSearch');
     }
 
     setupGameSaveIntegration(gameId) {
@@ -565,7 +587,8 @@ document.addEventListener('DOMContentLoaded', () => {
         return typeof UserSystem !== 'undefined' && 
                typeof GameMenu !== 'undefined' && 
                typeof BusinessTycoonGame !== 'undefined' &&
-               typeof HearthstoneBattlegrounds !== 'undefined';
+               typeof HearthstoneBattlegrounds !== 'undefined' &&
+               typeof HouseSearchGame !== 'undefined';
     };
     
     // Initialize immediately if dependencies are ready

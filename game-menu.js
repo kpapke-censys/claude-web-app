@@ -58,6 +58,17 @@ class GameMenu {
                 estimatedPlayTime: '15-30 min',
                 features: ['Hero analysis', 'Tribe optimization', 'Win rate data', 'Strategy guides'],
                 implemented: true
+            },
+            houseSearch: {
+                id: 'houseSearch',
+                name: 'Property Risk Checker',
+                icon: '🏠',
+                description: 'Check environmental risks and hazards near any property address using EPA data and AI analysis',
+                category: 'Utility',
+                difficulty: 'Easy',
+                estimatedPlayTime: '5-15 min',
+                features: ['EPA database search', 'Environmental risk analysis', 'AI-powered summaries', 'Search history'],
+                implemented: true
             }
         };
         

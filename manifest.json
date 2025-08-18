@@ -2,7 +2,7 @@
   "name": "Ship Rekt",
   "short_name": "ShipRekt",
   "description": "Build your pirate fleet in this swashbuckling adventure game",
-  "start_url": "./",
+  "start_url": "./?v=1.0.2",
   "display": "standalone",
   "background_color": "#1e40af",
   "theme_color": "#1e3a8a",

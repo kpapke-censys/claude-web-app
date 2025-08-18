@@ -5,16 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#1e3a8a">
     <meta name="description" content="Ship Rekt - Build your pirate fleet in this swashbuckling adventure">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Ship Rekt</title>
     
     <!-- PWA Meta Tags -->
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="manifest.json?v=1.0.2">
     <link rel="apple-touch-icon" href="icons/icon-192x192.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Ship Rekt">
     
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=1.0.2">
 </head>
 <body>
     <!-- Game menu will be injected here by JavaScript -->
@@ -88,22 +91,56 @@
                 <div class="status-indicators">
                     <span id="onlineStatus">🟢 Online</span>
                     <span id="saveStatus">💾 Auto-saving</span>
+                    <button id="clearCacheBtn" onclick="clearAppCache()" style="background: #ef4444; color: white; border: none; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem; cursor: pointer; margin-left: 0.5rem;" title="Clear cache and reload with fresh content">🔄 Refresh</button>
                 </div>
             </div>
         </footer>
     </div>
     
     <!-- Load new system files -->
-    <script src="shared-components.js"></script>
-    <script src="user-system.js"></script>
-    <script src="game-menu.js"></script>
-    <script src="survival-game.js"></script>
-    <script src="strategy-game.js"></script>
-    <script src="hero-crafting-game.js"></script>
-    <script src="hearthstone-battlegrounds.js"></script>
-    <script src="game-manager.js"></script>
+    <script src="shared-components.js?v=1.0.2"></script>
+    <script src="user-system.js?v=1.0.2"></script>
+    <script src="game-menu.js?v=1.0.2"></script>
+    <script src="survival-game.js?v=1.0.2"></script>
+    <script src="strategy-game.js?v=1.0.2"></script>
+    <script src="hero-crafting-game.js?v=1.0.2"></script>
+    <script src="hearthstone-battlegrounds.js?v=1.0.2"></script>
+    <script src="game-manager.js?v=1.0.2"></script>
     
     <!-- Load original business tycoon game (will be integrated) -->
-    <script src="app.js"></script>
+    <script src="app.js?v=1.0.2"></script>
+    
+    <script>
+        // Global function to clear cache
+        async function clearAppCache() {
+            if ('serviceWorker' in navigator && 'caches' in window) {
+                try {
+                    // Unregister all service workers
+                    const registrations = await navigator.serviceWorker.getRegistrations();
+                    for (let registration of registrations) {
+                        await registration.unregister();
+                    }
+                    
+                    // Clear all caches
+                    const cacheNames = await caches.keys();
+                    await Promise.all(
+                        cacheNames.map(cacheName => caches.delete(cacheName))
+                    );
+                    
+                    console.log('All caches cleared successfully');
+                    alert('Cache cleared! The page will now reload with fresh content.');
+                    
+                    // Force reload from server
+                    window.location.reload(true);
+                } catch (error) {
+                    console.error('Failed to clear cache:', error);
+                    alert('Failed to clear cache. Please try again.');
+                }
+            } else {
+                // Fallback for browsers without service worker support
+                window.location.reload(true);
+            }
+        }
+    </script>
 </body>
 </html>

@@ -684,17 +684,28 @@ class ClaudeWebApp {
     async registerServiceWorker() {
         if ('serviceWorker' in navigator) {
             try {
-                const registration = await navigator.serviceWorker.register('./sw.js');
+                const registration = await navigator.serviceWorker.register('./sw.js?v=1.0.2');
                 console.log('Service Worker registered successfully:', registration);
                 
                 registration.addEventListener('updatefound', () => {
                     const newWorker = registration.installing;
                     newWorker.addEventListener('statechange', () => {
-                        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                            this.showUpdateAvailable();
+                        if (newWorker.state === 'installed') {
+                            if (navigator.serviceWorker.controller) {
+                                // New update available
+                                this.showUpdateAvailable();
+                            } else {
+                                // App is being cached for first time
+                                console.log('Content is cached for offline use.');
+                            }
                         }
                     });
                 });
+
+                // Check for updates every 30 seconds
+                setInterval(() => {
+                    registration.update();
+                }, 30000);
             } catch (error) {
                 console.error('Service Worker registration failed:', error);
             }
@@ -776,33 +787,118 @@ class ClaudeWebApp {
     }
 
     showUpdateAvailable() {
+        // Remove any existing update notifications
+        const existingNotification = document.getElementById('updateNotification');
+        if (existingNotification) {
+            existingNotification.remove();
+        }
+
         const updateNotification = document.createElement('div');
+        updateNotification.id = 'updateNotification';
         updateNotification.style.cssText = `
             position: fixed;
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background: #2563eb;
+            background: #10b981;
             color: white;
-            padding: 1rem;
-            border-radius: 10px;
+            padding: 1.5rem;
+            border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            z-index: 1000;
+            z-index: 1001;
+            text-align: center;
+            max-width: 90vw;
+            animation: slideDown 0.3s ease-out;
         `;
+        
+        // Add CSS animation
+        if (!document.getElementById('updateNotificationStyles')) {
+            const style = document.createElement('style');
+            style.id = 'updateNotificationStyles';
+            style.textContent = `
+                @keyframes slideDown {
+                    from { transform: translateX(-50%) translateY(-100%); opacity: 0; }
+                    to { transform: translateX(-50%) translateY(0); opacity: 1; }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
         updateNotification.innerHTML = `
-            <p>🔄 A new version is available!</p>
-            <button onclick="window.location.reload();" style="background: white; color: #2563eb; border: none; padding: 0.5rem 1rem; margin-top: 0.5rem; border-radius: 5px; cursor: pointer;">
-                Update Now
-            </button>
+            <div style="margin-bottom: 1rem;">
+                <h3 style="margin: 0 0 0.5rem 0; font-size: 1.2rem;">🚀 New Version Available!</h3>
+                <p style="margin: 0; opacity: 0.9;">The app has been updated with new features and improvements.</p>
+            </div>
+            <div style="display: flex; gap: 0.5rem; justify-content: center;">
+                <button onclick="this.closest('#updateNotification').remove();" style="background: rgba(255,255,255,0.2); color: white; border: none; padding: 0.75rem 1rem; border-radius: 6px; cursor: pointer; font-weight: 500;">
+                    Later
+                </button>
+                <button onclick="window.location.reload(true);" style="background: white; color: #10b981; border: none; padding: 0.75rem 1.5rem; border-radius: 6px; cursor: pointer; font-weight: 600;">
+                    Update Now
+                </button>
+            </div>
         `;
         
         document.body.appendChild(updateNotification);
         
+        // Auto-remove after 15 seconds if user doesn't interact
         setTimeout(() => {
             if (updateNotification.parentNode) {
                 updateNotification.remove();
             }
-        }, 10000);
+        }, 15000);
+    }
+
+    // Add method to manually clear cache
+    async clearCache() {
+        if ('serviceWorker' in navigator && 'caches' in window) {
+            try {
+                // Unregister all service workers
+                const registrations = await navigator.serviceWorker.getRegistrations();
+                for (let registration of registrations) {
+                    await registration.unregister();
+                }
+                
+                // Clear all caches
+                const cacheNames = await caches.keys();
+                await Promise.all(
+                    cacheNames.map(cacheName => caches.delete(cacheName))
+                );
+                
+                console.log('All caches cleared successfully');
+                
+                // Show success message and reload
+                this.showCacheClearedMessage();
+                
+                // Reload after a short delay
+                setTimeout(() => {
+                    window.location.reload(true);
+                }, 2000);
+            } catch (error) {
+                console.error('Failed to clear cache:', error);
+            }
+        }
+    }
+
+    showCacheClearedMessage() {
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #10b981;
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1001;
+            text-align: center;
+        `;
+        notification.innerHTML = `
+            <p>✅ Cache cleared! Reloading with fresh content...</p>
+        `;
+        document.body.appendChild(notification);
     }
 }
 

@@ -29,8 +29,12 @@ class SharedComponents {
                     </div>
                     
                     <div class="game-actions">
-                        <button id="returnToMenu" class="btn btn-primary menu-btn back-to-dashboard" title="Return to dashboard">
-                            🏠 Back to Dashboard
+                        <button id="mobileNavToggle" class="mobile-nav-toggle" title="Open menu">
+                            <span class="hamburger-icon">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </span>
                         </button>
                     </div>
                 </div>
@@ -298,44 +302,49 @@ class SharedComponents {
         return icons[type] || 'ℹ️';
     }
 
-    // Create and manage pause menu
-    createPauseMenu() {
+    // Create mobile-friendly navigation menu
+    createMobileNavMenu() {
         // Remove existing menu if any
-        const existingMenu = document.querySelector('.pause-menu');
+        const existingMenu = document.querySelector('.mobile-nav-menu');
         if (existingMenu) {
             existingMenu.remove();
         }
 
         const menu = document.createElement('div');
-        menu.className = 'pause-menu';
+        menu.className = 'mobile-nav-menu';
         menu.innerHTML = `
-            <button class="pause-menu-item" data-action="resume">
-                <span>▶️</span>
-                <span>Resume Game</span>
-            </button>
-            <div class="pause-menu-separator"></div>
-            <button class="pause-menu-item" data-action="dashboard">
-                <span>🏠</span>
-                <span>Back to Games List</span>
-            </button>
-            <button class="pause-menu-item" data-action="settings">
-                <span>⚙️</span>
-                <span>Settings</span>
-            </button>
+            <div class="mobile-nav-overlay"></div>
+            <div class="mobile-nav-content">
+                <div class="mobile-nav-header">
+                    <h3>Game Menu</h3>
+                    <button class="mobile-nav-close" aria-label="Close menu">×</button>
+                </div>
+                <div class="mobile-nav-items">
+                    <button class="mobile-nav-item" data-action="dashboard">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-text">Back Home</span>
+                        <span class="nav-arrow">→</span>
+                    </button>
+                    <button class="mobile-nav-item" data-action="settings">
+                        <span class="nav-icon">⚙️</span>
+                        <span class="nav-text">Settings</span>
+                        <span class="nav-arrow">→</span>
+                    </button>
+                </div>
+            </div>
         `;
 
         // Add event listeners
         menu.addEventListener('click', (e) => {
-            const action = e.target.closest('.pause-menu-item')?.dataset.action;
+            const action = e.target.closest('.mobile-nav-item')?.dataset.action;
             if (action) {
-                this.handlePauseMenuAction(action);
+                this.handleMobileNavAction(action);
             }
-        });
-
-        // Close menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.pause-menu') && !e.target.closest('.back-to-dashboard')) {
-                this.hidePauseMenu();
+            
+            // Close menu when clicking overlay or close button
+            if (e.target.classList.contains('mobile-nav-overlay') || 
+                e.target.classList.contains('mobile-nav-close')) {
+                this.hideMobileNavMenu();
             }
         });
 
@@ -343,11 +352,14 @@ class SharedComponents {
         return menu;
     }
 
-    showPauseMenu() {
-        let menu = document.querySelector('.pause-menu');
+    showMobileNavMenu() {
+        let menu = document.querySelector('.mobile-nav-menu');
         if (!menu) {
-            menu = this.createPauseMenu();
+            menu = this.createMobileNavMenu();
         }
+        
+        // Prevent body scroll when menu is open
+        document.body.style.overflow = 'hidden';
         
         // Small delay for smooth animation
         requestAnimationFrame(() => {
@@ -355,29 +367,28 @@ class SharedComponents {
         });
     }
 
-    hidePauseMenu() {
-        const menu = document.querySelector('.pause-menu');
+    hideMobileNavMenu() {
+        const menu = document.querySelector('.mobile-nav-menu');
         if (menu) {
             menu.classList.remove('show');
+            // Restore body scroll
+            document.body.style.overflow = '';
         }
     }
 
-    togglePauseMenu() {
-        const menu = document.querySelector('.pause-menu');
+    toggleMobileNavMenu() {
+        const menu = document.querySelector('.mobile-nav-menu');
         if (menu?.classList.contains('show')) {
-            this.hidePauseMenu();
+            this.hideMobileNavMenu();
         } else {
-            this.showPauseMenu();
+            this.showMobileNavMenu();
         }
     }
 
-    handlePauseMenuAction(action) {
-        this.hidePauseMenu();
+    handleMobileNavAction(action) {
+        this.hideMobileNavMenu();
         
         switch (action) {
-            case 'resume':
-                // Just hide the menu, continue playing
-                break;
             case 'dashboard':
                 if (window.gameManager) {
                     window.gameManager.returnToMenu();
@@ -388,31 +399,20 @@ class SharedComponents {
                 alert('Settings coming soon!');
                 break;
             default:
-                console.log('Unknown pause menu action:', action);
+                console.log('Unknown nav menu action:', action);
         }
     }
 
     // Event handlers
     setupHeaderEvents(header) {
-        const returnToMenu = header.querySelector('#returnToMenu');
+        const mobileNavToggle = header.querySelector('#mobileNavToggle');
 
-        if (returnToMenu) {
-            // Remove from header and add to body as fixed position
-            returnToMenu.remove();
-            
-            // Remove any existing fixed button first
-            const existingFixedButton = document.querySelector('.back-to-dashboard');
-            if (existingFixedButton) {
-                existingFixedButton.remove();
-            }
-            
-            returnToMenu.addEventListener('click', () => {
-                if (window.gameManager) {
-                    window.gameManager.returnToMenu();
-                }
+        if (mobileNavToggle) {
+            mobileNavToggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                this.toggleMobileNavMenu();
             });
-            
-            document.body.appendChild(returnToMenu);
         }
     }
 

@@ -196,10 +196,10 @@ class SharedComponents {
             archer: { color: '#059669', icon: '🏹', name: 'Archer' },
             healer: { color: '#0891b2', icon: '💚', name: 'Healer' },
             rogue: { color: '#7c2d12', icon: '🗡️', name: 'Rogue' },
-            tank: { color: '#374151', icon: '🛡️', name: 'Tank' }
+            tank: { color: '#111827', icon: '🛡️', name: 'Tank' }
         };
 
-        const classData = colorMap[heroClass] || { color: '#6b7280', icon: '❓', name: 'Unknown' };
+        const classData = colorMap[heroClass] || { color: '#1f2937', icon: '❓', name: 'Unknown' };
         
         const indicator = document.createElement('div');
         indicator.className = 'hero-class-indicator';
@@ -552,7 +552,7 @@ const sharedComponentsCSS = `
 }
 
 .game-subtitle {
-    color: #6b7280;
+    color: #1f2937;
     font-size: 0.9rem;
     margin: 0;
 }
@@ -617,7 +617,7 @@ const sharedComponentsCSS = `
     transition: all 0.2s ease;
     white-space: nowrap;
     min-width: 0;
-    color: #4b5563;
+    color: #111827;
 }
 
 .tab-btn.active {
@@ -674,7 +674,7 @@ const sharedComponentsCSS = `
 
 .resource-label {
     font-size: 0.8rem;
-    color: #6b7280;
+    color: #1f2937;
 }
 
 .shared-card {
@@ -720,7 +720,7 @@ const sharedComponentsCSS = `
 
 .card-description {
     font-size: 0.85rem;
-    color: #4b5563;
+    color: #111827;
     line-height: 1.3;
     margin: 0;
 }
@@ -763,7 +763,7 @@ const sharedComponentsCSS = `
 .card-cost h6 {
     margin: 0 0 0.5rem 0;
     font-weight: 600;
-    color: #374151;
+    color: #111827;
 }
 
 .cost-list {
@@ -853,7 +853,7 @@ const sharedComponentsCSS = `
 }
 
 .notification-message {
-    color: #4b5563;
+    color: #111827;
     font-size: 0.9rem;
 }
 
@@ -862,7 +862,7 @@ const sharedComponentsCSS = `
     border: none;
     font-size: 1.25rem;
     cursor: pointer;
-    color: #6b7280;
+    color: #1f2937;
     padding: 0;
     width: 24px;
     height: 24px;
@@ -872,7 +872,7 @@ const sharedComponentsCSS = `
 }
 
 .notification-close:hover {
-    color: #374151;
+    color: #111827;
 }
 
 .notification-success {

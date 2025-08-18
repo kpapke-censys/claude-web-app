@@ -64,7 +64,7 @@ class HeroCraftingGame {
                 tank: {
                     name: 'Tank',
                     icon: '🛡️',
-                    color: '#374151',
+                    color: '#111827',
                     description: 'Defensive juggernauts who protect allies',
                     stats: { attack: 4, defense: 10, speed: 2, magic: 4 },
                     unlocked: false,
@@ -1123,7 +1123,7 @@ const heroCraftingCSS = `
 
 .class-info p {
     margin: 0;
-    color: #6b7280;
+    color: #1f2937;
     font-size: 0.9rem;
 }
 
@@ -1131,7 +1131,7 @@ const heroCraftingCSS = `
     position: absolute;
     top: -0.5rem;
     right: -0.5rem;
-    background: #6b7280;
+    background: #1f2937;
     color: white;
     border-radius: 50%;
     width: 2rem;
@@ -1237,7 +1237,7 @@ const heroCraftingCSS = `
     grid-column: 1 / -1;
     text-align: center;
     padding: 3rem 1rem;
-    color: #6b7280;
+    color: #1f2937;
 }
 
 .empty-icon {
@@ -1641,7 +1641,7 @@ const heroCraftingCSS = `
     
     body:not(.light-theme) .class-card.locked,
     body:not(.light-theme) .class-details-card.locked {
-        background: #374151;
+        background: #111827;
     }
     
     body:not(.light-theme) .hero-info h4,

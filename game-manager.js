@@ -91,6 +91,9 @@ class GameManager {
             case 'houseSearch':
                 this.launchHouseSearch(userData);
                 break;
+            case 'journalApp':
+                this.launchJournalApp(userData);
+                break;
             default:
                 console.error('Unknown game:', gameId);
                 this.returnToMenu();
@@ -201,6 +204,27 @@ class GameManager {
         }
         
         this.setupGameSaveIntegration('houseSearch');
+    }
+
+    launchJournalApp(userData) {
+        if (!this.gameInstances.journalApp) {
+            this.gameInstances.journalApp = new JournalApp(this.sharedSystems);
+            this.currentGame = this.gameInstances.journalApp;
+            window.journalApp = this.currentGame; // Set global reference for easy access
+        } else {
+            this.currentGame = this.gameInstances.journalApp;
+            window.journalApp = this.currentGame;
+        }
+        
+        // Initialize the game
+        this.currentGame.init();
+        
+        // Load user data if available
+        if (userData) {
+            this.currentGame.gameState = { ...this.currentGame.gameState, ...userData };
+        }
+        
+        this.setupGameSaveIntegration('journalApp');
     }
 
     setupGameSaveIntegration(gameId) {
@@ -588,7 +612,8 @@ document.addEventListener('DOMContentLoaded', () => {
                typeof GameMenu !== 'undefined' && 
                typeof BusinessTycoonGame !== 'undefined' &&
                typeof HearthstoneBattlegrounds !== 'undefined' &&
-               typeof HouseSearchGame !== 'undefined';
+               typeof HouseSearchGame !== 'undefined' &&
+               typeof JournalApp !== 'undefined';
     };
     
     // Initialize immediately if dependencies are ready

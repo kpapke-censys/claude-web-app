@@ -69,6 +69,17 @@ class GameMenu {
                 estimatedPlayTime: '5-15 min',
                 features: ['EPA database search', 'Environmental risk analysis', 'AI-powered summaries', 'Search history'],
                 implemented: true
+            },
+            journalApp: {
+                id: 'journalApp',
+                name: 'Life Journal',
+                icon: '📖',
+                description: 'Document your daily life with tags and insights. Track events, people, and experiences to reflect on your journey.',
+                category: 'Productivity',
+                difficulty: 'Easy',
+                estimatedPlayTime: '10-30 min',
+                features: ['Tag-based organization', 'Smart filtering', 'Analytics & insights', 'Search functionality'],
+                implemented: true
             }
         };
         

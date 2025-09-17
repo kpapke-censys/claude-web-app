@@ -21,12 +21,26 @@ class JournalApp {
         
         this.currentPage = 0;
         this.editingEntryId = null;
-        this.components = window.SharedComponents;
+        this.components = null;
         this.isInitialized = false;
     }
 
     init() {
         if (this.isInitialized) return;
+        
+        // Initialize components
+        this.components = window.SharedComponents;
+        if (!this.components) {
+            console.error('Journal App: SharedComponents not available during init');
+            // Try again in a short delay
+            setTimeout(() => {
+                if (window.SharedComponents) {
+                    this.components = window.SharedComponents;
+                    this.init();
+                }
+            }, 100);
+            return;
+        }
         
         this.loadGameState();
         this.setupUI();
@@ -43,7 +57,16 @@ class JournalApp {
 
     setupUI() {
         const gameContainer = document.querySelector('.game-container');
-        if (!gameContainer) return;
+        if (!gameContainer) {
+            console.error('Journal App: Game container not found');
+            return;
+        }
+
+        // Check if components are available
+        if (!this.components) {
+            console.error('Journal App: SharedComponents not available');
+            return;
+        }
 
         // Clear existing content
         gameContainer.innerHTML = '';
@@ -69,12 +92,12 @@ class JournalApp {
 
         const tabNavigation = this.components.createTabNavigation(tabs);
 
-        // Create tab content
-        this.setupTabContent();
-
-        // Assemble UI
+        // Assemble UI first
         gameContainer.appendChild(header);
         gameContainer.appendChild(tabNavigation);
+
+        // Create tab content after elements are in DOM
+        this.setupTabContent();
 
         // Setup tab switching
         tabNavigation.addEventListener('tabChanged', (e) => {
@@ -82,12 +105,33 @@ class JournalApp {
         });
 
         gameContainer.style.display = 'block';
+        
+        // Ensure proper mobile display
+        gameContainer.style.minHeight = '100vh';
+        gameContainer.style.backgroundColor = '#ffffff';
+        
+        // Fix potential mobile viewport issues
+        if (window.innerWidth <= 768) {
+            gameContainer.style.paddingTop = '0';
+            gameContainer.style.overflow = 'auto';
+            gameContainer.style.webkitOverflowScrolling = 'touch';
+        }
     }
 
     setupTabContent() {
         const writeTab = document.getElementById('write-tab');
         const browseTab = document.getElementById('browse-tab');
         const analyticsTab = document.getElementById('analytics-tab');
+
+        // Add error checking
+        if (!writeTab || !browseTab || !analyticsTab) {
+            console.error('Journal App: Tab elements not found in DOM', {
+                writeTab: !!writeTab,
+                browseTab: !!browseTab,
+                analyticsTab: !!analyticsTab
+            });
+            return;
+        }
 
         // Write Entry Tab
         writeTab.innerHTML = `

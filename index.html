@@ -3,379 +3,681 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#1e3a8a">
-    <meta name="description" content="Ship Rekt - Build your pirate fleet in this swashbuckling adventure">
+    <meta name="theme-color" content="#0ea5e9">
+    <meta name="description" content="GameHub - Your ultimate gaming platform with Ship Rekt, adventures, strategy games, and more">
+    <meta name="keywords" content="games, gaming, PWA, Ship Rekt, strategy, adventure, mobile games">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>Ship Rekt</title>
+    
+    <title>GameHub - Ultimate Gaming Platform</title>
     
     <!-- PWA Meta Tags -->
-    <link rel="manifest" href="manifest.json?v=1.0.2">
+    <link rel="manifest" href="manifest.json?v=2.0">
     <link rel="apple-touch-icon" href="icons/icon-192x192.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Ship Rekt">
+    <meta name="apple-mobile-web-app-title" content="GameHub">
     
-    <link rel="stylesheet" href="styles.css?v=1.0.2">
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="styles.css?v=2.0" as="style">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css?v=2.0">
+    
+    <!-- Theme Detection -->
+    <script>
+        // Detect theme preference immediately to prevent flash
+        const theme = localStorage.getItem('theme') || 'auto';
+        if (theme === 'dark' || (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+    </script>
 </head>
 <body>
-    <!-- Game menu will be injected here by JavaScript -->
-    
-    <div class="game-container particle-bg">
-        <header class="game-header glassmorphism-strong">
-            <div class="company-info">
-                <h1 id="companyName" class="icon-pulse">🏴‍☠️ Your Pirate Fleet</h1>
-                <div class="level-info">
-                    <span>Level <span id="level">1</span></span>
-                    <span class="separator"> | </span>
-                    <span id="companyType">Dinghy</span>
-                </div>
-            </div>
-            <div class="resources">
-                <div class="resource interactive-lift morph-border">
-                    <span class="resource-icon icon-bounce">🪙</span>
-                    <span id="money">1,000 Gold</span>
-                </div>
-                <div class="resource interactive-lift morph-border">
-                    <span class="resource-icon">👨‍☠️</span>
-                    <span id="workers">0</span>
-                </div>
-                <div class="resource interactive-lift morph-border">
-                    <span class="resource-icon icon-rotate">⛵</span>
-                    <span id="income">0 Gold/sec</span>
+    <!-- App Shell -->
+    <div class="app" id="app">
+        
+        <!-- Header -->
+        <header class="header" role="banner">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo">
+                        <span class="logo-icon animate-pulse" aria-hidden="true">🎮</span>
+                        <span class="logo-text">GameHub</span>
+                    </div>
+                    
+                    <nav class="nav-tabs" role="navigation" aria-label="Main navigation">
+                        <button class="nav-tab active" data-view="hub" aria-controls="hub-view">
+                            🏠 Hub
+                        </button>
+                        <button class="nav-tab" data-view="ship-rekt" aria-controls="ship-rekt-view">
+                            🏴‍☠️ Ship Rekt
+                        </button>
+                        <button class="nav-tab" data-view="games" aria-controls="games-view">
+                            🎯 Games
+                        </button>
+                        <button class="nav-tab" data-view="settings" aria-controls="settings-view">
+                            ⚙️ Settings
+                        </button>
+                    </nav>
+                    
+                    <div class="header-actions">
+                        <button class="btn btn-ghost" id="themeToggle" aria-label="Toggle theme">
+                            <span class="theme-icon">🌓</span>
+                        </button>
+                        <button class="btn btn-primary" id="installBtn" style="display: none;">
+                            📱 Install
+                        </button>
+                    </div>
                 </div>
             </div>
         </header>
 
-        <main class="game-main page-transition">
-            <div class="tabs shadow-floating">
-                <button class="tab-btn active btn-quantum" data-tab="buildings">🏝️ Build</button>
-                <button class="tab-btn" data-tab="stats">📊 Status</button>
-            </div>
+        <!-- Main Content -->
+        <main class="main" role="main">
+            
+            <!-- Hub View (Landing Page) -->
+            <div class="view active animate-fade-in" id="hub-view">
+                <div class="main-content">
+                    
+                    <!-- Hero Section -->
+                    <section class="hero" aria-labelledby="hero-heading">
+                        <div class="container">
+                            <div class="hero-content text-center">
+                                <h1 id="hero-heading" class="hero-title text-3xl font-bold">
+                                    Welcome to GameHub
+                                </h1>
+                                <p class="hero-description text-lg text-secondary">
+                                    Your ultimate gaming platform featuring Ship Rekt pirate adventures, 
+                                    strategy games, and immersive experiences. Play anywhere, anytime!
+                                </p>
+                                <div class="hero-actions flex justify-center gap-4">
+                                    <button class="btn btn-primary" data-action="play-ship-rekt">
+                                        🏴‍☠️ Start Ship Rekt
+                                    </button>
+                                    <button class="btn btn-secondary" data-action="view-games">
+                                        🎮 Browse Games
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
 
-            <div class="tab-content active" id="buildings-tab">
-                <div class="buildings-grid" id="buildingsGrid">
-                    <!-- Buildings will be populated by JavaScript -->
+                    <!-- Featured Games -->
+                    <section class="featured-games" aria-labelledby="featured-heading">
+                        <div class="container">
+                            <h2 id="featured-heading" class="text-2xl font-bold text-center">Featured Games</h2>
+                            
+                            <div class="games-grid stagger-container">
+                                
+                                <div class="card game-card" data-game="ship-rekt" tabindex="0" role="button" aria-label="Play Ship Rekt">
+                                    <div class="card-header">
+                                        <div class="game-icon">🏴‍☠️</div>
+                                        <h3 class="card-title">Ship Rekt</h3>
+                                        <p class="card-description">
+                                            Build your pirate empire from a humble fishing dock to a legendary fleet. 
+                                            Hire crew, raid treasure, and become the most feared captain on the seven seas!
+                                        </p>
+                                    </div>
+                                    <div class="game-stats">
+                                        <div class="badge badge-primary">Strategy</div>
+                                        <div class="badge badge-success">Offline Play</div>
+                                    </div>
+                                </div>
+
+                                <div class="card game-card" data-game="survival" tabindex="0" role="button" aria-label="Play Survival Adventure">
+                                    <div class="card-header">
+                                        <div class="game-icon">🏕️</div>
+                                        <h3 class="card-title">Survival Adventure</h3>
+                                        <p class="card-description">
+                                            Survive in the wilderness, craft tools, build shelter, and explore a vast 
+                                            open world filled with dangers and discoveries.
+                                        </p>
+                                    </div>
+                                    <div class="game-stats">
+                                        <div class="badge badge-warning">Adventure</div>
+                                        <div class="badge badge-success">Sandbox</div>
+                                    </div>
+                                </div>
+
+                                <div class="card game-card" data-game="hero-crafting" tabindex="0" role="button" aria-label="Play Hero Crafting">
+                                    <div class="card-header">
+                                        <div class="game-icon">⚔️</div>
+                                        <h3 class="card-title">Hero Crafting</h3>
+                                        <p class="card-description">
+                                            Forge legendary weapons, craft powerful armor, and embark on epic quests 
+                                            to become the greatest hero in the realm.
+                                        </p>
+                                    </div>
+                                    <div class="game-stats">
+                                        <div class="badge badge-primary">RPG</div>
+                                        <div class="badge badge-warning">Crafting</div>
+                                    </div>
+                                </div>
+
+                                <div class="card game-card" data-game="strategy" tabindex="0" role="button" aria-label="Play Strategy Wars">
+                                    <div class="card-header">
+                                        <div class="game-icon">🏰</div>
+                                        <h3 class="card-title">Strategy Wars</h3>
+                                        <p class="card-description">
+                                            Command armies, build empires, and conquer territories in this deep 
+                                            strategy game that challenges your tactical thinking.
+                                        </p>
+                                    </div>
+                                    <div class="game-stats">
+                                        <div class="badge badge-primary">Strategy</div>
+                                        <div class="badge badge-warning">Multiplayer</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Platform Features -->
+                    <section class="platform-features" aria-labelledby="features-heading">
+                        <div class="container">
+                            <h2 id="features-heading" class="text-2xl font-bold text-center">Platform Features</h2>
+                            
+                            <div class="features-grid grid grid-cols-1 md:grid-cols-3 gap-6">
+                                
+                                <div class="feature card">
+                                    <div class="feature-icon text-3xl">⚡</div>
+                                    <h3 class="feature-title font-semibold">Lightning Fast</h3>
+                                    <p class="feature-description text-sm text-secondary">
+                                        Instant loading with progressive web app technology. 
+                                        Play immediately without downloads or installations.
+                                    </p>
+                                </div>
+
+                                <div class="feature card">
+                                    <div class="feature-icon text-3xl">📱</div>
+                                    <h3 class="feature-title font-semibold">Cross-Platform</h3>
+                                    <p class="feature-description text-sm text-secondary">
+                                        Seamless experience across desktop, tablet, and mobile. 
+                                        Your progress syncs automatically everywhere.
+                                    </p>
+                                </div>
+
+                                <div class="feature card">
+                                    <div class="feature-icon text-3xl">🔒</div>
+                                    <h3 class="feature-title font-semibold">Secure & Private</h3>
+                                    <p class="feature-description text-sm text-secondary">
+                                        Your data stays on your device. No tracking, no ads, 
+                                        just pure gaming experience with local storage.
+                                    </p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </section>
+
                 </div>
             </div>
 
-            <div class="tab-content" id="stats-tab">
-                <div class="stats-container">
-                    <div class="stat-group card-enhanced shadow-elevated">
-                        <h3>Progress</h3>
-                        <div class="stat-item">
-                            <span>Total Treasure:</span>
-                            <span id="totalValue">1,000 Gold</span>
+            <!-- Ship Rekt Game View -->
+            <div class="view" id="ship-rekt-view">
+                <div class="main-content">
+                    
+                    <!-- Game Status Bar -->
+                    <div class="game-status">
+                        <div class="game-info">
+                            <h2 class="game-title text-xl font-bold">
+                                <span class="game-icon animate-pulse">🏴‍☠️</span>
+                                <span id="companyName">Your Pirate Fleet</span>
+                            </h2>
+                            <div class="game-level">
+                                <span>Level <span id="level">1</span></span>
+                                <span class="separator"> | </span>
+                                <span id="companyType">Dinghy</span>
+                            </div>
                         </div>
-                        <div class="stat-item">
-                            <span>Next Goal:</span>
-                            <span id="nextGoal">Discover first island</span>
+                        
+                        <div class="resources">
+                            <div class="resource">
+                                <span class="resource-icon">🪙</span>
+                                <span id="money">1,000 Gold</span>
+                            </div>
+                            <div class="resource">
+                                <span class="resource-icon">👨‍☠️</span>
+                                <span id="workers">0</span>
+                            </div>
+                            <div class="resource">
+                                <span class="resource-icon">⛵</span>
+                                <span id="income">0 Gold/sec</span>
+                            </div>
                         </div>
-                        <div class="progress-enhanced">
-                            <div class="progress-fill" id="progressFill" style="width: 10%"></div>
+                    </div>
+
+                    <!-- Game Tabs -->
+                    <nav class="nav-tabs game-tabs" role="navigation" aria-label="Game sections">
+                        <button class="nav-tab active" data-tab="buildings">🏝️ Build</button>
+                        <button class="nav-tab" data-tab="workers">👨‍☠️ Crew</button>
+                        <button class="nav-tab" data-tab="research">🔬 Research</button>
+                        <button class="nav-tab" data-tab="stats">📊 Stats</button>
+                    </nav>
+
+                    <!-- Game Content Areas -->
+                    <div class="game-content">
+                        
+                        <div class="tab-content active" id="buildings-tab">
+                            <div class="buildings-grid" id="buildingsGrid">
+                                <!-- Buildings will be populated by JavaScript -->
+                            </div>
+                        </div>
+
+                        <div class="tab-content" id="workers-tab">
+                            <div class="workers-grid" id="workersGrid">
+                                <!-- Workers will be populated by JavaScript -->
+                            </div>
+                        </div>
+
+                        <div class="tab-content" id="research-tab">
+                            <div class="research-grid" id="researchGrid">
+                                <!-- Research will be populated by JavaScript -->
+                            </div>
+                        </div>
+
+                        <div class="tab-content" id="stats-tab">
+                            <div class="stats-container">
+                                <div class="stat-group card">
+                                    <h3 class="stat-title">Progress</h3>
+                                    <div class="stat-item">
+                                        <span>Total Treasure:</span>
+                                        <span id="totalValue">1,000 Gold</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span>Next Goal:</span>
+                                        <span id="nextGoal">Discover first island</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="progressFill" style="width: 10%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- All Games View -->
+            <div class="view" id="games-view">
+                <div class="main-content">
+                    <div class="container">
+                        <h2 class="text-2xl font-bold text-center">All Games</h2>
+                        
+                        <div class="games-grid stagger-container" id="allGamesGrid">
+                            <!-- All games will be populated here -->
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Settings View -->
+            <div class="view" id="settings-view">
+                <div class="main-content">
+                    <div class="container">
+                        <h2 class="text-2xl font-bold">Settings</h2>
+                        
+                        <div class="settings-grid">
+                            
+                            <div class="setting-group card">
+                                <h3 class="setting-title">Appearance</h3>
+                                
+                                <div class="setting-item">
+                                    <label class="setting-label">Theme</label>
+                                    <select class="input" id="themeSelect">
+                                        <option value="auto">Auto</option>
+                                        <option value="light">Light</option>
+                                        <option value="dark">Dark</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="setting-item">
+                                    <label class="setting-label">
+                                        <input type="checkbox" id="reducedMotion"> Reduce animations
+                                    </label>
+                                </div>
+                                
+                            </div>
+
+                            <div class="setting-group card">
+                                <h3 class="setting-title">Gameplay</h3>
+                                
+                                <div class="setting-item">
+                                    <label class="setting-label">
+                                        <input type="checkbox" id="autoSave" checked> Auto-save progress
+                                    </label>
+                                </div>
+                                
+                                <div class="setting-item">
+                                    <label class="setting-label">
+                                        <input type="checkbox" id="notifications"> Enable notifications
+                                    </label>
+                                </div>
+                                
+                            </div>
+
+                            <div class="setting-group card">
+                                <h3 class="setting-title">Data & Storage</h3>
+                                
+                                <div class="setting-item">
+                                    <button class="btn btn-secondary" id="exportData">
+                                        📤 Export Save Data
+                                    </button>
+                                </div>
+                                
+                                <div class="setting-item">
+                                    <button class="btn btn-secondary" id="importData">
+                                        📥 Import Save Data
+                                    </button>
+                                </div>
+                                
+                                <div class="setting-item">
+                                    <button class="btn btn-ghost" id="clearCache">
+                                        🔄 Clear Cache
+                                    </button>
+                                </div>
+                                
+                                <div class="setting-item">
+                                    <button class="btn" id="resetData" style="background: var(--color-error-500); color: white;">
+                                        🗑️ Reset All Data
+                                    </button>
+                                </div>
+                                
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </main>
 
-        <!-- Enhanced Floating Action Button -->
-        <button class="fab" id="enhancedFab" title="Quick Actions">
-            <span class="icon-pulse">⚡</span>
-        </button>
-
-        <footer class="game-footer glassmorphism">
-            <div class="pwa-controls">
-                <div class="footer-left">
-                    <button id="installBtn" class="install-btn btn-quantum" style="display: none;">
-                        🏴‍☠️ Join Crew
-                    </button>
-                    <button id="themeToggle" class="theme-btn interactive-lift" title="Toggle Theme">
-                        🌓 Theme
-                    </button>
-                </div>
-                <div class="status-indicators">
-                    <span id="onlineStatus" class="icon-bounce">🟢 Online</span>
-                    <span id="saveStatus" class="loading-dots">💾 Auto-saving</span>
-                    <button id="clearCacheBtn" class="btn interactive-lift" onclick="clearAppCache()" style="background: var(--error-500); color: white; border: none; padding: 0.25rem 0.5rem; border-radius: var(--radius-lg); font-size: 0.8rem; cursor: pointer; margin-left: 0.5rem;" title="Clear cache and reload with fresh content">🔄 Refresh</button>
+        <!-- Footer -->
+        <footer class="footer" role="contentinfo">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-info">
+                        <span class="status-indicator" id="onlineStatus">🟢 Online</span>
+                        <span class="status-indicator" id="saveStatus">💾 Auto-saved</span>
+                    </div>
+                    
+                    <div class="footer-actions">
+                        <button class="btn btn-ghost" id="aboutBtn">About</button>
+                        <button class="btn btn-ghost" id="helpBtn">Help</button>
+                    </div>
                 </div>
             </div>
         </footer>
-    </div>
-    
-    <!-- Load new system files -->
-    <script src="shared-components.js?v=1.0.2"></script>
-    <script src="user-system.js?v=1.0.2"></script>
-    <script src="game-menu.js?v=1.0.2"></script>
-    <script src="survival-game.js?v=1.0.2"></script>
-    <script src="strategy-game.js?v=1.0.2"></script>
-    <script src="hero-crafting-game.js?v=1.0.2"></script>
-    <script src="hearthstone-battlegrounds.js?v=1.0.2"></script>
-    <script src="house-search.js?v=1.0.2"></script>
-    <script src="journal-app.js?v=1.0.2"></script>
-    <script src="game-manager.js?v=1.0.2"></script>
-    
-    <!-- Load original business tycoon game (will be integrated) -->
-    <script src="app.js?v=1.0.2"></script>
-    
-    <script>
-        // Global function to clear cache
-        async function clearAppCache() {
-            if ('serviceWorker' in navigator && 'caches' in window) {
-                try {
-                    // Unregister all service workers
-                    const registrations = await navigator.serviceWorker.getRegistrations();
-                    for (let registration of registrations) {
-                        await registration.unregister();
-                    }
-                    
-                    // Clear all caches
-                    const cacheNames = await caches.keys();
-                    await Promise.all(
-                        cacheNames.map(cacheName => caches.delete(cacheName))
-                    );
-                    
-                    console.log('All caches cleared successfully');
-                    alert('Cache cleared! The page will now reload with fresh content.');
-                    
-                    // Force reload from server
-                    window.location.reload(true);
-                } catch (error) {
-                    console.error('Failed to clear cache:', error);
-                    alert('Failed to clear cache. Please try again.');
-                }
-            } else {
-                // Fallback for browsers without service worker support
-                window.location.reload(true);
-            }
-        }
 
-        // Enhanced Frontend Design Features
-        class FrontendDesignEnhancer {
+        <!-- Floating Action Button -->
+        <button class="fab" id="fab" aria-label="Quick actions" title="Quick actions">
+            ⚡
+        </button>
+
+    </div>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-logo animate-pulse">🎮</div>
+            <div class="loading-text">Loading GameHub...</div>
+            <div class="loading-progress">
+                <div class="loading-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals and Overlays will be inserted here by JavaScript -->
+    <div id="modals"></div>
+    <div id="toasts" class="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="shared-components.js?v=2.0" defer></script>
+    <script src="user-system.js?v=2.0" defer></script>
+    <script src="game-menu.js?v=2.0" defer></script>
+    <script src="survival-game.js?v=2.0" defer></script>
+    <script src="strategy-game.js?v=2.0" defer></script>
+    <script src="hero-crafting-game.js?v=2.0" defer></script>
+    <script src="hearthstone-battlegrounds.js?v=2.0" defer></script>
+    <script src="house-search.js?v=2.0" defer></script>
+    <script src="journal-app.js?v=2.0" defer></script>
+    <script src="game-manager.js?v=2.0" defer></script>
+    <script src="app.js?v=2.0" defer></script>
+
+    <!-- App Initialization -->
+    <script>
+        // Performance monitoring
+        const startTime = performance.now();
+        
+        // Theme management
+        class ThemeManager {
             constructor() {
-                this.currentTheme = localStorage.getItem('theme') || 'auto';
+                this.theme = localStorage.getItem('theme') || 'auto';
                 this.init();
             }
 
             init() {
-                this.initThemeToggle();
-                this.initFloatingActionButton();
-                this.initStaggerAnimations();
-                this.initCardEnhancements();
-                this.initParallaxEffects();
-                this.applyTheme(this.currentTheme);
+                this.applyTheme();
+                this.setupThemeToggle();
+                this.setupSystemThemeListener();
             }
 
-            initThemeToggle() {
-                const themeToggle = document.getElementById('themeToggle');
-                if (themeToggle) {
-                    themeToggle.addEventListener('click', () => {
-                        this.cycleTheme();
-                    });
+            applyTheme() {
+                const root = document.documentElement;
+                const body = document.body;
+                
+                if (this.theme === 'auto') {
+                    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    root.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+                } else {
+                    root.setAttribute('data-theme', this.theme);
+                }
+                
+                // Update theme toggle icon
+                const themeIcon = document.querySelector('.theme-icon');
+                if (themeIcon) {
+                    const icons = { auto: '🌓', light: '☀️', dark: '🌙' };
+                    themeIcon.textContent = icons[this.theme];
+                }
+                
+                // Update select in settings
+                const themeSelect = document.getElementById('themeSelect');
+                if (themeSelect) {
+                    themeSelect.value = this.theme;
                 }
             }
 
-            cycleTheme() {
+            toggleTheme() {
                 const themes = ['auto', 'light', 'dark'];
-                const currentIndex = themes.indexOf(this.currentTheme);
-                const nextIndex = (currentIndex + 1) % themes.length;
-                this.currentTheme = themes[nextIndex];
+                const currentIndex = themes.indexOf(this.theme);
+                this.theme = themes[(currentIndex + 1) % themes.length];
                 
-                localStorage.setItem('theme', this.currentTheme);
-                this.applyTheme(this.currentTheme);
-                
-                // Update button text
+                localStorage.setItem('theme', this.theme);
+                this.applyTheme();
+            }
+
+            setupThemeToggle() {
                 const themeToggle = document.getElementById('themeToggle');
-                const icons = { auto: '🌓', light: '☀️', dark: '🌙' };
+                const themeSelect = document.getElementById('themeSelect');
+                
                 if (themeToggle) {
-                    themeToggle.innerHTML = `${icons[this.currentTheme]} Theme`;
+                    themeToggle.addEventListener('click', () => this.toggleTheme());
                 }
-            }
-
-            applyTheme(theme) {
-                document.documentElement.setAttribute('data-theme', theme);
-                if (theme !== 'auto') {
-                    document.body.className = theme === 'dark' ? 'dark-theme' : 'light-theme';
-                } else {
-                    document.body.className = '';
-                }
-            }
-
-            initFloatingActionButton() {
-                const fab = document.getElementById('enhancedFab');
-                if (fab) {
-                    fab.addEventListener('click', () => {
-                        this.showQuickActionsMenu();
+                
+                if (themeSelect) {
+                    themeSelect.addEventListener('change', (e) => {
+                        this.theme = e.target.value;
+                        localStorage.setItem('theme', this.theme);
+                        this.applyTheme();
                     });
                 }
             }
 
-            showQuickActionsMenu() {
-                // Create a simple modal or menu for quick actions
-                const actions = [
-                    { icon: '🎨', text: 'Toggle Animations', action: () => this.toggleAnimations() },
-                    { icon: '🔄', text: 'Reset Layout', action: () => this.resetLayout() },
-                    { icon: '✨', text: 'Particle Effects', action: () => this.toggleParticles() }
-                ];
-                
-                const existing = document.querySelector('.quick-actions-menu');
-                if (existing) {
-                    existing.remove();
-                    return;
-                }
-
-                const menu = document.createElement('div');
-                menu.className = 'quick-actions-menu glassmorphism-strong shadow-dramatic';
-                menu.style.cssText = `
-                    position: fixed;
-                    bottom: 140px;
-                    right: var(--space-8);
-                    background: rgba(255, 255, 255, 0.15);
-                    border-radius: var(--radius-xl);
-                    padding: var(--space-4);
-                    z-index: var(--z-modal);
-                    min-width: 200px;
-                    transform: scale(0);
-                    animation: menuSlideIn 0.3s ease forwards;
-                `;
-
-                actions.forEach((action, index) => {
-                    const item = document.createElement('button');
-                    item.className = 'btn interactive-lift stagger-item';
-                    item.style.cssText = `
-                        width: 100%;
-                        margin-bottom: var(--space-2);
-                        justify-content: flex-start;
-                        animation-delay: ${(index + 1) * 0.1}s;
-                    `;
-                    item.innerHTML = `${action.icon} ${action.text}`;
-                    item.onclick = () => {
-                        action.action();
-                        menu.remove();
-                    };
-                    menu.appendChild(item);
-                });
-
-                document.body.appendChild(menu);
-                
-                // Auto-close after 5 seconds
-                setTimeout(() => {
-                    if (menu.parentNode) menu.remove();
-                }, 5000);
-            }
-
-            toggleAnimations() {
-                document.body.classList.toggle('reduced-motion');
-                if (document.body.classList.contains('reduced-motion')) {
-                    document.body.style.setProperty('--transition-fast', '0ms');
-                    document.body.style.setProperty('--transition-normal', '0ms');
-                    document.body.style.setProperty('--transition-slow', '0ms');
-                } else {
-                    document.body.style.removeProperty('--transition-fast');
-                    document.body.style.removeProperty('--transition-normal');
-                    document.body.style.removeProperty('--transition-slow');
-                }
-            }
-
-            resetLayout() {
-                // Add a visual reset animation
-                const main = document.querySelector('.game-main');
-                if (main) {
-                    main.style.animation = 'pageSlideOut 0.3s ease forwards';
-                    setTimeout(() => {
-                        main.style.animation = 'pageSlideIn 0.5s ease forwards';
-                    }, 300);
-                }
-            }
-
-            toggleParticles() {
-                const container = document.querySelector('.particle-bg');
-                if (container) {
-                    container.style.setProperty('--particle-opacity', 
-                        container.style.getPropertyValue('--particle-opacity') === '0' ? '1' : '0');
-                }
-            }
-
-            initStaggerAnimations() {
-                // Apply stagger animations to grid items when they appear
-                const observerCallback = (entries) => {
-                    entries.forEach((entry) => {
-                        if (entry.isIntersecting) {
-                            const children = entry.target.children;
-                            Array.from(children).forEach((child, index) => {
-                                child.classList.add('stagger-item');
-                                child.style.animationDelay = `${index * 0.1}s`;
-                            });
+            setupSystemThemeListener() {
+                if (this.theme === 'auto') {
+                    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+                    mediaQuery.addEventListener('change', () => {
+                        if (this.theme === 'auto') {
+                            this.applyTheme();
                         }
                     });
-                };
-
-                const observer = new IntersectionObserver(observerCallback, {
-                    threshold: 0.1
-                });
-
-                const grids = document.querySelectorAll('.buildings-grid, .games-grid');
-                grids.forEach(grid => observer.observe(grid));
-            }
-
-            initCardEnhancements() {
-                // Enhance existing cards with new classes
-                const enhanceCards = () => {
-                    const cards = document.querySelectorAll('.building-card, .worker-card, .research-card, .game-card');
-                    cards.forEach(card => {
-                        if (!card.classList.contains('card-enhanced')) {
-                            card.classList.add('card-enhanced', 'interactive-lift');
-                        }
-                    });
-                };
-
-                // Run initially and set up observer for dynamically added cards
-                enhanceCards();
-                
-                const observer = new MutationObserver(enhanceCards);
-                observer.observe(document.body, { 
-                    childList: true, 
-                    subtree: true 
-                });
-            }
-
-            initParallaxEffects() {
-                // Add subtle parallax scrolling to background elements
-                const handleScroll = () => {
-                    const scrolled = window.pageYOffset;
-                    const parallax = document.querySelector('.particle-bg::before');
-                    const rate = scrolled * -0.5;
-                    
-                    if (parallax) {
-                        parallax.style.transform = `translateY(${rate}px)`;
-                    }
-                };
-
-                window.addEventListener('scroll', handleScroll);
+                }
             }
         }
 
-        // Additional CSS animation for menu
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes menuSlideIn {
-                from {
-                    transform: scale(0) rotate(180deg);
-                    opacity: 0;
-                }
-                to {
-                    transform: scale(1) rotate(0deg);
-                    opacity: 1;
+        // App Router
+        class AppRouter {
+            constructor() {
+                this.currentView = 'hub';
+                this.init();
+            }
+
+            init() {
+                this.setupNavigation();
+                this.setupGameActions();
+            }
+
+            setupNavigation() {
+                const navTabs = document.querySelectorAll('.nav-tab[data-view]');
+                
+                navTabs.forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        const view = tab.dataset.view;
+                        this.navigateTo(view);
+                    });
+                });
+            }
+
+            setupGameActions() {
+                const playButtons = document.querySelectorAll('[data-action]');
+                
+                playButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const action = button.dataset.action;
+                        this.handleAction(action);
+                    });
+                });
+            }
+
+            navigateTo(view) {
+                // Update navigation state
+                const navTabs = document.querySelectorAll('.nav-tab[data-view]');
+                navTabs.forEach(tab => {
+                    tab.classList.toggle('active', tab.dataset.view === view);
+                });
+
+                // Update view visibility
+                const views = document.querySelectorAll('.view');
+                views.forEach(viewEl => {
+                    viewEl.classList.toggle('active', viewEl.id === `${view}-view`);
+                });
+
+                this.currentView = view;
+                
+                // Trigger view-specific setup
+                this.onViewChange(view);
+            }
+
+            handleAction(action) {
+                switch (action) {
+                    case 'play-ship-rekt':
+                        this.navigateTo('ship-rekt');
+                        break;
+                    case 'view-games':
+                        this.navigateTo('games');
+                        break;
+                    default:
+                        console.log('Unknown action:', action);
                 }
             }
-        `;
-        document.head.appendChild(style);
 
-        // Initialize enhanced design features when DOM is loaded
+            onViewChange(view) {
+                // Add view change animations
+                const activeView = document.querySelector('.view.active');
+                if (activeView) {
+                    activeView.classList.add('animate-fade-in');
+                    setTimeout(() => {
+                        activeView.classList.remove('animate-fade-in');
+                    }, 300);
+                }
+
+                // Trigger stagger animations for grids
+                const staggerContainers = document.querySelectorAll('.view.active .stagger-container');
+                staggerContainers.forEach(container => {
+                    const children = container.children;
+                    Array.from(children).forEach((child, index) => {
+                        child.style.animationDelay = `${index * 100}ms`;
+                        child.classList.add('animate-slide-up');
+                    });
+                });
+            }
+        }
+
+        // App initialization
         document.addEventListener('DOMContentLoaded', () => {
-            window.designEnhancer = new FrontendDesignEnhancer();
+            // Hide loading screen
+            const loadingScreen = document.getElementById('loadingScreen');
+            if (loadingScreen) {
+                loadingScreen.style.display = 'none';
+            }
+
+            // Initialize app systems
+            window.themeManager = new ThemeManager();
+            window.appRouter = new AppRouter();
+            
+            // Performance metrics
+            const loadTime = performance.now() - startTime;
+            console.log(`App loaded in ${loadTime.toFixed(2)}ms`);
+        });
+
+        // PWA Installation
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            const installBtn = document.getElementById('installBtn');
+            if (installBtn) {
+                installBtn.style.display = 'inline-flex';
+                installBtn.addEventListener('click', () => {
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.then((choiceResult) => {
+                        if (choiceResult.outcome === 'accepted') {
+                            console.log('User accepted the install prompt');
+                            installBtn.style.display = 'none';
+                        }
+                        deferredPrompt = null;
+                    });
+                });
+            }
+        });
+
+        // Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then((registration) => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch((registrationError) => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+
+        // Error handling
+        window.addEventListener('error', (event) => {
+            console.error('Global error:', event.error);
+        });
+
+        window.addEventListener('unhandledrejection', (event) => {
+            console.error('Unhandled promise rejection:', event.reason);
         });
     </script>
+
 </body>
 </html>

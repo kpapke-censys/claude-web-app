@@ -1,11 +1,11 @@
 {
-  "name": "Ship Rekt",
-  "short_name": "ShipRekt",
-  "description": "Build your pirate fleet in this swashbuckling adventure game",
-  "start_url": "./?v=1.0.2",
+  "name": "GameHub - Ultimate Gaming Platform",
+  "short_name": "GameHub",
+  "description": "Your ultimate gaming platform featuring Ship Rekt pirate adventures, strategy games, and immersive experiences",
+  "start_url": "./?v=2.0",
   "display": "standalone",
-  "background_color": "#1e40af",
-  "theme_color": "#1e3a8a",
+  "background_color": "#0ea5e9",
+  "theme_color": "#0284c7",
   "orientation": "portrait-primary",
   "categories": ["games", "entertainment"],
   "lang": "en",
@@ -79,10 +79,22 @@
   "prefer_related_applications": false,
   "shortcuts": [
     {
-      "name": "Port",
-      "short_name": "Port",
-      "description": "Return to your pirate port",
-      "url": "./",
+      "name": "Ship Rekt",
+      "short_name": "Ship Rekt",
+      "description": "Start your pirate adventure",
+      "url": "./?view=ship-rekt",
+      "icons": [
+        {
+          "src": "icons/icon-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "All Games",
+      "short_name": "Games",
+      "description": "Browse all available games",
+      "url": "./?view=games",
       "icons": [
         {
           "src": "icons/icon-192x192.png",

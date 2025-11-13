@@ -22,10 +22,10 @@
 <body>
     <!-- Game menu will be injected here by JavaScript -->
     
-    <div class="game-container">
-        <header class="game-header">
+    <div class="game-container particle-bg">
+        <header class="game-header glassmorphism-strong">
             <div class="company-info">
-                <h1 id="companyName">🏴‍☠️ Your Pirate Fleet</h1>
+                <h1 id="companyName" class="icon-pulse">🏴‍☠️ Your Pirate Fleet</h1>
                 <div class="level-info">
                     <span>Level <span id="level">1</span></span>
                     <span class="separator"> | </span>
@@ -33,24 +33,24 @@
                 </div>
             </div>
             <div class="resources">
-                <div class="resource">
-                    <span class="resource-icon">🪙</span>
+                <div class="resource interactive-lift morph-border">
+                    <span class="resource-icon icon-bounce">🪙</span>
                     <span id="money">1,000 Gold</span>
                 </div>
-                <div class="resource">
+                <div class="resource interactive-lift morph-border">
                     <span class="resource-icon">👨‍☠️</span>
                     <span id="workers">0</span>
                 </div>
-                <div class="resource">
-                    <span class="resource-icon">⛵</span>
+                <div class="resource interactive-lift morph-border">
+                    <span class="resource-icon icon-rotate">⛵</span>
                     <span id="income">0 Gold/sec</span>
                 </div>
             </div>
         </header>
 
-        <main class="game-main">
-            <div class="tabs">
-                <button class="tab-btn active" data-tab="buildings">🏝️ Build</button>
+        <main class="game-main page-transition">
+            <div class="tabs shadow-floating">
+                <button class="tab-btn active btn-quantum" data-tab="buildings">🏝️ Build</button>
                 <button class="tab-btn" data-tab="stats">📊 Status</button>
             </div>
 
@@ -60,10 +60,9 @@
                 </div>
             </div>
 
-
             <div class="tab-content" id="stats-tab">
                 <div class="stats-container">
-                    <div class="stat-group">
+                    <div class="stat-group card-enhanced shadow-elevated">
                         <h3>Progress</h3>
                         <div class="stat-item">
                             <span>Total Treasure:</span>
@@ -73,7 +72,7 @@
                             <span>Next Goal:</span>
                             <span id="nextGoal">Discover first island</span>
                         </div>
-                        <div class="progress-bar">
+                        <div class="progress-enhanced">
                             <div class="progress-fill" id="progressFill" style="width: 10%"></div>
                         </div>
                     </div>
@@ -81,17 +80,25 @@
             </div>
         </main>
 
-        <footer class="game-footer">
+        <!-- Enhanced Floating Action Button -->
+        <button class="fab" id="enhancedFab" title="Quick Actions">
+            <span class="icon-pulse">⚡</span>
+        </button>
+
+        <footer class="game-footer glassmorphism">
             <div class="pwa-controls">
                 <div class="footer-left">
-                    <button id="installBtn" class="install-btn" style="display: none;">
+                    <button id="installBtn" class="install-btn btn-quantum" style="display: none;">
                         🏴‍☠️ Join Crew
+                    </button>
+                    <button id="themeToggle" class="theme-btn interactive-lift" title="Toggle Theme">
+                        🌓 Theme
                     </button>
                 </div>
                 <div class="status-indicators">
-                    <span id="onlineStatus">🟢 Online</span>
-                    <span id="saveStatus">💾 Auto-saving</span>
-                    <button id="clearCacheBtn" onclick="clearAppCache()" style="background: #ef4444; color: white; border: none; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem; cursor: pointer; margin-left: 0.5rem;" title="Clear cache and reload with fresh content">🔄 Refresh</button>
+                    <span id="onlineStatus" class="icon-bounce">🟢 Online</span>
+                    <span id="saveStatus" class="loading-dots">💾 Auto-saving</span>
+                    <button id="clearCacheBtn" class="btn interactive-lift" onclick="clearAppCache()" style="background: var(--error-500); color: white; border: none; padding: 0.25rem 0.5rem; border-radius: var(--radius-lg); font-size: 0.8rem; cursor: pointer; margin-left: 0.5rem;" title="Clear cache and reload with fresh content">🔄 Refresh</button>
                 </div>
             </div>
         </footer>
@@ -143,6 +150,232 @@
                 window.location.reload(true);
             }
         }
+
+        // Enhanced Frontend Design Features
+        class FrontendDesignEnhancer {
+            constructor() {
+                this.currentTheme = localStorage.getItem('theme') || 'auto';
+                this.init();
+            }
+
+            init() {
+                this.initThemeToggle();
+                this.initFloatingActionButton();
+                this.initStaggerAnimations();
+                this.initCardEnhancements();
+                this.initParallaxEffects();
+                this.applyTheme(this.currentTheme);
+            }
+
+            initThemeToggle() {
+                const themeToggle = document.getElementById('themeToggle');
+                if (themeToggle) {
+                    themeToggle.addEventListener('click', () => {
+                        this.cycleTheme();
+                    });
+                }
+            }
+
+            cycleTheme() {
+                const themes = ['auto', 'light', 'dark'];
+                const currentIndex = themes.indexOf(this.currentTheme);
+                const nextIndex = (currentIndex + 1) % themes.length;
+                this.currentTheme = themes[nextIndex];
+                
+                localStorage.setItem('theme', this.currentTheme);
+                this.applyTheme(this.currentTheme);
+                
+                // Update button text
+                const themeToggle = document.getElementById('themeToggle');
+                const icons = { auto: '🌓', light: '☀️', dark: '🌙' };
+                if (themeToggle) {
+                    themeToggle.innerHTML = `${icons[this.currentTheme]} Theme`;
+                }
+            }
+
+            applyTheme(theme) {
+                document.documentElement.setAttribute('data-theme', theme);
+                if (theme !== 'auto') {
+                    document.body.className = theme === 'dark' ? 'dark-theme' : 'light-theme';
+                } else {
+                    document.body.className = '';
+                }
+            }
+
+            initFloatingActionButton() {
+                const fab = document.getElementById('enhancedFab');
+                if (fab) {
+                    fab.addEventListener('click', () => {
+                        this.showQuickActionsMenu();
+                    });
+                }
+            }
+
+            showQuickActionsMenu() {
+                // Create a simple modal or menu for quick actions
+                const actions = [
+                    { icon: '🎨', text: 'Toggle Animations', action: () => this.toggleAnimations() },
+                    { icon: '🔄', text: 'Reset Layout', action: () => this.resetLayout() },
+                    { icon: '✨', text: 'Particle Effects', action: () => this.toggleParticles() }
+                ];
+                
+                const existing = document.querySelector('.quick-actions-menu');
+                if (existing) {
+                    existing.remove();
+                    return;
+                }
+
+                const menu = document.createElement('div');
+                menu.className = 'quick-actions-menu glassmorphism-strong shadow-dramatic';
+                menu.style.cssText = `
+                    position: fixed;
+                    bottom: 140px;
+                    right: var(--space-8);
+                    background: rgba(255, 255, 255, 0.15);
+                    border-radius: var(--radius-xl);
+                    padding: var(--space-4);
+                    z-index: var(--z-modal);
+                    min-width: 200px;
+                    transform: scale(0);
+                    animation: menuSlideIn 0.3s ease forwards;
+                `;
+
+                actions.forEach((action, index) => {
+                    const item = document.createElement('button');
+                    item.className = 'btn interactive-lift stagger-item';
+                    item.style.cssText = `
+                        width: 100%;
+                        margin-bottom: var(--space-2);
+                        justify-content: flex-start;
+                        animation-delay: ${(index + 1) * 0.1}s;
+                    `;
+                    item.innerHTML = `${action.icon} ${action.text}`;
+                    item.onclick = () => {
+                        action.action();
+                        menu.remove();
+                    };
+                    menu.appendChild(item);
+                });
+
+                document.body.appendChild(menu);
+                
+                // Auto-close after 5 seconds
+                setTimeout(() => {
+                    if (menu.parentNode) menu.remove();
+                }, 5000);
+            }
+
+            toggleAnimations() {
+                document.body.classList.toggle('reduced-motion');
+                if (document.body.classList.contains('reduced-motion')) {
+                    document.body.style.setProperty('--transition-fast', '0ms');
+                    document.body.style.setProperty('--transition-normal', '0ms');
+                    document.body.style.setProperty('--transition-slow', '0ms');
+                } else {
+                    document.body.style.removeProperty('--transition-fast');
+                    document.body.style.removeProperty('--transition-normal');
+                    document.body.style.removeProperty('--transition-slow');
+                }
+            }
+
+            resetLayout() {
+                // Add a visual reset animation
+                const main = document.querySelector('.game-main');
+                if (main) {
+                    main.style.animation = 'pageSlideOut 0.3s ease forwards';
+                    setTimeout(() => {
+                        main.style.animation = 'pageSlideIn 0.5s ease forwards';
+                    }, 300);
+                }
+            }
+
+            toggleParticles() {
+                const container = document.querySelector('.particle-bg');
+                if (container) {
+                    container.style.setProperty('--particle-opacity', 
+                        container.style.getPropertyValue('--particle-opacity') === '0' ? '1' : '0');
+                }
+            }
+
+            initStaggerAnimations() {
+                // Apply stagger animations to grid items when they appear
+                const observerCallback = (entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            const children = entry.target.children;
+                            Array.from(children).forEach((child, index) => {
+                                child.classList.add('stagger-item');
+                                child.style.animationDelay = `${index * 0.1}s`;
+                            });
+                        }
+                    });
+                };
+
+                const observer = new IntersectionObserver(observerCallback, {
+                    threshold: 0.1
+                });
+
+                const grids = document.querySelectorAll('.buildings-grid, .games-grid');
+                grids.forEach(grid => observer.observe(grid));
+            }
+
+            initCardEnhancements() {
+                // Enhance existing cards with new classes
+                const enhanceCards = () => {
+                    const cards = document.querySelectorAll('.building-card, .worker-card, .research-card, .game-card');
+                    cards.forEach(card => {
+                        if (!card.classList.contains('card-enhanced')) {
+                            card.classList.add('card-enhanced', 'interactive-lift');
+                        }
+                    });
+                };
+
+                // Run initially and set up observer for dynamically added cards
+                enhanceCards();
+                
+                const observer = new MutationObserver(enhanceCards);
+                observer.observe(document.body, { 
+                    childList: true, 
+                    subtree: true 
+                });
+            }
+
+            initParallaxEffects() {
+                // Add subtle parallax scrolling to background elements
+                const handleScroll = () => {
+                    const scrolled = window.pageYOffset;
+                    const parallax = document.querySelector('.particle-bg::before');
+                    const rate = scrolled * -0.5;
+                    
+                    if (parallax) {
+                        parallax.style.transform = `translateY(${rate}px)`;
+                    }
+                };
+
+                window.addEventListener('scroll', handleScroll);
+            }
+        }
+
+        // Additional CSS animation for menu
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes menuSlideIn {
+                from {
+                    transform: scale(0) rotate(180deg);
+                    opacity: 0;
+                }
+                to {
+                    transform: scale(1) rotate(0deg);
+                    opacity: 1;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize enhanced design features when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            window.designEnhancer = new FrontendDesignEnhancer();
+        });
     </script>
 </body>
 </html>

@@ -11,14 +11,14 @@ class SharedComponents {
     // Create a consistent game header with navigation
     createGameHeader(config) {
         const header = document.createElement('header');
-        header.className = `${config.gameType || 'game'}-header shared-game-header`;
+        header.className = `${config.gameType || 'game'}-header shared-game-header glassmorphism-strong shadow-elevated`;
         
         header.innerHTML = `
-            <div class="game-header-content">
+            <div class="game-header-content particle-bg">
                 <div class="game-title-section">
-                    <div class="game-icon">${config.icon || '🎮'}</div>
+                    <div class="game-icon icon-pulse">${config.icon || '🎮'}</div>
                     <div class="game-title-info">
-                        <h1>${config.title || 'Game'}</h1>
+                        <h1 class="gradient-text">${config.title || 'Game'}</h1>
                         <p class="game-subtitle">${config.subtitle || ''}</p>
                     </div>
                 </div>
@@ -29,7 +29,10 @@ class SharedComponents {
                     </div>
                     
                     <div class="game-actions">
-                        <button id="mobileNavToggle" class="mobile-nav-toggle" title="Open menu">
+                        <button id="themeToggleHeader" class="theme-btn interactive-lift" title="Toggle Theme">
+                            🌓
+                        </button>
+                        <button id="mobileNavToggle" class="mobile-nav-toggle interactive-lift" title="Open menu">
                             <span class="hamburger-icon">
                                 <span></span>
                                 <span></span>
@@ -51,16 +54,16 @@ class SharedComponents {
         tabContainer.className = 'shared-tabs';
         
         tabContainer.innerHTML = `
-            <div class="tab-nav">
+            <div class="tab-nav shadow-floating">
                 ${tabs.map((tab, index) => `
-                    <button class="tab-btn ${index === 0 ? 'active' : ''}" 
+                    <button class="tab-btn ${index === 0 ? 'active btn-quantum' : 'interactive-lift'}" 
                             data-tab="${tab.id}" 
                             title="${tab.description || tab.name}">
-                        ${tab.icon} ${tab.name}
+                        <span class="icon-bounce">${tab.icon}</span> ${tab.name}
                     </button>
                 `).join('')}
             </div>
-            <div class="tab-content-container">
+            <div class="tab-content-container page-transition">
                 ${tabs.map((tab, index) => `
                     <div class="tab-content ${index === 0 ? 'active' : ''}" 
                          id="${tab.id}-tab">

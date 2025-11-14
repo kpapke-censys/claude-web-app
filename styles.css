@@ -151,6 +151,9 @@
   /* Terminal Grid System */
   --grid-cols: repeat(12, minmax(0, 1fr));
   --grid-gap: var(--space-4);
+  
+  /* Spacing utilities */
+  --section-spacing: 4rem;
 }
 
 /* Dark Theme (Primary) */
@@ -179,21 +182,37 @@
 
 /* Light Theme Override */
 :root[data-theme="light"] {
-  --bg-primary: var(--color-neutral-950);
-  --bg-secondary: var(--color-neutral-900);
-  --bg-tertiary: var(--color-neutral-800);
-  --bg-accent: var(--color-primary-800);
-  --bg-terminal: radial-gradient(ellipse at center, var(--color-neutral-900), var(--color-neutral-950));
+  /* Light backgrounds - use the lightest colors for bg */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-tertiary: #e2e8f0;
+  --bg-accent: #f1f5f9;
+  --bg-terminal: linear-gradient(135deg, #ffffff, #f8fafc);
   
-  --text-primary: var(--color-neutral-100);
-  --text-secondary: var(--color-neutral-300);
-  --text-tertiary: var(--color-neutral-500);
-  --text-accent: var(--color-secondary-400);
-  --text-glow: var(--color-accent-500);
+  /* Dark text on light backgrounds */
+  --text-primary: #1e293b;
+  --text-secondary: #475569;
+  --text-tertiary: #64748b;
+  --text-accent: var(--color-primary-600);
+  --text-glow: var(--color-primary-500);
   
-  --border-primary: var(--color-neutral-700);
-  --border-secondary: var(--color-primary-600);
-  --border-glow: var(--color-accent-400);
+  /* Borders for light mode */
+  --border-primary: #cbd5e1;
+  --border-secondary: #e2e8f0;
+  --border-glow: var(--color-primary-400);
+  
+  /* Button styles for light mode */
+  --button-primary-bg: linear-gradient(135deg, var(--color-primary-500), var(--color-primary-600));
+  --button-primary-text: #ffffff;
+  --button-secondary-bg: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+  --button-secondary-text: #334155;
+  
+  /* Light mode specific shadow adjustments */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+  --shadow-terminal: 0 8px 16px rgba(99, 102, 241, 0.1);
+  --shadow-glow: 0 0 15px rgba(99, 102, 241, 0.3);
 }
 
 /* =============================================================================
@@ -1153,4 +1172,58 @@ h1, h2, h3, h4, h5, h6 {
   .btn {
     border-width: 3px;
   }
+}
+
+/* =============================================================================
+   16. SPACING & LAYOUT UTILITIES
+   ============================================================================= */
+
+.section-spacing {
+  margin: var(--section-spacing) 0;
+}
+
+.section-spacing:first-child {
+  margin-top: 0;
+}
+
+.section-spacing:last-child {
+  margin-bottom: 0;
+}
+
+/* Margin utilities */
+.mb-8 {
+  margin-bottom: 2rem;
+}
+
+.mt-8 {
+  margin-top: 2rem;
+}
+
+.my-8 {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Game header styling */
+.game-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+}
+
+.game-description {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--space-6);
+}
+
+.game-description p {
+  margin-bottom: var(--space-4);
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-relaxed);
+}
+
+.game-description p:last-child {
+  margin-bottom: 0;
 }

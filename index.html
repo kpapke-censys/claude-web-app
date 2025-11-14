@@ -49,16 +49,13 @@
                     </div>
                     
                     <nav class="nav-tabs" role="navigation" aria-label="Main navigation">
-                        <button class="nav-tab active" data-view="hub" aria-controls="hub-view">
+                        <button class="nav-tab active" data-view="hub" data-route="/" aria-controls="hub-view">
                             🏠 Hub
                         </button>
-                        <button class="nav-tab" data-view="ship-rekt" aria-controls="ship-rekt-view">
-                            🏴‍☠️ Ship Rekt
-                        </button>
-                        <button class="nav-tab" data-view="games" aria-controls="games-view">
+                        <button class="nav-tab" data-view="games" data-route="/games" aria-controls="games-view">
                             🎯 Games
                         </button>
-                        <button class="nav-tab" data-view="settings" aria-controls="settings-view">
+                        <button class="nav-tab" data-view="settings" data-route="/settings" aria-controls="settings-view">
                             ⚙️ Settings
                         </button>
                     </nav>
@@ -90,12 +87,12 @@
                                     Welcome to GameHub
                                 </h1>
                                 <p class="hero-description text-lg text-secondary">
-                                    Your ultimate gaming platform featuring Ship Rekt pirate adventures, 
-                                    strategy games, and immersive experiences. Play anywhere, anytime!
+                                    Your ultimate gaming platform featuring survival adventures, 
+                                    strategy games, and immersive RPG experiences. Play anywhere, anytime!
                                 </p>
                                 <div class="hero-actions flex justify-center gap-4">
-                                    <button class="btn btn-primary" data-action="play-ship-rekt">
-                                        🏴‍☠️ Start Ship Rekt
+                                    <button class="btn btn-primary" data-action="play-survival">
+                                        🏕️ Start Adventure
                                     </button>
                                     <button class="btn btn-secondary" data-action="view-games">
                                         🎮 Browse Games
@@ -106,58 +103,13 @@
                     </section>
 
                     <!-- Featured Games -->
-                    <section class="featured-games" aria-labelledby="featured-heading">
+                    <section class="featured-games section-spacing" aria-labelledby="featured-heading">
                         <div class="container">
-                            <h2 id="featured-heading" class="text-2xl font-bold text-center">Featured Games</h2>
+                            <h2 id="featured-heading" class="text-2xl font-bold text-center mb-8">Featured Games</h2>
                             
                             <div class="games-grid stagger-container">
                                 
-                                <div class="card game-card" data-game="ship-rekt" tabindex="0" role="button" aria-label="Play Ship Rekt">
-                                    <div class="card-header">
-                                        <div class="game-icon">🏴‍☠️</div>
-                                        <h3 class="card-title">Ship Rekt</h3>
-                                        <p class="card-description">
-                                            Build your pirate empire from a humble fishing dock to a legendary fleet. 
-                                            Hire crew, raid treasure, and become the most feared captain on the seven seas!
-                                        </p>
-                                    </div>
-                                    <div class="game-stats">
-                                        <div class="badge badge-primary">Strategy</div>
-                                        <div class="badge badge-success">Offline Play</div>
-                                    </div>
-                                </div>
-
-                                <div class="card game-card" data-game="survival" tabindex="0" role="button" aria-label="Play Survival Adventure">
-                                    <div class="card-header">
-                                        <div class="game-icon">🏕️</div>
-                                        <h3 class="card-title">Survival Adventure</h3>
-                                        <p class="card-description">
-                                            Survive in the wilderness, craft tools, build shelter, and explore a vast 
-                                            open world filled with dangers and discoveries.
-                                        </p>
-                                    </div>
-                                    <div class="game-stats">
-                                        <div class="badge badge-warning">Adventure</div>
-                                        <div class="badge badge-success">Sandbox</div>
-                                    </div>
-                                </div>
-
-                                <div class="card game-card" data-game="hero-crafting" tabindex="0" role="button" aria-label="Play Hero Crafting">
-                                    <div class="card-header">
-                                        <div class="game-icon">⚔️</div>
-                                        <h3 class="card-title">Hero Crafting</h3>
-                                        <p class="card-description">
-                                            Forge legendary weapons, craft powerful armor, and embark on epic quests 
-                                            to become the greatest hero in the realm.
-                                        </p>
-                                    </div>
-                                    <div class="game-stats">
-                                        <div class="badge badge-primary">RPG</div>
-                                        <div class="badge badge-warning">Crafting</div>
-                                    </div>
-                                </div>
-
-                                <div class="card game-card" data-game="strategy" tabindex="0" role="button" aria-label="Play Strategy Wars">
+                                <div class="card game-card" data-game="strategy" data-route="/games/strategy" tabindex="0" role="button" aria-label="Play Strategy Wars">
                                     <div class="card-header">
                                         <div class="game-icon">🏰</div>
                                         <h3 class="card-title">Strategy Wars</h3>
@@ -172,14 +124,44 @@
                                     </div>
                                 </div>
 
+                                <div class="card game-card" data-game="survival" data-route="/games/survival" tabindex="0" role="button" aria-label="Play Survival Adventure">
+                                    <div class="card-header">
+                                        <div class="game-icon">🏕️</div>
+                                        <h3 class="card-title">Survival Adventure</h3>
+                                        <p class="card-description">
+                                            Survive in the wilderness, craft tools, build shelter, and explore a vast 
+                                            open world filled with dangers and discoveries.
+                                        </p>
+                                    </div>
+                                    <div class="game-stats">
+                                        <div class="badge badge-warning">Adventure</div>
+                                        <div class="badge badge-success">Sandbox</div>
+                                    </div>
+                                </div>
+
+                                <div class="card game-card" data-game="hero-crafting" data-route="/games/hero-crafting" tabindex="0" role="button" aria-label="Play Hero Crafting">
+                                    <div class="card-header">
+                                        <div class="game-icon">⚔️</div>
+                                        <h3 class="card-title">Hero Crafting</h3>
+                                        <p class="card-description">
+                                            Forge legendary weapons, craft powerful armor, and embark on epic quests 
+                                            to become the greatest hero in the realm.
+                                        </p>
+                                    </div>
+                                    <div class="game-stats">
+                                        <div class="badge badge-primary">RPG</div>
+                                        <div class="badge badge-warning">Crafting</div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </section>
 
                     <!-- Platform Features -->
-                    <section class="platform-features" aria-labelledby="features-heading">
+                    <section class="platform-features section-spacing" aria-labelledby="features-heading">
                         <div class="container">
-                            <h2 id="features-heading" class="text-2xl font-bold text-center">Platform Features</h2>
+                            <h2 id="features-heading" class="text-2xl font-bold text-center mb-8">Platform Features</h2>
                             
                             <div class="features-grid grid grid-cols-1 md:grid-cols-3 gap-6">
                                 
@@ -217,100 +199,76 @@
                 </div>
             </div>
 
-            <!-- Ship Rekt Game View -->
-            <div class="view" id="ship-rekt-view">
-                <div class="main-content">
-                    
-                    <!-- Game Status Bar -->
-                    <div class="game-status">
-                        <div class="game-info">
-                            <h2 class="game-title text-xl font-bold">
-                                <span class="game-icon animate-pulse">🏴‍☠️</span>
-                                <span id="companyName">Your Pirate Fleet</span>
-                            </h2>
-                            <div class="game-level">
-                                <span>Level <span id="level">1</span></span>
-                                <span class="separator"> | </span>
-                                <span id="companyType">Dinghy</span>
-                            </div>
-                        </div>
-                        
-                        <div class="resources">
-                            <div class="resource">
-                                <span class="resource-icon">🪙</span>
-                                <span id="money">1,000 Gold</span>
-                            </div>
-                            <div class="resource">
-                                <span class="resource-icon">👨‍☠️</span>
-                                <span id="workers">0</span>
-                            </div>
-                            <div class="resource">
-                                <span class="resource-icon">⛵</span>
-                                <span id="income">0 Gold/sec</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Game Tabs -->
-                    <nav class="nav-tabs game-tabs" role="navigation" aria-label="Game sections">
-                        <button class="nav-tab active" data-tab="buildings">🏝️ Build</button>
-                        <button class="nav-tab" data-tab="workers">👨‍☠️ Crew</button>
-                        <button class="nav-tab" data-tab="research">🔬 Research</button>
-                        <button class="nav-tab" data-tab="stats">📊 Stats</button>
-                    </nav>
-
-                    <!-- Game Content Areas -->
-                    <div class="game-content">
-                        
-                        <div class="tab-content active" id="buildings-tab">
-                            <div class="buildings-grid" id="buildingsGrid">
-                                <!-- Buildings will be populated by JavaScript -->
-                            </div>
-                        </div>
-
-                        <div class="tab-content" id="workers-tab">
-                            <div class="workers-grid" id="workersGrid">
-                                <!-- Workers will be populated by JavaScript -->
-                            </div>
-                        </div>
-
-                        <div class="tab-content" id="research-tab">
-                            <div class="research-grid" id="researchGrid">
-                                <!-- Research will be populated by JavaScript -->
-                            </div>
-                        </div>
-
-                        <div class="tab-content" id="stats-tab">
-                            <div class="stats-container">
-                                <div class="stat-group card">
-                                    <h3 class="stat-title">Progress</h3>
-                                    <div class="stat-item">
-                                        <span>Total Treasure:</span>
-                                        <span id="totalValue">1,000 Gold</span>
-                                    </div>
-                                    <div class="stat-item">
-                                        <span>Next Goal:</span>
-                                        <span id="nextGoal">Discover first island</span>
-                                    </div>
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" id="progressFill" style="width: 10%"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
 
             <!-- All Games View -->
             <div class="view" id="games-view">
                 <div class="main-content">
                     <div class="container">
-                        <h2 class="text-2xl font-bold text-center">All Games</h2>
+                        <h2 class="text-2xl font-bold text-center mb-8">All Games</h2>
                         
                         <div class="games-grid stagger-container" id="allGamesGrid">
                             <!-- All games will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Individual Game Views -->
+            <div class="view" id="survival-view">
+                <div class="main-content">
+                    <div class="container">
+                        <div class="game-header">
+                            <button class="btn btn-secondary" onclick="window.appRouter.navigateToRoute('/games')">
+                                ← Back to Games
+                            </button>
+                            <h1 class="text-4xl font-bold text-center">🏕️ Survival Adventure</h1>
+                        </div>
+                        
+                        <div class="game-content">
+                            <div class="game-description card">
+                                <p>Welcome to Survival Adventure! This game is currently in development.</p>
+                                <p>Survive in the wilderness, craft tools, build shelter, and explore a vast open world filled with dangers and discoveries.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="view" id="strategy-view">
+                <div class="main-content">
+                    <div class="container">
+                        <div class="game-header">
+                            <button class="btn btn-secondary" onclick="window.appRouter.navigateToRoute('/games')">
+                                ← Back to Games
+                            </button>
+                            <h1 class="text-4xl font-bold text-center">🏰 Strategy Wars</h1>
+                        </div>
+                        
+                        <div class="game-content">
+                            <div class="game-description card">
+                                <p>Welcome to Strategy Wars! This game is currently in development.</p>
+                                <p>Command armies, build empires, and conquer territories in this deep strategy game that challenges your tactical thinking.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="view" id="hero-crafting-view">
+                <div class="main-content">
+                    <div class="container">
+                        <div class="game-header">
+                            <button class="btn btn-secondary" onclick="window.appRouter.navigateToRoute('/games')">
+                                ← Back to Games
+                            </button>
+                            <h1 class="text-4xl font-bold text-center">⚔️ Hero Crafting</h1>
+                        </div>
+                        
+                        <div class="game-content">
+                            <div class="game-description card">
+                                <p>Welcome to Hero Crafting! This game is currently in development.</p>
+                                <p>Forge legendary weapons, craft powerful armor, and embark on epic quests to become the greatest hero in the realm.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -443,7 +401,6 @@
     <script src="survival-game.js?v=2.0" defer></script>
     <script src="strategy-game.js?v=2.0" defer></script>
     <script src="hero-crafting-game.js?v=2.0" defer></script>
-    <script src="hearthstone-battlegrounds.js?v=2.0" defer></script>
     <script src="house-search.js?v=2.0" defer></script>
     <script src="journal-app.js?v=2.0" defer></script>
     <script src="game-manager.js?v=2.0" defer></script>
@@ -530,41 +487,82 @@
             }
         }
 
-        // App Router
+        // App Router with URL support
         class AppRouter {
             constructor() {
                 this.currentView = 'hub';
+                this.routes = {
+                    '/': 'hub',
+                    '/games': 'games',
+                    '/settings': 'settings',
+                    '/games/survival': 'survival',
+                    '/games/strategy': 'strategy',
+                    '/games/hero-crafting': 'hero-crafting'
+                };
                 this.init();
             }
 
             init() {
                 this.setupNavigation();
                 this.setupGameActions();
+                this.setupUrlHandling();
+                this.loadCurrentRoute();
+                this.populateAllGames();
             }
 
             setupNavigation() {
                 const navTabs = document.querySelectorAll('.nav-tab[data-view]');
                 
                 navTabs.forEach(tab => {
-                    tab.addEventListener('click', () => {
+                    tab.addEventListener('click', (e) => {
+                        e.preventDefault();
                         const view = tab.dataset.view;
-                        this.navigateTo(view);
+                        const route = tab.dataset.route || '/';
+                        this.navigateToRoute(route);
                     });
                 });
             }
 
             setupGameActions() {
-                const playButtons = document.querySelectorAll('[data-action]');
+                const actionButtons = document.querySelectorAll('[data-action]');
+                const gameCards = document.querySelectorAll('.game-card[data-game]');
                 
-                playButtons.forEach(button => {
+                actionButtons.forEach(button => {
                     button.addEventListener('click', () => {
                         const action = button.dataset.action;
                         this.handleAction(action);
                     });
                 });
+
+                gameCards.forEach(card => {
+                    card.addEventListener('click', () => {
+                        const route = card.dataset.route;
+                        if (route) {
+                            this.navigateToRoute(route);
+                        }
+                    });
+                });
             }
 
-            navigateTo(view) {
+            setupUrlHandling() {
+                window.addEventListener('popstate', () => {
+                    this.loadCurrentRoute();
+                });
+            }
+
+            loadCurrentRoute() {
+                const path = window.location.pathname;
+                const view = this.routes[path] || 'hub';
+                this.navigateTo(view, false);
+            }
+
+            navigateToRoute(route) {
+                const view = this.routes[route] || 'hub';
+                window.history.pushState({}, '', route);
+                this.navigateTo(view, true);
+            }
+
+            navigateTo(view, updateUrl = false) {
                 // Update navigation state
                 const navTabs = document.querySelectorAll('.nav-tab[data-view]');
                 navTabs.forEach(tab => {
@@ -574,7 +572,8 @@
                 // Update view visibility
                 const views = document.querySelectorAll('.view');
                 views.forEach(viewEl => {
-                    viewEl.classList.toggle('active', viewEl.id === `${view}-view`);
+                    const viewName = viewEl.id.replace('-view', '');
+                    viewEl.classList.toggle('active', viewName === view);
                 });
 
                 this.currentView = view;
@@ -585,15 +584,71 @@
 
             handleAction(action) {
                 switch (action) {
-                    case 'play-ship-rekt':
-                        this.navigateTo('ship-rekt');
+                    case 'play-survival':
+                        this.navigateToRoute('/games/survival');
                         break;
                     case 'view-games':
-                        this.navigateTo('games');
+                        this.navigateToRoute('/games');
                         break;
                     default:
                         console.log('Unknown action:', action);
                 }
+            }
+
+            populateAllGames() {
+                const allGamesGrid = document.getElementById('allGamesGrid');
+                if (!allGamesGrid) return;
+
+                const games = [
+                    {
+                        id: 'strategy',
+                        name: 'Strategy Wars',
+                        icon: '🏰',
+                        description: 'Command armies, build empires, and conquer territories in this deep strategy game.',
+                        badges: ['Strategy', 'Multiplayer'],
+                        route: '/games/strategy'
+                    },
+                    {
+                        id: 'survival',
+                        name: 'Survival Adventure',
+                        icon: '🏕️',
+                        description: 'Survive in the wilderness, craft tools, build shelter, and explore a vast open world.',
+                        badges: ['Adventure', 'Sandbox'],
+                        route: '/games/survival'
+                    },
+                    {
+                        id: 'hero-crafting',
+                        name: 'Hero Crafting',
+                        icon: '⚔️',
+                        description: 'Forge legendary weapons, craft powerful armor, and embark on epic quests.',
+                        badges: ['RPG', 'Crafting'],
+                        route: '/games/hero-crafting'
+                    }
+                ];
+
+                allGamesGrid.innerHTML = games.map(game => `
+                    <div class="card game-card" data-game="${game.id}" data-route="${game.route}" tabindex="0" role="button" aria-label="Play ${game.name}">
+                        <div class="card-header">
+                            <div class="game-icon">${game.icon}</div>
+                            <h3 class="card-title">${game.name}</h3>
+                            <p class="card-description">${game.description}</p>
+                        </div>
+                        <div class="game-stats">
+                            ${game.badges.map(badge => `<div class="badge badge-primary">${badge}</div>`).join('')}
+                        </div>
+                    </div>
+                `).join('');
+
+                // Re-setup click handlers for new cards
+                const newGameCards = allGamesGrid.querySelectorAll('.game-card');
+                newGameCards.forEach(card => {
+                    card.addEventListener('click', () => {
+                        const route = card.dataset.route;
+                        if (route) {
+                            this.navigateToRoute(route);
+                        }
+                    });
+                });
             }
 
             onViewChange(view) {

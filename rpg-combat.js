@@ -14,6 +14,7 @@ class CombatSystem {
         this.turnNumber = 1;
         this.selectedAction = null;
         this.selectedTarget = null;
+        this.processingTurn = false; // Prevent race conditions
     }
 
     startCombat(player, enemy) {
@@ -42,7 +43,7 @@ class CombatSystem {
     }
 
     handleInput(key) {
-        if (!this.isActive || this.currentTurn !== 'player') return;
+        if (!this.isActive || this.currentTurn !== 'player' || this.processingTurn) return;
 
         switch (key) {
             case '1':
@@ -87,7 +88,9 @@ class CombatSystem {
     }
 
     executePlayerAction() {
-        if (!this.selectedAction) return;
+        if (!this.selectedAction || this.processingTurn) return;
+
+        this.processingTurn = true;
 
         switch (this.selectedAction) {
             case 'attack':
@@ -158,12 +161,15 @@ class CombatSystem {
         if (this.currentTurn === 'player') {
             this.currentTurn = 'enemy';
             setTimeout(() => {
-                if (this.isActive) {
+                if (this.isActive && !this.processingTurn) {
                     this.executeEnemyTurn();
                     this.currentTurn = 'player';
                     this.turnNumber++;
+                    this.processingTurn = false;
                 }
             }, 1000);
+        } else {
+            this.processingTurn = false;
         }
     }
 
@@ -201,18 +207,33 @@ class CombatSystem {
 
     endCombat(playerVictory, fled = false) {
         this.isActive = false;
+        this.processingTurn = false; // Reset processing flag
         
-        if (fled) {
-            this.addToCombatLog("Fled from combat!");
-        } else if (playerVictory) {
-            this.addToCombatLog(`Victory! ${this.enemy.name} has been defeated!`);
-        } else {
-            this.addToCombatLog(`Defeat! ${this.player.name} has been defeated!`);
+        try {
+            if (fled) {
+                this.addToCombatLog("Fled from combat!");
+            } else if (playerVictory) {
+                this.addToCombatLog(`Victory! ${this.enemy.name} has been defeated!`);
+            } else {
+                this.addToCombatLog(`Defeat! ${this.player.name} has been defeated!`);
+            }
+            
+            setTimeout(() => {
+                try {
+                    this.game.endCombat(playerVictory && !fled);
+                } catch (error) {
+                    console.error('Error ending combat in game:', error);
+                    // Fallback to safe state
+                    this.game.gameState = 'playing';
+                    this.game.ui.showGame();
+                }
+            }, 2000);
+        } catch (error) {
+            console.error('Error in endCombat:', error);
+            // Emergency fallback
+            this.game.gameState = 'playing';
+            this.game.ui.showGame();
         }
-        
-        setTimeout(() => {
-            this.game.endCombat(playerVictory && !fled);
-        }, 2000);
     }
 
     addToCombatLog(message) {

@@ -16,26 +16,57 @@ class WorldManager {
         const sceneData = this.scenes[sceneId];
         if (!sceneData) {
             console.error(`Scene ${sceneId} not found!`);
-            return;
+            this.game.showMessage(`Error: Could not load scene ${sceneId}`);
+            return false;
         }
 
-        this.currentScene = sceneData;
-        this.game.currentScene = sceneId;
-        this.playerPosition = { ...sceneData.startPosition };
-        
-        // Initialize NPCs for this scene
-        this.initializeNPCs(sceneData.npcs || []);
-        
-        this.game.ui.updateWorldView();
-        console.log(`Loaded scene: ${sceneData.name}`);
+        try {
+            this.currentScene = sceneData;
+            this.game.currentScene = sceneId;
+            this.playerPosition = { ...sceneData.startPosition };
+            
+            // Validate scene data
+            if (!sceneData.map || !Array.isArray(sceneData.map)) {
+                throw new Error('Scene missing or invalid map data');
+            }
+            
+            if (typeof sceneData.width !== 'number' || typeof sceneData.height !== 'number') {
+                throw new Error('Scene missing valid dimensions');
+            }
+            
+            // Initialize NPCs for this scene
+            this.initializeNPCs(sceneData.npcs || []);
+            
+            this.game.ui.updateWorldView();
+            console.log(`Loaded scene: ${sceneData.name}`);
+            return true;
+        } catch (error) {
+            console.error(`Error loading scene ${sceneId}:`, error);
+            this.game.showMessage(`Failed to load scene: ${error.message}`);
+            return false;
+        }
     }
 
     initializeNPCs(npcData) {
         this.npcs.clear();
         
+        if (!Array.isArray(npcData)) {
+            console.warn('Invalid NPC data provided, skipping NPC initialization');
+            return;
+        }
+        
         npcData.forEach(data => {
-            const npc = new NPC(data);
-            this.npcs.set(npc.id, npc);
+            try {
+                if (!data || !data.id || !data.name) {
+                    console.warn('Skipping invalid NPC data:', data);
+                    return;
+                }
+                
+                const npc = new NPC(data);
+                this.npcs.set(npc.id, npc);
+            } catch (error) {
+                console.error('Error creating NPC:', error, data);
+            }
         });
     }
 
@@ -77,7 +108,17 @@ class WorldManager {
         
         // Check for walls or obstacles
         const tile = scene.map[y][x];
-        return tile !== '#' && tile !== '~'; // '#' = wall, '~' = water
+        if (tile === '#' || tile === '~') { // '#' = wall, '~' = water
+            return false;
+        }
+        
+        // Check for NPCs at the target position
+        const npcAtPosition = this.getNPCAtPosition(position);
+        if (npcAtPosition) {
+            return false;
+        }
+        
+        return true;
     }
 
     checkForEvents() {
@@ -356,18 +397,36 @@ class QuestSystem {
         this.activeQuests.clear();
         this.completedQuests.clear();
         
-        if (data.active) {
-            data.active.forEach(([questId, questData]) => {
-                const quest = new Quest(this.questDatabase[questId]);
-                quest.progress = questData.progress;
-                this.activeQuests.set(questId, quest);
-            });
+        if (!data || typeof data !== 'object') {
+            console.warn('Invalid quest data provided, starting with empty quest state');
+            return;
         }
         
-        if (data.completed) {
-            data.completed.forEach(questId => {
-                this.completedQuests.add(questId);
-            });
+        try {
+            if (Array.isArray(data.active)) {
+                data.active.forEach(([questId, questData]) => {
+                    if (questId && this.questDatabase[questId]) {
+                        const quest = new Quest(this.questDatabase[questId]);
+                        if (questData && questData.progress) {
+                            quest.progress = questData.progress;
+                        }
+                        this.activeQuests.set(questId, quest);
+                    } else {
+                        console.warn(`Invalid quest ID or missing quest data: ${questId}`);
+                    }
+                });
+            }
+            
+            if (Array.isArray(data.completed)) {
+                data.completed.forEach(questId => {
+                    if (typeof questId === 'string') {
+                        this.completedQuests.add(questId);
+                    }
+                });
+            }
+        } catch (error) {
+            console.error('Error loading quest data:', error);
+            console.warn('Continuing with empty quest state');
         }
     }
 }

@@ -13,6 +13,7 @@ class RPGGame {
         this.combat = new CombatSystem(this);
         this.world = new WorldManager(this);
         this.quest = new QuestSystem(this);
+        this.saveInterval = null; // Store interval ID for cleanup
     }
 
     initializeGameData() {
@@ -69,7 +70,7 @@ class RPGGame {
         document.addEventListener('keydown', (e) => this.handleKeyInput(e));
         
         // Auto-save every 30 seconds during play
-        setInterval(() => {
+        this.saveInterval = setInterval(() => {
             if (this.gameState === 'playing' || this.gameState === 'combat') {
                 this.saveGameData();
             }
@@ -190,24 +191,46 @@ class RPGGame {
     }
 
     reconstructGameData(data) {
-        // Reconstruct complex objects from save data
-        const player = new Character(data.player);
-        player.inventory = new Inventory(data.player.inventory);
+        // Validate save data structure
+        if (!data || typeof data !== 'object') {
+            throw new Error('Invalid save data format');
+        }
         
-        this.currentScene = data.currentScene;
-        this.gameData.gameFlags = new Map(data.gameFlags);
-        this.quest.loadQuestData(data.quests);
+        // Validate required fields
+        if (!data.player || !data.player.name || !data.player.stats) {
+            throw new Error('Save data missing required player information');
+        }
         
-        return {
-            player: player,
-            currentEnemy: null,
-            gameFlags: this.gameData.gameFlags,
-            saveData: {
-                playTime: data.playTime,
-                lastSaved: data.saveTime,
-                version: "1.0.0"
+        if (!data.currentScene || typeof data.currentScene !== 'string') {
+            throw new Error('Save data missing scene information');
+        }
+        
+        try {
+            // Reconstruct complex objects from save data
+            const player = new Character(data.player);
+            player.inventory = new Inventory(data.player.inventory);
+            
+            this.currentScene = data.currentScene;
+            this.gameData.gameFlags = new Map(Array.isArray(data.gameFlags) ? data.gameFlags : []);
+            
+            // Safely load quest data
+            if (data.quests) {
+                this.quest.loadQuestData(data.quests);
             }
-        };
+            
+            return {
+                player: player,
+                currentEnemy: null,
+                gameFlags: this.gameData.gameFlags,
+                saveData: {
+                    playTime: typeof data.playTime === 'number' ? data.playTime : 0,
+                    lastSaved: typeof data.saveTime === 'number' ? data.saveTime : Date.now(),
+                    version: "1.0.0"
+                }
+            };
+        } catch (error) {
+            throw new Error(`Failed to reconstruct game data: ${error.message}`);
+        }
     }
 
     serializePlayer() {
@@ -315,6 +338,17 @@ class RPGGame {
 
     resumeGame() {
         this.gameState = 'playing';
+    }
+
+    destroy() {
+        // Cleanup resources to prevent memory leaks
+        if (this.saveInterval) {
+            clearInterval(this.saveInterval);
+            this.saveInterval = null;
+        }
+        
+        // Additional cleanup could be added here (event listeners, etc.)
+        this.isInitialized = false;
     }
 }
 

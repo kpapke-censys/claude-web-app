@@ -154,6 +154,51 @@
                                     </div>
                                 </div>
 
+                                <div class="card game-card" data-game="hero-crafting" data-route="/games/hero-crafting" tabindex="0" role="button" aria-label="Play Hero Forge">
+                                    <div class="card-header">
+                                        <div class="game-icon">🦸</div>
+                                        <h3 class="card-title">Hero Forge</h3>
+                                        <p class="card-description">
+                                            Transform your gaming achievements into legendary heroes with unique classes 
+                                            and abilities. Build your collection and unlock new powers!
+                                        </p>
+                                    </div>
+                                    <div class="game-stats">
+                                        <div class="badge badge-primary">RPG</div>
+                                        <div class="badge badge-success">Collection</div>
+                                    </div>
+                                </div>
+
+                                <div class="card game-card" data-game="house-search" data-route="/games/house-search" tabindex="0" role="button" aria-label="Play Property Risk Checker">
+                                    <div class="card-header">
+                                        <div class="game-icon">🏠</div>
+                                        <h3 class="card-title">Property Risk Checker</h3>
+                                        <p class="card-description">
+                                            Check environmental risks and hazards near any property address using EPA 
+                                            data and AI analysis. Make informed property decisions!
+                                        </p>
+                                    </div>
+                                    <div class="game-stats">
+                                        <div class="badge badge-warning">Utility</div>
+                                        <div class="badge badge-success">Real Data</div>
+                                    </div>
+                                </div>
+
+                                <div class="card game-card" data-game="journal-app" data-route="/games/journal-app" tabindex="0" role="button" aria-label="Play Life Journal">
+                                    <div class="card-header">
+                                        <div class="game-icon">📖</div>
+                                        <h3 class="card-title">Life Journal</h3>
+                                        <p class="card-description">
+                                            Document your daily life with tags and insights. Track events, people, 
+                                            and experiences to reflect on your personal journey.
+                                        </p>
+                                    </div>
+                                    <div class="game-stats">
+                                        <div class="badge badge-warning">Productivity</div>
+                                        <div class="badge badge-success">Personal</div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </section>
@@ -266,6 +311,57 @@
                         
                         <div class="game-content" id="rpg-game-container">
                             <!-- RPG Game will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="view" id="hero-crafting-view">
+                <div class="main-content">
+                    <div class="container">
+                        <div class="game-header">
+                            <button class="btn btn-secondary" onclick="window.appRouter.navigateToRoute('/games')">
+                                ← Back to Games
+                            </button>
+                            <h1 class="text-4xl font-bold text-center">🦸 Hero Forge</h1>
+                        </div>
+                        
+                        <div class="game-content" id="hero-crafting-container">
+                            <!-- Hero Crafting Game will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="view" id="house-search-view">
+                <div class="main-content">
+                    <div class="container">
+                        <div class="game-header">
+                            <button class="btn btn-secondary" onclick="window.appRouter.navigateToRoute('/games')">
+                                ← Back to Games
+                            </button>
+                            <h1 class="text-4xl font-bold text-center">🏠 Property Risk Checker</h1>
+                        </div>
+                        
+                        <div class="game-content" id="house-search-container">
+                            <!-- House Search Game will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="view" id="journal-app-view">
+                <div class="main-content">
+                    <div class="container">
+                        <div class="game-header">
+                            <button class="btn btn-secondary" onclick="window.appRouter.navigateToRoute('/games')">
+                                ← Back to Games
+                            </button>
+                            <h1 class="text-4xl font-bold text-center">📖 Life Journal</h1>
+                        </div>
+                        
+                        <div class="game-content" id="journal-app-container">
+                            <!-- Journal App will be loaded here -->
                         </div>
                     </div>
                 </div>
@@ -500,7 +596,10 @@
                     '/settings': 'settings',
                     '/games/survival': 'survival',
                     '/games/strategy': 'strategy',
-                    '/games/rpg-adventure': 'rpg-adventure'
+                    '/games/rpg-adventure': 'rpg-adventure',
+                    '/games/hero-crafting': 'hero-crafting',
+                    '/games/house-search': 'house-search',
+                    '/games/journal-app': 'journal-app'
                 };
                 this.init();
             }
@@ -626,6 +725,30 @@
                         description: 'Complete RPG framework with combat, progression, quests, and exploration.',
                         badges: ['RPG', 'Educational'],
                         route: '/games/rpg-adventure'
+                    },
+                    {
+                        id: 'hero-crafting',
+                        name: 'Hero Forge',
+                        icon: '🦸',
+                        description: 'Transform your gaming achievements into legendary heroes with unique classes and abilities.',
+                        badges: ['RPG', 'Collection'],
+                        route: '/games/hero-crafting'
+                    },
+                    {
+                        id: 'house-search',
+                        name: 'Property Risk Checker',
+                        icon: '🏠',
+                        description: 'Check environmental risks and hazards near any property address using EPA data and AI analysis.',
+                        badges: ['Utility', 'Real Data'],
+                        route: '/games/house-search'
+                    },
+                    {
+                        id: 'journal-app',
+                        name: 'Life Journal',
+                        icon: '📖',
+                        description: 'Document your daily life with tags and insights. Track events, people, and experiences.',
+                        badges: ['Productivity', 'Personal'],
+                        route: '/games/journal-app'
                     }
                 ];
 
@@ -674,9 +797,15 @@
                     });
                 });
 
-                // Initialize RPG game when entering rpg-adventure view
+                // Initialize games when entering their views
                 if (view === 'rpg-adventure') {
                     this.initializeRPGGame();
+                } else if (view === 'hero-crafting') {
+                    this.initializeHeroCraftingGame();
+                } else if (view === 'house-search') {
+                    this.initializeHouseSearchGame();
+                } else if (view === 'journal-app') {
+                    this.initializeJournalApp();
                 }
             }
 
@@ -697,6 +826,102 @@
                             <div class="card">
                                 <h3>⚠️ Game Loading Error</h3>
                                 <p>Failed to load the RPG game. Please refresh the page and try again.</p>
+                                <p><strong>Error:</strong> ${error.message}</p>
+                            </div>
+                        `;
+                    }
+                }
+            }
+
+            async initializeHeroCraftingGame() {
+                try {
+                    const container = document.getElementById('hero-crafting-container');
+                    if (container && !window.heroCraftingGame) {
+                        if (window.gameManager) {
+                            window.gameManager.launchGame('heroCrafting');
+                        } else {
+                            // Fallback if gameManager isn't available
+                            container.innerHTML = `
+                                <div class="card">
+                                    <h3>🦸 Hero Forge</h3>
+                                    <p>Transform your gaming achievements into legendary heroes!</p>
+                                    <p>Game system is loading... Please make sure all game dependencies are loaded.</p>
+                                </div>
+                            `;
+                        }
+                    }
+                } catch (error) {
+                    console.error('Failed to initialize Hero Crafting game:', error);
+                    const container = document.getElementById('hero-crafting-container');
+                    if (container) {
+                        container.innerHTML = `
+                            <div class="card">
+                                <h3>⚠️ Game Loading Error</h3>
+                                <p>Failed to load Hero Forge. Please refresh the page and try again.</p>
+                                <p><strong>Error:</strong> ${error.message}</p>
+                            </div>
+                        `;
+                    }
+                }
+            }
+
+            async initializeHouseSearchGame() {
+                try {
+                    const container = document.getElementById('house-search-container');
+                    if (container && !window.houseSearchGame) {
+                        if (window.gameManager) {
+                            window.gameManager.launchGame('houseSearch');
+                        } else {
+                            // Fallback if gameManager isn't available
+                            container.innerHTML = `
+                                <div class="card">
+                                    <h3>🏠 Property Risk Checker</h3>
+                                    <p>Check environmental risks near any property address using EPA data!</p>
+                                    <p>Game system is loading... Please make sure all game dependencies are loaded.</p>
+                                </div>
+                            `;
+                        }
+                    }
+                } catch (error) {
+                    console.error('Failed to initialize House Search game:', error);
+                    const container = document.getElementById('house-search-container');
+                    if (container) {
+                        container.innerHTML = `
+                            <div class="card">
+                                <h3>⚠️ Game Loading Error</h3>
+                                <p>Failed to load Property Risk Checker. Please refresh the page and try again.</p>
+                                <p><strong>Error:</strong> ${error.message}</p>
+                            </div>
+                        `;
+                    }
+                }
+            }
+
+            async initializeJournalApp() {
+                try {
+                    const container = document.getElementById('journal-app-container');
+                    if (container && !window.journalAppGame) {
+                        if (window.gameManager) {
+                            window.gameManager.launchGame('journalApp');
+                        } else {
+                            // Fallback if gameManager isn't available
+                            container.innerHTML = `
+                                <div class="card">
+                                    <h3>📖 Life Journal</h3>
+                                    <p>Document your daily life with tags and insights!</p>
+                                    <p>Game system is loading... Please make sure all game dependencies are loaded.</p>
+                                </div>
+                            `;
+                        }
+                    }
+                } catch (error) {
+                    console.error('Failed to initialize Journal App:', error);
+                    const container = document.getElementById('journal-app-container');
+                    if (container) {
+                        container.innerHTML = `
+                            <div class="card">
+                                <h3>⚠️ Game Loading Error</h3>
+                                <p>Failed to load Life Journal. Please refresh the page and try again.</p>
                                 <p><strong>Error:</strong> ${error.message}</p>
                             </div>
                         `;

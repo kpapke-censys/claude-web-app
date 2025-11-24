@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameHub - Ultimate Gaming Platform</title>
+    <script>
+        // GitHub Pages SPA routing fix
+        // This script redirects all 404 pages back to index.html with the path as a parameter
+        const pathSegmentsToKeep = 0;
+        const location = window.location;
+        
+        // Store the current path in sessionStorage for the main app to read
+        const redirect = location.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/') + 
+                        (location.search ? '&' + location.search.slice(1) : '');
+        
+        if (redirect) {
+            sessionStorage.setItem('pathToRestore', '/' + redirect);
+        }
+        
+        // Redirect to index.html
+        location.replace(location.protocol + '//' + location.hostname + 
+                        (location.port ? ':' + location.port : '') + 
+                        location.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + 
+                        '/#/' + redirect);
+    </script>
+</head>
+<body>
+    <div style="text-align: center; padding: 2rem; font-family: system-ui, -apple-system, sans-serif;">
+        <h1>🎮 Redirecting...</h1>
+        <p>Taking you back to GameHub...</p>
+    </div>
+</body>
+</html>

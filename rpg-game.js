@@ -59,7 +59,6 @@ class RPGGame {
         this.container = container;
         await this.ui.initialize(container);
         this.setupEventListeners();
-        this.loadGameData();
         this.startGameLoop();
         
         this.isInitialized = true;

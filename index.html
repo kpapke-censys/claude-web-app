@@ -650,6 +650,16 @@
                 window.addEventListener('popstate', () => {
                     this.loadCurrentRoute();
                 });
+                
+                // Handle GitHub Pages SPA routing restoration
+                const pathToRestore = sessionStorage.getItem('pathToRestore');
+                if (pathToRestore) {
+                    sessionStorage.removeItem('pathToRestore');
+                    const view = this.routes[pathToRestore] || 'hub';
+                    window.history.replaceState({}, '', pathToRestore);
+                    this.navigateTo(view, false);
+                    return;
+                }
             }
 
             loadCurrentRoute() {

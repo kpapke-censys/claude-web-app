@@ -209,6 +209,7 @@ class ShipRektGame {
     // PWA Integration
     initializePWA() {
         this.pwaApp = new ClaudeWebApp();
+        window.pwaApp = this.pwaApp; // Make globally accessible
     }
 
     // Game Logic
@@ -787,6 +788,22 @@ class ClaudeWebApp {
     }
 
     showUpdateAvailable() {
+        // Check if user has recently dismissed this update version
+        const cacheVersion = '1.0.2'; // Should match sw.js CACHE_VERSION
+        const dismissalKey = `updateDismissed_${cacheVersion}`;
+        const lastDismissed = localStorage.getItem(dismissalKey);
+        
+        if (lastDismissed) {
+            const dismissedTime = parseInt(lastDismissed);
+            const hoursSinceDismissal = (Date.now() - dismissedTime) / (1000 * 60 * 60);
+            
+            // Don't show again if dismissed less than 24 hours ago
+            if (hoursSinceDismissal < 24) {
+                console.log('Update notification dismissed recently, not showing again');
+                return;
+            }
+        }
+
         // Remove any existing update notifications
         const existingNotification = document.getElementById('updateNotification');
         if (existingNotification) {
@@ -830,7 +847,7 @@ class ClaudeWebApp {
                 <p style="margin: 0; opacity: 0.9;">The app has been updated with new features and improvements.</p>
             </div>
             <div style="display: flex; gap: 0.5rem; justify-content: center;">
-                <button onclick="this.closest('#updateNotification').remove();" style="background: rgba(255,255,255,0.2); color: white; border: none; padding: 0.75rem 1rem; border-radius: 6px; cursor: pointer; font-weight: 500;">
+                <button onclick="window.pwaApp.dismissUpdateNotification(); this.closest('#updateNotification').remove();" style="background: rgba(255,255,255,0.2); color: white; border: none; padding: 0.75rem 1rem; border-radius: 6px; cursor: pointer; font-weight: 500;">
                     Later
                 </button>
                 <button onclick="window.location.reload(true);" style="background: white; color: #10b981; border: none; padding: 0.75rem 1.5rem; border-radius: 6px; cursor: pointer; font-weight: 600;">
@@ -899,6 +916,14 @@ class ClaudeWebApp {
             <p>✅ Cache cleared! Reloading with fresh content...</p>
         `;
         document.body.appendChild(notification);
+    }
+
+    dismissUpdateNotification() {
+        // Store dismissal timestamp with cache version
+        const cacheVersion = '1.0.2'; // Should match sw.js CACHE_VERSION
+        const dismissalKey = `updateDismissed_${cacheVersion}`;
+        localStorage.setItem(dismissalKey, Date.now().toString());
+        console.log('Update notification dismissed, will not show again for 24 hours');
     }
 }
 

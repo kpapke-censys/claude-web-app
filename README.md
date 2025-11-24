@@ -1,6 +1,6 @@
-# 🏢 Business Tycoon
+# ⚔️ RPG Adventure Framework
 
-Build your business empire from a humble lemonade stand to a global corporation! This engaging strategy game combines the addictive gameplay of idle/incremental games with the convenience of a Progressive Web App.
+A comprehensive RPG game framework built with vanilla JavaScript! Experience turn-based combat, character progression, inventory management, quest systems, and world exploration. Perfect for learning game development concepts and building your own RPG adventures.
 
 ## 🎮 Play Now
 
@@ -20,25 +20,35 @@ Build your business empire from a humble lemonade stand to a global corporation!
 
 ## 🎯 Game Features
 
-### 🏗️ Build Your Empire
-- **Start Small**: Begin with a lemonade stand
-- **Expand**: Unlock coffee shops, bakeries, restaurants, tech startups, and factories
-- **Scale Up**: Each building generates passive income
+### ⚔️ Turn-Based Combat System
+- **Tactical Combat**: Strategic turn-based battles with multiple actions
+- **Skills & Abilities**: Learn and use powerful special attacks
+- **Status Effects**: Buffs, debuffs, and temporary modifications
+- **Enemy AI**: Smart opponents with different behaviors
 
-### 👥 Hire Workers
-- **Interns**: Eager helpers to boost your income
-- **Managers**: Keep operations running smoothly
-- **Experts**: Specialists for maximum efficiency
+### 🗺️ World Exploration
+- **Multiple Areas**: Towns, forests, dungeons, and more
+- **Interactive NPCs**: Merchants, quest givers, and helpful characters
+- **Random Encounters**: Dynamic combat encounters while exploring
+- **Hidden Treasures**: Discover chests and secret items
 
-### 🔬 Research & Development
-- **Efficiency Upgrades**: Boost income from all buildings
-- **Automation**: Reduce worker costs
-- **Marketing**: Amplify your earnings
+### 📦 Inventory & Equipment
+- **Comprehensive Inventory**: Organize weapons, armor, consumables, and misc items
+- **Equipment System**: Equip weapons, armor, and accessories for stat bonuses
+- **Item Categories**: Filtering and organization for easy management
+- **Consumables**: Health potions, mana potions, and temporary buffs
 
-### 📊 Progression System
-- **Level Up**: Grow from Small Shop to Global Corporation
-- **Goals**: Dynamic objectives guide your strategy
-- **Statistics**: Track your business empire's growth
+### 📜 Quest System
+- **Story Quests**: Follow the main adventure narrative
+- **Side Quests**: Optional objectives for extra rewards
+- **Objective Tracking**: Clear progress indicators for all quests
+- **Quest Rewards**: Experience, gold, and unique items
+
+### ⬆️ Character Progression
+- **Level System**: Gain experience and level up for increased power
+- **Stat Growth**: Health, mana, attack, defense, and other attributes
+- **Skill Learning**: Unlock new abilities as you progress
+- **Equipment Upgrades**: Find better gear to enhance your capabilities
 
 ## 💾 PWA Features
 
@@ -50,22 +60,46 @@ Build your business empire from a humble lemonade stand to a global corporation!
 
 ## 🎮 How to Play
 
-1. **Buy Buildings**: Start with a lemonade stand to generate income
-2. **Hire Workers**: Multiply your earnings with skilled employees
-3. **Research Tech**: Unlock powerful upgrades and bonuses
-4. **Expand Empire**: Work toward becoming a global corporation
-5. **Optimize Strategy**: Balance buildings, workers, and research for maximum growth
+### 🎯 Controls
+- **Movement**: WASD keys or Arrow keys to navigate the world
+- **Interaction**: Enter/Space to interact with NPCs, objects, and transitions
+- **Inventory**: Press 'I' to open your inventory and equipment screen
+- **Quests**: Press 'Q' to view your quest log and objectives
+- **Status**: Press 'S' to see detailed character statistics
+
+### 🚀 Getting Started
+1. **Start Your Adventure**: Click "Start New Adventure" to begin
+2. **Explore the Town**: Move around and talk to NPCs to learn the basics
+3. **Accept Quests**: Talk to the Village Elder to get your first quest
+4. **Visit the Shop**: Buy equipment and supplies from the merchant
+5. **Venture Out**: Explore the forest and dungeons for adventure and treasure
+
+### ⚔️ Combat Tips
+1. **Choose Actions Wisely**: Attack, use skills, consume items, or defend
+2. **Manage Resources**: Keep track of your health and mana during battles
+3. **Use Items**: Health and mana potions can save your life
+4. **Equipment Matters**: Better gear increases your combat effectiveness
 
 ## 🏗️ Technical Details
 
 This is a vanilla JavaScript Progressive Web App with no build process required.
 
 ### Game Architecture:
-- **Pure JavaScript**: No frameworks, fast and lightweight
-- **Local Storage**: Persistent save system
+- **Pure JavaScript**: No frameworks, modular and educational codebase
+- **Component-Based**: Separate systems for combat, inventory, world, and quests
+- **Local Storage**: Automatic save/load system
 - **Service Worker**: Offline functionality and caching
 - **Responsive Design**: Optimized for mobile and desktop
-- **Touch-Friendly**: Mobile-first interface design
+
+### Code Structure:
+```
+rpg-game.js        - Main game class and initialization
+rpg-combat.js      - Turn-based combat system
+rpg-inventory.js   - Inventory and equipment management
+rpg-world.js       - World exploration and NPCs
+rpg-data.js        - Game data (items, enemies, quests)
+rpg-ui.js          - User interface management
+```
 
 ### Development:
 ```bash
@@ -74,22 +108,23 @@ python -m http.server 8000
 # Then visit http://localhost:8000
 ```
 
-### Game Mechanics:
-- **Incremental Gameplay**: Buildings generate income over time
-- **Exponential Costs**: Strategic purchasing decisions required
-- **Multiplier System**: Workers boost building efficiency
-- **Research Tree**: Permanent upgrades unlock new strategies
-- **Offline Progress**: Continue earning while away from the game
+### Learning Features:
+- **Well-Commented Code**: Educational comments explaining game systems
+- **Modular Design**: Easy to extend and modify individual systems
+- **Clear Patterns**: Demonstrates common game development patterns
+- **No Build Process**: Direct JavaScript for easy understanding
 
-## 🎯 Future Features
+## 🎯 Extension Ideas
 
-This foundation supports easy expansion with:
-- New building types and categories
-- Additional worker specializations
-- Advanced research trees
-- Achievement system
-- Prestige mechanics
-- Competitive leaderboards
+This framework can be easily extended with:
+- **New Areas**: Add more locations, dungeons, and environments
+- **Additional Classes**: Warrior, Mage, Archer with unique abilities
+- **Magic System**: Spell crafting and elemental magic
+- **Crafting System**: Create your own weapons and armor
+- **Multiplayer**: Turn it into an online RPG
+- **Achievement System**: Unlock rewards for specific accomplishments
+- **Story Expansion**: Add more quests, NPCs, and narrative depth
+- **Monster Variety**: Create new enemies with unique abilities
 
 ## 🛠️ PWA Requirements
 
@@ -100,4 +135,4 @@ This foundation supports easy expansion with:
 
 ---
 
-**Built with ❤️ as a Progressive Web App** - Play anywhere, anytime, on any device!
+**Built with ❤️ as a Progressive Web App** - Learn game development by exploring and extending this complete RPG framework!

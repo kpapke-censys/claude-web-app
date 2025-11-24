@@ -139,18 +139,18 @@
                                     </div>
                                 </div>
 
-                                <div class="card game-card" data-game="hero-crafting" data-route="/games/hero-crafting" tabindex="0" role="button" aria-label="Play Hero Crafting">
+                                <div class="card game-card" data-game="rpg-adventure" data-route="/games/rpg-adventure" tabindex="0" role="button" aria-label="Play RPG Adventure">
                                     <div class="card-header">
                                         <div class="game-icon">⚔️</div>
-                                        <h3 class="card-title">Hero Crafting</h3>
+                                        <h3 class="card-title">RPG Adventure</h3>
                                         <p class="card-description">
-                                            Forge legendary weapons, craft powerful armor, and embark on epic quests 
-                                            to become the greatest hero in the realm.
+                                            A complete RPG framework with turn-based combat, character progression, 
+                                            quests, and exploration. Perfect for learning game development!
                                         </p>
                                     </div>
                                     <div class="game-stats">
                                         <div class="badge badge-primary">RPG</div>
-                                        <div class="badge badge-warning">Crafting</div>
+                                        <div class="badge badge-warning">Educational</div>
                                     </div>
                                 </div>
 
@@ -254,21 +254,18 @@
                 </div>
             </div>
 
-            <div class="view" id="hero-crafting-view">
+            <div class="view" id="rpg-adventure-view">
                 <div class="main-content">
                     <div class="container">
                         <div class="game-header">
                             <button class="btn btn-secondary" onclick="window.appRouter.navigateToRoute('/games')">
                                 ← Back to Games
                             </button>
-                            <h1 class="text-4xl font-bold text-center">⚔️ Hero Crafting</h1>
+                            <h1 class="text-4xl font-bold text-center">⚔️ RPG Adventure</h1>
                         </div>
                         
-                        <div class="game-content">
-                            <div class="game-description card">
-                                <p>Welcome to Hero Crafting! This game is currently in development.</p>
-                                <p>Forge legendary weapons, craft powerful armor, and embark on epic quests to become the greatest hero in the realm.</p>
-                            </div>
+                        <div class="game-content" id="rpg-game-container">
+                            <!-- RPG Game will be loaded here -->
                         </div>
                     </div>
                 </div>
@@ -400,9 +397,15 @@
     <script src="game-menu.js?v=2.0" defer></script>
     <script src="survival-game.js?v=2.0" defer></script>
     <script src="strategy-game.js?v=2.0" defer></script>
-    <script src="hero-crafting-game.js?v=2.0" defer></script>
     <script src="house-search.js?v=2.0" defer></script>
     <script src="journal-app.js?v=2.0" defer></script>
+    <!-- RPG Game Scripts -->
+    <script src="rpg-data.js?v=2.0" defer></script>
+    <script src="rpg-inventory.js?v=2.0" defer></script>
+    <script src="rpg-combat.js?v=2.0" defer></script>
+    <script src="rpg-world.js?v=2.0" defer></script>
+    <script src="rpg-ui.js?v=2.0" defer></script>
+    <script src="rpg-game.js?v=2.0" defer></script>
     <script src="game-manager.js?v=2.0" defer></script>
     <script src="app.js?v=2.0" defer></script>
 
@@ -497,7 +500,7 @@
                     '/settings': 'settings',
                     '/games/survival': 'survival',
                     '/games/strategy': 'strategy',
-                    '/games/hero-crafting': 'hero-crafting'
+                    '/games/rpg-adventure': 'rpg-adventure'
                 };
                 this.init();
             }
@@ -617,12 +620,12 @@
                         route: '/games/survival'
                     },
                     {
-                        id: 'hero-crafting',
-                        name: 'Hero Crafting',
+                        id: 'rpg-adventure',
+                        name: 'RPG Adventure',
                         icon: '⚔️',
-                        description: 'Forge legendary weapons, craft powerful armor, and embark on epic quests.',
-                        badges: ['RPG', 'Crafting'],
-                        route: '/games/hero-crafting'
+                        description: 'Complete RPG framework with combat, progression, quests, and exploration.',
+                        badges: ['RPG', 'Educational'],
+                        route: '/games/rpg-adventure'
                     }
                 ];
 
@@ -670,6 +673,35 @@
                         child.classList.add('animate-slide-up');
                     });
                 });
+
+                // Initialize RPG game when entering rpg-adventure view
+                if (view === 'rpg-adventure') {
+                    this.initializeRPGGame();
+                }
+            }
+
+            async initializeRPGGame() {
+                try {
+                    const container = document.getElementById('rpg-game-container');
+                    if (container && !window.rpgGame) {
+                        // Create and initialize the RPG game
+                        window.rpgGame = new RPGGame();
+                        await window.rpgGame.initialize(container);
+                        console.log('RPG game initialized successfully!');
+                    }
+                } catch (error) {
+                    console.error('Failed to initialize RPG game:', error);
+                    const container = document.getElementById('rpg-game-container');
+                    if (container) {
+                        container.innerHTML = `
+                            <div class="card">
+                                <h3>⚠️ Game Loading Error</h3>
+                                <p>Failed to load the RPG game. Please refresh the page and try again.</p>
+                                <p><strong>Error:</strong> ${error.message}</p>
+                            </div>
+                        `;
+                    }
+                }
             }
         }
 
